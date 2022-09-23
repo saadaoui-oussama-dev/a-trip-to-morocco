@@ -6,8 +6,10 @@ module.exports = {
     },
     extend: {
       colors: {
-        orange: 'var(--secondary-color)',
-        grey: 'var(--tertiary-color)',
+        heath: '#3E0E1A',
+        'albescent-white': '#F7EBDB',
+        'kashmir-blue': '#F7EBDB',
+        'blue-stone': '#025B63',
       },
     },
   },
