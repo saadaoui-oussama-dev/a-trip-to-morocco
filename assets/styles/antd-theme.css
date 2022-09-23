@@ -1,0 +1,107 @@
+/* @primary-color: #1890ff; // primary color for all components
+@link-color: #1890ff; // link color
+@success-color: #52c41a; // success state color
+@warning-color: #faad14; // warning state color
+@error-color: #f5222d; // error state color
+@font-size-base: 14px; // major text font size
+@heading-color: rgba(0, 0, 0, 0.85); // heading text color
+@text-color: rgba(0, 0, 0, 0.65); // major text color
+@text-color-secondary: rgba(0, 0, 0, 0.45); // secondary text color
+@disabled-color: rgba(0, 0, 0, 0.25); // disable state color
+@border-radius-base: 4px; // major border radius
+@border-color-base: #d9d9d9; // major border color
+@box-shadow-base: 0 2px 8px rgba(0, 0, 0, 0.15); // major shadow for layers */
+
+:root {
+  --lessui-default-color: #343a43;
+  --primary-color: var(--lessui-default-color);
+  --secondary-color: #ffa069;
+  --tertiary-color: #555c69;
+  --white-color: #fff;
+  --success-color: #27b6bb;
+  --success-color-200: #b3e7e5;
+  --success-color-800: #0e3030;
+  --primary-color-active: #2d3239;
+  --primary-color-hover-focus: #434c58;
+  --primary-color-shadow: #00000033;
+  --danger-color: #e44c47;
+  --danger-color-200: #ba3e3b;
+  --purple-color: #464584;
+  --purple-color-200: #c9c8ec;
+  --purple-color-800: #464584;
+  --border-radius-base: 6px;
+}
+
+body {
+  color: var(--lessui-default-color);
+}
+
+.ant-btn {
+  border: 1px solid #343a42;
+}
+
+.ant-input,
+.ant-btn {
+  background-color: var(--primary-color);
+  color: #fff;
+  border-radius: var(--border-radius-base);
+}
+.ant-spin .ant-spin-dot .ant-spin-dot-item {
+  background-color: var(--white-color);
+}
+.ant-form-item {
+  margin-bottom: 0px;
+}
+
+.ant-layout-sider {
+  background-color: var(--primary-color) 05;
+}
+.ant-layout-header {
+  @apply px-2;
+}
+
+.ant-menu,
+.ant-layout-header {
+  background-color: transparent;
+}
+
+.ant-menu-item::after {
+  top: 6px !important;
+  left: 0;
+  right: inherit !important;
+  height: 23px;
+  border-radius: 0 800px 800px 0;
+  border-right: 4px solid var(--primary-color) !important;
+}
+
+.ant-menu-inline,
+.ant-menu-vertical,
+.ant-menu-vertical-left {
+  border-right: 0px solid #e8e8e8;
+}
+
+.ant-layout-sider-children .anticon,
+.today-date .anticon {
+  line-height: 1.6;
+  vertical-align: text-bottom;
+}
+
+.ant-layout-content {
+  @apply rounded-lg mr-2;
+}
+
+.ant-layout-footer {
+  padding: 24px 12px;
+}
+
+.ant-select-selection {
+  border-radius: var(--border-radius-base);
+}
+
+.ant-btn:hover,
+.ant-btn:focus,
+.ant-btn:active,
+.ant-btn.active {
+  color: #fff;
+  background: #2a2f36;
+}
