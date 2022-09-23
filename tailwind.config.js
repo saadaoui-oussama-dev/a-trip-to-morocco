@@ -1,8 +1,8 @@
 module.exports = {
   theme: {
     fontFamily: {
-      tajawal: ['Tajawal'],
-      cairo: ['Cairo'],
+      Dosis: ['Dosis'],
+      DavidLibre: ['David Libre'],
     },
     extend: {
       colors: {

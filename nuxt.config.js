@@ -41,8 +41,8 @@ export default {
   },
   googleFonts: {
     families: {
-      Tajawal: true,
-      Cairo: true,
+      Dosis: true,
+      DavidLibre: true,
     },
   },
 }
