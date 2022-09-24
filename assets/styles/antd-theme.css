@@ -76,7 +76,7 @@ body {
 .ant-btn {
   height: auto;
   border: none;
-  color: #fff;
+  color: #F7EBDB;
   border-radius: 0px;
 }
 .heath .ant-btn {
@@ -85,26 +85,26 @@ body {
 .kashmir .ant-btn {
   background-color: #4D5A8E;
 }
-.stone .ant-btn {
+.teal .ant-btn {
   background-color: #025B63;
 }
 .heath .ant-btn:hover,
 .heath .ant-btn:focus,
 .heath .ant-btn:active {
   background: #33141c;
-  color: #fff;
+  color: #F7EBDB;
 }
 .kashmir .ant-btn:hover,
 .kashmir .ant-btn:focus,
 .kashmir .ant-btn:active {
   background: #3b456d;
-  color: #fff;
+  color: #F7EBDB;
 }
-.stone .ant-btn:hover,
-.stone .ant-btn:focus,
-.stone .ant-btn:active {
+.teal .ant-btn:hover,
+.teal .ant-btn:focus,
+.teal .ant-btn:active {
   background: #06484e;
-  color: #fff;
+  color: #F7EBDB;
 }
 .ant-btn.heath {
   background-color: #3E0E1A;
@@ -112,21 +112,24 @@ body {
 .ant-btn.kashmir {
   background-color: #4D5A8E;
 }
-.ant-btn.stone {
+.ant-btn.teal {
   background-color: #025B63;
 }
 .ant-btn.heath:hover,
 .ant-btn.heath:focus,
 .ant-btn.heath:active {
   background: #33141c;
+  color: #F7EBDB;
 }
 .ant-btn.kashmir:hover,
 .ant-btn.kashmir:focus,
 .ant-btn.kashmir:active {
   background: #3b456d;
+  color: #F7EBDB;
 }
-.ant-btn.stone:hover,
-.ant-btn.stone:focus,
-.ant-btn.stone:active {
+.ant-btn.teal:hover,
+.ant-btn.teal:focus,
+.ant-btn.teal:active {
   background: #06484e;
+  color: #F7EBDB;
 }
