@@ -7,9 +7,11 @@ module.exports = {
     extend: {
       colors: {
         heath: '#3E0E1A',
-        'albescent-white': '#F7EBDB',
-        'kashmir-blue': '#F7EBDB',
-        'blue-stone': '#025B63',
+        albescent: '#F7EBDB',
+        cotton: '#FFFBF6',
+        kashmir: '#4D5A8E',
+        teal: '#025B63',
+        stone: '#464646',
       },
     },
   },

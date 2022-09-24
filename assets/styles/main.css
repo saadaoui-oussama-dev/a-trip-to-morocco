@@ -1,20 +1,17 @@
 body {
   @apply font-Dosis bg-white;
 }
-
 #dashboard-layout {
   @apply h-screen;
 }
-
 .page-enter-active,
 .page-leave-active {
-  transition: opacity 0.5s;
+  transition: opacity 0.3s;
 }
 .page-enter,
 .page-leave-to {
   @apply opacity-0;
 }
-
 * {
   caret-color: transparent;
 }
