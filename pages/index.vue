@@ -1,5 +1,7 @@
 <template lang="pug">
-div
+.overflow-x-hidden
+  .mx-auto(class='w-10/12 xl:w-11/12')
+    Banner
 </template>
 
 <script>
@@ -8,5 +10,4 @@ export default {
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>
