@@ -13,7 +13,7 @@
 @box-shadow-base: 0 2px 8px rgba(0, 0, 0, 0.15); // major shadow for layers */
 
 :root {
-  --lessui-default-color: #3E0E1A;
+  --lessui-default-color: #3D0E1B;
   --primary-color: var(--lessui-default-color);
   --secondary-color: #ffa069;
   --tertiary-color: #555c69;
@@ -80,13 +80,17 @@ body {
   border-radius: 0px;
 }
 .heath .ant-btn {
-  background-color: #3E0E1A;
+  background-color: #3D0E1B;
 }
 .kashmir .ant-btn {
   background-color: #4D5A8E;
 }
 .teal .ant-btn {
   background-color: #025B63;
+}
+.glass .ant-btn {
+  background-color: #3D0E1B00;
+  color: #3D0E1B;
 }
 .heath .ant-btn:hover,
 .heath .ant-btn:focus,
@@ -106,14 +110,24 @@ body {
   background: #06484e;
   color: #F7EBDB;
 }
+.glass .ant-btn:hover,
+.glass .ant-btn:focus,
+.glass .ant-btn:active {
+  background: #3D0E1B10;
+  color: #3D0E1B;
+}
 .ant-btn.heath {
-  background-color: #3E0E1A;
+  background-color: #3D0E1B;
 }
 .ant-btn.kashmir {
   background-color: #4D5A8E;
 }
 .ant-btn.teal {
   background-color: #025B63;
+}
+.ant-btn.glass {
+  background-color: #3D0E1B00;
+  color: #3D0E1B;
 }
 .ant-btn.heath:hover,
 .ant-btn.heath:focus,
@@ -132,4 +146,10 @@ body {
 .ant-btn.teal:active {
   background: #06484e;
   color: #F7EBDB;
+}
+.ant-btn.glass:hover,
+.ant-btn.glass:focus,
+.ant-btn.glass:active {
+  background: #3D0E1B10;
+  color: #3D0E1B;
 }

@@ -20,7 +20,12 @@ svg(
 		:stroke="color"
 	)
 	path(
-		d="M7 9.51929H11.3006" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" :stroke="color")
+    d="M7 9.51929H11.3006"
+    stroke-width="1.2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    :stroke="color"
+  )
 </template>
 
 <script>
