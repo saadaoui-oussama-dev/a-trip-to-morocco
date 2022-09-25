@@ -71,7 +71,7 @@ export default {
 <style scoped>
 .container {
   @apply min-w-full px-2 flex justify-center bg-cotton;
-  @apply sm:px-6 lg:px-1
+  @apply sm:px-6 lg:px-1;
 }
 .container .content {
   @apply w-full max-w-6xl mt-16 px-10 pb-24;
@@ -82,6 +82,6 @@ export default {
 }
 .posts {
   @apply grid gap-x-11 gap-y-14;
-  @apply lg:grid-cols-3 sm:grid-cols-2
+  @apply lg:grid-cols-3 sm:grid-cols-2;
 }
 </style>

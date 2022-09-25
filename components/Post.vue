@@ -21,7 +21,7 @@ export default {
 </script>
 
 <style scoped>
-.content{
+.content {
   @apply px-2 max-h-80 sm:max-w-sm;
 }
 .img {
@@ -40,14 +40,14 @@ export default {
 .price-parent {
   @apply flex items-end gap-1;
 }
-.price-parent span:first-child{
+.price-parent span:first-child {
   @apply text-xs;
 }
 .price {
   @apply text-xl font-medium;
   @apply sm:text-2xl;
 }
-.ant-btn{
+.ant-btn {
   @apply w-max text-xs py-1 px-4 flex items-center text-albescent;
   @apply sm:py-2 sm:px-6;
 }
