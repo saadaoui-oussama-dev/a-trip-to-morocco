@@ -1,22 +1,19 @@
 <template lang="pug">
-div(class="flex items-end justify-center md:justify-between")
-    .mb-16
-        div(class="flex flex-col gap-16 mb-36")
-            div(class="flex flex-col gap-5 items-center md:items-start")
-                h1(class="font-DavidLibre text-center text-heath text-3xl max-w-xs m-0 xl:text-left xl:text-9xl lg:text-8xl md:text-7xl sm:text-4xl xl:w-auto lg:max-w-3xl md:max-w-xl sm:max-w-xs") Expolre a colorful Morocco
-                div(class="flex flex-col  gap-4 max-w-lg items-center md:items-start ")
-                    p(class="text-sm text-stone m-0 text-center md:text-left") We are experts at creating a Moroccan experience perfectly tailored to our guests needs. These are some of our most popular itineraries, and they may be customized to the utmost extent of your imaginations.
-                    .ant-btn.heath Book a trip now
-            div(class="flex flex-col gap-0.5 items-center md:items-start")
-                div(class="flex gap-1 items-center")
-                    iconsPhone(color="#3D0E1B")
-                    p(class="text-heath text-sm m-0") +212 674 271 222
-                div(class="flex gap-1 items-center")
-                    iconsMessage(color="#3D0E1B")
-                    p(class="text-heath text-sm m-0") contact@atriptomoroco.com
-        iconsArrowDown(color="#3D0E1B" class="mx-auto md:mx-0")
-    img(src="~/assets/images/Header/1.png" class="hidden relative -right-16 md:block")
-
+.banner
+  .content
+    div
+      h1 Explore a colorful Morocco
+      p.text We are experts at creating a Moroccan experience perfectly tailored to our guests needs. These are some of our most popular itineraries, and they may be customized to the utmost extent of your imaginations.
+      .ant-btn.heath Book a trip now
+      .mb-32
+        .contact
+          iconsPhone
+          p +212 674 271 222
+        .contact
+          iconsMessage
+          p contact@atriptomoroco.com
+      iconsArrowDown.mb-10
+    img(src="~/assets/images/banner.png")
 </template>
 
 <script>
@@ -26,7 +23,44 @@ export default {
 </script>
 
 <style scoped>
+.banner {
+  @apply pt-7 sm:pr-0 sm:pl-6 lg:pl-10 flex justify-center bg-albescent;
+}
+.content {
+  @apply w-full max-w-6xl px-2 sm:px-0 relative flex items-end justify-center sm:justify-between overflow-hidden gap-5;
+}
+.content > div {
+  @apply flex items-center flex-col sm:items-start;
+}
+h1 {
+  @apply mb-4 text-3xl sm:text-4xl md:text-7xl lg:text-8xl text-center sm:text-left text-heath font-DavidLibre;
+}
+.text {
+  @apply mb-2 px-3 sm:px-0 text-sm text-center sm:text-left text-stone;
+}
 .ant-btn {
-  @apply text-albescent w-max py-3 px-8 md:py-4 md:px-10;
+  @apply w-max mb-14 py-2 sm:py-3 sm:px-8 text-albescent;
+}
+.contact {
+  @apply flex gap-1 items-center;
+}
+.contact p {
+  @apply m-0 text-sm text-heath;
+}
+img {
+  @apply hidden w-5/12 relative sm:block sm:-right-20;
+}
+@media (min-width: 1152px) {
+  img {
+    right: 0;
+  }
+}
+@media (min-width: 1380px) {
+  .content {
+    overflow: visible;
+  }
+  img {
+    right: -5rem;
+  }
 }
 </style>
