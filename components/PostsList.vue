@@ -39,8 +39,8 @@ export default {
   @apply sm:text-6xl lg:text-7xl xl:text-8xl;
 }
 .posts {
-  @apply grid grid-cols-2 gap-y-3 gap-x-2;
-  @apply md:grid-cols-3 md:gap-y-14 md:gap-x-11;
+  @apply grid grid-cols-2 gap-y-7 gap-x-2;
+  @apply md:grid-cols-3 md:gap-y-10 md:gap-x-11;
 }
 .actions {
   @apply mt-9 sm:mt-14;
