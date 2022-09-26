@@ -3,7 +3,7 @@
   img.img(:src="post.img")
   .content
     h3.title.text-colored {{ post.title }}
-    p.description {{ post.description }}
+    p.description {{description }}
     .info
       .price-parent
         span.text-colored STARTING FROM
@@ -16,6 +16,24 @@
 export default {
   name: 'PostComponent',
   props: ['post'],
+  data() {
+    return {
+      description: null
+    }  
+  },
+  methods: {
+    fillter() {
+      if (this.post.description.length > 200){
+        this.description = this.post.description.substring(0, 200) + '...'
+      }
+      else {
+        this.description = this.post.description
+      }
+    },
+  },
+  created() {
+    this.fillter()
+  },
 }
 </script>
 
@@ -27,7 +45,7 @@ export default {
   @apply w-full mb-6;
 }
 .title {
-  @apply text-2xl mb-2;
+  @apply text-lg mb-2;
   @apply md:text-2xl sm:text-xl;
 }
 .description {
@@ -43,7 +61,7 @@ export default {
   @apply text-xs;
 }
 .price {
-  @apply text-xl font-medium;
+  @apply text-lg font-medium;
   @apply sm:text-2xl;
 }
 .ant-btn {
