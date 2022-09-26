@@ -2,27 +2,26 @@
 .post
   img.img(:src="post.img")
   .content
-    h3.title(:class="color.text") {{post.title}}
-    p.description {{post.description}}
+    h3.title.text-colored {{ post.title }}
+    p.description {{ post.description }}
     .info
       .price-parent
-        span STARTING FROM
-        span.price ${{post.price}}
-      NuxtLink.ant-btn(:to="post.url" :class="color.btn") Learn More
+        span.text-colored STARTING FROM
+        span.text-colored.price ${{ post.price }}
+      NuxtLink.ant-btn(:to="post.url") Learn More
         iconsArrowRight
-  
 </template>
 
 <script>
 export default {
-  name: 'postComponent',
-  props: ['post', 'color'],
+  name: 'PostComponent',
+  props: ['post'],
 }
 </script>
 
 <style scoped>
 .content {
-  @apply px-2 max-h-80 sm:max-w-sm;
+  @apply px-2 max-h-80 sm:max-w-sm overflow-hidden;
 }
 .img {
   @apply w-full mb-6;
