@@ -78,6 +78,7 @@ body {
   border: none;
   color: #F7EBDB;
   border-radius: 0px;
+  box-shadow: none;
 }
 .heath .ant-btn {
   background-color: #3D0E1B;
