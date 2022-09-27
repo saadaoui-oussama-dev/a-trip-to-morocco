@@ -2,8 +2,9 @@
 .post
   img.img(:src="post.img")
   .content
-    h3.title.text-colored {{ post.title }}
-    p.description {{description }}
+    div
+      h3.title.text-colored {{ post.title }}
+      p.description {{description }}
     .info
       .price-parent
         span.text-colored STARTING FROM
@@ -18,15 +19,14 @@ export default {
   props: ['post'],
   data() {
     return {
-      description: null
-    }  
+      description: null,
+    }
   },
   methods: {
     fillter() {
-      if (this.post.description.length > 200){
+      if (this.post.description.length > 200) {
         this.description = this.post.description.substring(0, 200) + '...'
-      }
-      else {
+      } else {
         this.description = this.post.description
       }
     },
@@ -38,11 +38,14 @@ export default {
 </script>
 
 <style scoped>
+.post {
+  @apply flex flex-col gap-6;
+}
 .content {
-  @apply px-2 max-h-80 sm:max-w-sm overflow-hidden;
+  @apply px-2 max-h-80 sm:max-w-sm overflow-hidden flex flex-col justify-between flex-grow;
 }
 .img {
-  @apply w-full mb-6;
+  @apply w-full;
 }
 .title {
   @apply text-lg mb-2;
