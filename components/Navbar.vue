@@ -16,7 +16,7 @@
       .ant-btn.glass Guided Tours
       .ant-btn.glass Activities
       .ant-btn.glass About Us
-      .ant-btn.heath contact Us
+      .ant-btn.heath.contact-us contact Us
       .flex-grow(@click="toggleOptions")
 </template>
 
@@ -60,7 +60,11 @@ export default {
   transform: translateX(0%);
 }
 .pages .ant-btn {
-  @apply py-3 px-8 lg:py-1 lg:px-2;
+  @apply py-3 px-8;
+  @apply lg:py-1 lg:px-2;
+}
+.pages .contact-us {
+  @apply lg:py-2.5 lg:px-9;
 }
 .back {
   @apply w-0 h-screen fixed top-0 right-0;
