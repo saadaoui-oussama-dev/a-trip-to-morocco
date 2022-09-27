@@ -12,6 +12,10 @@ div
 <script>
 export default {
   name: 'IndexPage',
-  middleware: 'set-all-trips',
+  async asyncData({ store }) {
+    let trips = await store.dispatch('trips/SET_PRIVATE_TRIPS')
+    trips = await store.dispatch('trips/SET_DAY_TRIPS')
+    trips = await store.dispatch('trips/SET_ACTIVITIES')
+  }
 }
 </script>
