@@ -7,6 +7,11 @@ div
   PostsList(title='Our Day Trips' list='DAY_TRIPS')
   PostsList(title='Our Activities' list='ACTIVITIES')
   Gallery
+  .section-7
+    .content
+      Feedback
+      City(v-for="(city, index) in [0, 1, 2, 3]" :key="index" :city="city")
+      ContactUsForm
 </template>
 
 <script>
@@ -20,3 +25,21 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.section-7 {
+  @apply w-full flex justify-center bg-albescent;
+  background: url(~/assets/noise-cotton.svg), linear-gradient(to bottom, #F7EBDB 50%, #FFF 50%);
+}
+.section-7 .content {
+  @apply w-full max-w-6xl grid grid-cols-1 sm:grid-cols-2;
+}
+.section-7 .content > div {
+  @apply min-h-128 sm:min-h-152 lg:min-h-184;
+}
+@media (min-width: 640px) {
+  .section-7 {
+    background: url(~/assets/noise-cotton.svg), linear-gradient(to right, #F7EBDB 50%, #FFF 50%);
+  }
+}
+</style>

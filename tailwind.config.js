@@ -13,6 +13,11 @@ module.exports = {
         teal: '#025B63',
         stone: '#464646',
       },
+      minHeight: {
+        '128': '32rem',
+        '152': '38rem',
+        '184': '46rem',
+      }
     },
   },
 }
