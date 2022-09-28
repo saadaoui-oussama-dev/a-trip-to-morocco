@@ -154,3 +154,30 @@ body {
   background: #3D0E1B10;
   color: #3D0E1B;
 }
+.kashmir .text-colored {
+  @apply text-kashmir;
+}
+.kashmir .border-colored {
+  @apply border-kashmir;
+}
+.kashmir .bg-colored {
+  @apply bg-kashmir;
+}
+.teal .text-colored {
+  @apply text-teal;
+}
+.teal .border-colored {
+  @apply border-teal;
+}
+.teal .bg-colored {
+  @apply bg-teal;
+}
+.heath .text-colored {
+  @apply text-heath;
+}
+.heath .border-colored {
+  @apply border-heath;
+}
+.heath .bg-colored {
+  @apply bg-heath;
+}
