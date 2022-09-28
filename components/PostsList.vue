@@ -3,24 +3,37 @@
   .content(:class="{heath: list == 'PRIVATE_TRIPS', teal: list == 'DAY_TRIPS', kashmir: list == 'ACTIVITIES' }")
     h2.title.text-colored {{ title }}
     .posts
-      Post(v-for="(trip, index) in $store.getters[`trips/GET_VISIBLE_${list}`]" :key="index" :post="trip")
-    .actions.relative.flex.items-center(v-if="$store.getters[`trips/GET_${list}`].length > 6")
-      .hr.absolute.w-full
+      Post(v-for="(trip, index) in visibleList" :key="index" :post="trip")
+    .actions(v-if="fullListLength > 6")
+      .horizontal-line.bg-colored
       .buttons
-        .bord(v-if="$store.getters[`trips/GET_VISIBLE_${list}`].length > 6")
-          .ant-btn.glass.text-stone(@click="$store.dispatch('trips/ADD_TO_LIST', { list, status: 1 })") show less
-        .bord(v-else-if="$store.getters[`trips/GET_VISIBLE_${list}`].length <= 6 && $store.getters[`trips/GET_${list}`].length > 18")
-          .ant-btn.glass.text-stone(@click="$store.dispatch('trips/ADD_TO_LIST', { list, status: 2 })") show more
-        .bord(v-else)
-          .ant-btn.glass.text-stone(@click="$store.dispatch('trips/ADD_TO_LIST', { list, status: 3 })") show all
-        .bord(v-if="$store.getters[`trips/GET_${list}`].length > 18 && $store.getters[`trips/GET_VISIBLE_${list}`].length > 6 && $store.getters[`trips/GET_VISIBLE_${list}`].length <= 18")
-          .ant-btn.glass.text-stone(@click="$store.dispatch('trips/ADD_TO_LIST', { list, status: 3 })") show all
+        template(v-if="visibleList.length > 6")
+          .ant-btn.glass.border-colored(@click="changeListStatus(1)") show less
+        template(v-else-if="visibleList.length <= 6 && fullListLength > 18")
+          .ant-btn.glass.border-colored(@click="changeListStatus(2)") show more
+        .ant-btn.glass.border-colored(v-else @click="changeListStatus(3)") show all
+        template(v-if="fullListLength > 18 && visibleList.length > 6 && visibleList.length <= 18")
+          .ant-btn.glass.border-colored(@click="changeListStatus(3)") show all
 </template>
 
 <script>
 export default {
   name: 'PostsListComponent',
   props: ['title', 'list'],
+  computed: {
+    fullListLength() {
+      return this.$store.getters[`trips/GET_${this.$props.list}`].length
+    },
+    visibleList() {
+      return this.$store.getters[`trips/GET_VISIBLE_${this.$props.list}`]
+    }
+  },
+  methods: {
+    changeListStatus(status) {
+      let list = this.$props.list
+      this.$store.dispatch('trips/CHANGE_LIST_STATUS', { list, status })
+    }
+  }
 }
 </script>
 
@@ -43,44 +56,25 @@ export default {
   @apply md:grid-cols-3 md:gap-y-10 md:gap-x-11;
 }
 .actions {
-  @apply mt-9 sm:mt-14;
+  @apply mt-9 sm:mt-14 relative flex items-center;
 }
 .buttons {
   @apply w-full ml-7 grid grid-cols-2;
   @apply sm:ml-10 sm:grid-cols-3;
 }
-.bord {
-  @apply w-28;
-  padding: 1.1px;
-}
-.kashmir .bord {
-  @apply bg-kashmir;
-}
-.teal .bord {
-  @apply bg-teal;
-}
-.heath .bord {
-  @apply bg-heath;
-}
-.actions .ant-btn {
-  @apply w-full h-full py-1 px-4 bg-cotton;
+.buttons .ant-btn {
+  @apply py-1 px-4 bg-cotton;
   @apply sm:py-1.5 sm:px-4;
+  @apply w-28 text-stone border-solid;
+  border-width: 1px;
 }
-.actions .ant-btn:hover,
-.actions .ant-btn:focus,
-.actions .ant-btn:active {
+.buttons .ant-btn:hover,
+.buttons .ant-btn:focus,
+.buttons .ant-btn:active {
   background: #f1eee9;
 }
-.hr {
+.horizontal-line {
+  @apply absolute w-full;
   height: 1px;
-}
-.kashmir .hr {
-  @apply bg-kashmir;
-}
-.teal .hr {
-  @apply bg-teal;
-}
-.heath .hr {
-  @apply bg-heath;
 }
 </style>
