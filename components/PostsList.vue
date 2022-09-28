@@ -39,8 +39,7 @@ export default {
 
 <style scoped>
 .list {
-  @apply w-full px-2 flex justify-center bg-cotton;
-  background-image: url(~/assets/zellige.svg);
+  @apply w-full px-2 flex justify-center;
   @apply sm:px-6 lg:px-10;
 }
 .content {

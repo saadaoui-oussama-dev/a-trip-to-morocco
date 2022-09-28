@@ -1,5 +1,6 @@
 body {
-  @apply font-Dosis bg-white;
+  @apply font-Dosis bg-cotton;
+  background-image: url(~/assets/zellige.svg);
 }
 #dashboard-layout {
   @apply h-screen;
