@@ -105,6 +105,6 @@ export default {
 }
 .iconsArrowDown,
 .iconsArrowUp {
-  @apply h-20 text-xl;
+  @apply h-20 text-xl cursor-pointer;
 }
 </style>

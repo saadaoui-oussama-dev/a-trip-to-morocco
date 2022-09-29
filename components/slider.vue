@@ -101,7 +101,7 @@ export default {
   @apply w-full max-w-6xl relative;
 }
 .iconsArrowDown {
-  @apply absolute z-10 top-9 left-12 xl:top-64 lg:top-48 md:top-20 sm:left-20;
+  @apply absolute z-10 top-9 left-12 xl:top-64 lg:top-48 md:top-20 sm:left-20 cursor-pointer;
 }
 .slide {
   @apply min-w-full;
