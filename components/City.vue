@@ -12,6 +12,6 @@ export default {
 
 <style scoped>
 .city {
-  @apply min-h-128 sm:min-h-152 lg:min-h-184 bg-red-800;
+  @apply min-h-184 sm:min-h-152 lg:min-h-184 bg-red-800;
 }
 </style>
