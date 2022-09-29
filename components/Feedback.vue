@@ -5,7 +5,7 @@
     hooper.hooper(:touchDrag="false" :mouseDrag="false" :wheelControl="false" :shortDrag="false" :keysControl="false" :settings="hooperSettings" :style="'height:'+height+'px;'" ref="carousel" @slide="updateCarousel")
       slide.slide(v-for="(slideInfo, index) in slides" :key="index")
         FeedbackContent(:slideInfo="slideInfo" v-resize="setHeight" ref="slide")
-    iconsArrowUpFb.iconsArrowDown(@click.native="slidePrev")
+    iconsArrowDownFb.iconsArrowDown(@click.native="slidePrev")
 </template>
 
 <script>
@@ -106,8 +106,5 @@ export default {
 .iconsArrowDown,
 .iconsArrowUp {
   @apply h-20 text-xl;
-}
-.iconsArrowDown {
-  rotate: 180deg;
 }
 </style>
