@@ -154,6 +154,19 @@ body {
   background: #3D0E1B10;
   color: #3D0E1B;
 }
+textarea,
+input {
+  @apply w-full py-3 px-2 border-none rounded-none outline-none text-base;
+  background-color: #E8E8E8;
+  color: #8B8B8B;
+  resize: none;
+}
+input:focus,
+textarea:focus,
+input:active,
+textarea:active {
+  background-color: #f5efef;
+}
 .kashmir .text-colored {
   @apply text-kashmir;
 }

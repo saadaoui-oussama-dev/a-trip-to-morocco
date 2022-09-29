@@ -16,3 +16,15 @@ body {
 * {
   caret-color: transparent;
 }
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #F7EBDB;
+}
+::-webkit-scrollbar-thumb {
+  background: #8888;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #5558;
+}

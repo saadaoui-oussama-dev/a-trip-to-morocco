@@ -34,9 +34,6 @@ export default {
 .section-7 .content {
   @apply w-full max-w-6xl grid grid-cols-1 sm:grid-cols-2;
 }
-.section-7 .content > div {
-  @apply min-h-128 sm:min-h-152 lg:min-h-184;
-}
 @media (min-width: 640px) {
   .section-7 {
     background: url(~/assets/noise-cotton.svg), linear-gradient(to right, #F7EBDB 50%, #FFF 50%);
