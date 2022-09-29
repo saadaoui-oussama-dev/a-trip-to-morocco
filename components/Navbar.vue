@@ -2,7 +2,7 @@
 .navbar
   .nav-top(ref="navTop")
     .icons
-      img(src="~/assets/logo.svg")
+      iconsLogo
       .contact
         iconsTripAdvisor
         iconsTwitter
@@ -40,9 +40,6 @@ export default {
 }
 .icons {
   @apply flex gap-4 sm:gap-7;
-}
-.icons img {
-  @apply h-8 sm:h-12;
 }
 .contact {
   @apply flex items-center gap-2 sm:gap-4;
