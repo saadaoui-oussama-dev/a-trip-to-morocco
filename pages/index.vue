@@ -3,6 +3,7 @@ div
   Navbar
   Banner
   PostsList(title='Our Private Trips' list='PRIVATE_TRIPS')
+  slider
   Banner
   PostsList(title='Our Day Trips' list='DAY_TRIPS')
   PostsList(title='Our Activities' list='ACTIVITIES')
