@@ -58,20 +58,20 @@ export default {
   @apply text-xs text-stone mb-3;
 }
 .info {
-  @apply flex justify-between;
+  @apply flex flex-col gap-2 sm:flex-row sm:gap-0 justify-between;
 }
 .price-parent {
-  @apply flex items-end gap-1;
+  @apply flex items-end justify-between sm:justify-start gap-1;
 }
 .price-parent span:first-child {
   @apply text-xs;
 }
 .price {
-  @apply text-lg font-medium;
+  @apply text-2xl font-medium;
   @apply sm:text-2xl;
 }
 .ant-btn {
-  @apply w-max text-xs py-1 px-4 flex items-center text-albescent;
-  @apply sm:py-2 sm:px-6;
+  @apply  text-xs py-2 px-4 flex items-center justify-center text-albescent;
+  @apply sm:justify-start sm:w-max sm:py-2 sm:px-6;
 }
 </style>
