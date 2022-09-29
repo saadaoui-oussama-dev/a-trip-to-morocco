@@ -1,7 +1,6 @@
 <template lang="pug">
 .post
   .bg-img(:style="'background-image:url('+post.img+')'")
-    img.img(src="../static/post.png")
   .content
     div
       h3.title.text-colored {{ post.title }}
@@ -45,8 +44,8 @@ export default {
 .content {
   @apply px-2 max-h-80 sm:max-w-sm overflow-hidden flex flex-col justify-between flex-grow;
 }
-.bg-img{
-  @apply min-w-min bg-cover bg-center
+.bg-img {
+  @apply w-full h-36 lg:h-60 md:h-44 sm:h-64 bg-cover bg-center;
 }
 .img {
   @apply max-w-full opacity-0;
