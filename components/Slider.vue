@@ -1,8 +1,9 @@
 <template lang="pug">
 .slider
   .content
-    iconsArrowDown.iconsArrowDown(@click.native="slideNext" color="#F7EBDB")
-    hooper.hooper(:touchDrag="false" :mouseDrag="false" :wheelControl="false" :shortDrag="false" :keysControl="false" :settings="hooperSettings" :style="'height:'+height+'px;'" ref="carousel" @slide="updateCarousel")
+    iconsArrowDown.iconsArrowDown(color="#F7EBDB")
+    iconsArrowDown.iconsArrowRight(color="#F7EBDB")
+    hooper.hooper(:initialSlide="999" :settings="hooperSettings" :style="'height:'+height+'px;'" ref="carousel" @updated="updateCarousel")
       slide.slide(v-for="(slideInfo, index) in slides" :key="index")
         SlideContent(:slideInfo="slideInfo" v-resize="setHeight" ref="slide")
       hooper-pagination.pagination(slot="hooper-addons")
@@ -15,7 +16,7 @@ Vue.directive('resize', {
   inserted(el, binding) {
     const onResize = binding.value
     window.addEventListener('resize', () => {
-      onResize(el.clientHeight)
+      onResize(el)
     })
   },
 })
@@ -51,13 +52,11 @@ export default {
       ],
       hooperSettings: {
         itemsToShow: 1,
-        vertical: 'true',
-        centerMode: 'true',
-        infiniteScroll: 'true',
-        transition: '750',
+        centerMode: true,
+        transition: 750,
+        vertical: true
       },
       height: 1040,
-      carouselData: 0,
     }
   },
   components: {
@@ -65,23 +64,22 @@ export default {
     Slide,
     HooperPagination,
   },
-  watch: {
-    carouselData() {
-      this.$refs.carousel.slideTo(this.carouselData)
-    },
-  },
   methods: {
-    slideNext() {
-      this.$refs.carousel.slideNext()
-    },
-    updateCarousel(payload) {
-      this.myCarouselData = payload.currentSlide
-    },
-    setHeight(height) {
-      this.height = height
+    setHeight(el) {
+      this.height = el.clientHeight
     },
     getHeight() {
       this.height = this.$refs.slide[0].$el.clientHeight
+    },
+    updateCarousel(payload) {
+      console.log(payload)
+      payload.containerHeight = this.$refs.slide[0].$el.clientHeight
+      console.log(this.$refs.slide[0].$el.clientHeight)
+      if (payload.containerWidth < 640) {
+        payload.settings.vertical = false
+      } else {
+        payload.settings.vertical = true
+      }
     },
   },
   mounted() {
@@ -101,12 +99,17 @@ export default {
   @apply w-full max-w-6xl relative;
 }
 .iconsArrowDown {
-  @apply absolute z-10 top-9 left-12 xl:top-64 lg:top-48 md:top-20 sm:left-20 cursor-pointer;
+  @apply absolute hidden sm:block z-10 top-9 left-12 xl:top-64 lg:top-48 md:top-20 lg:left-20 sm:left-12 cursor-pointer;
+}
+.iconsArrowRight{
+  @apply absolute bottom-0 left-16 pt-1 z-10 block sm:hidden;
+  rotate: -90deg;
 }
 .slide {
   @apply min-w-full;
 }
 .pagination {
-  @apply p-0 left-20 top-2/3 xl:pt-16 lg:pt-28 md:pt-48 sm:pt-48;
+  @apply p-0 w-max hidden sm:block left-12 lg:left-20 sm:left-12 xl:pt-56 lg:pt-60 md:pt-56 sm:pt-48;
+  rotate: 180deg;
 }
 </style>
