@@ -6,6 +6,7 @@
     h3 {{ city.name }}
     h1 {{ city.title }}
     p {{ city.description }}
+    .ant-btn Learn More
 </template>
 
 <script>
@@ -27,7 +28,7 @@ export default {
   transition: opacity 0.5s, background-color 0.5s;
   background-color: #00000080;
 }
-.centered > *:not(svg) {
+.centered > *:not(svg, .ant-btn) {
   @apply  text-albescent text-center;
 }
 svg {
@@ -39,10 +40,19 @@ h3 {
 }
 h1 {
   @apply mb-5 px-5 text-3xl;
-  @apply md:mb-5 md:px-10;
+  @apply md:px-10;
 }
 p {
-  @apply px-16;
+  @apply mb-4 px-16;
   font-size: 11px;
+}
+.ant-btn {
+  @apply py-2 px-6 bg-albescent text-heath text-xs;
+}
+.ant-btn:hover,
+.ant-btn:focus,
+.ant-btn:active {
+  @apply text-heath;
+  background: #e7dfd4;
 }
 </style>
