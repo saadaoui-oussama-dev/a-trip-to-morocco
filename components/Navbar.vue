@@ -17,7 +17,7 @@
       .ant-btn.glass Activities
       .ant-btn.glass About Us
       .ant-btn.heath.contact-us contact Us
-      .flex-grow(@click="toggleOptions")
+      .flex-grow(class="lg:hidden" @click="toggleOptions")
 </template>
 
 <script>
