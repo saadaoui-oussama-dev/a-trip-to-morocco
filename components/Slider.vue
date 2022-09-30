@@ -92,7 +92,8 @@ export default {
 
 <style scoped>
 .slider {
-  @apply w-full flex justify-center;
+  @apply w-full max-w-page m-auto flex justify-center bg-teal;
+  background-image: url('~/assets/noise-teal.png');
 }
 
 .content {

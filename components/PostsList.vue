@@ -39,7 +39,7 @@ export default {
 
 <style scoped>
 .list {
-  @apply w-full px-2 flex justify-center;
+  @apply w-full max-w-page m-auto px-2 flex justify-center;
   @apply sm:px-6 lg:px-10;
 }
 .content {
