@@ -3,60 +3,26 @@
   .content
     iconsArrowDown.iconsArrowDown(color="#F7EBDB")
     iconsArrowDown.iconsArrowRight(color="#F7EBDB")
-    hooper.hooper(:initialSlide="999" :settings="hooperSettings" :style="'height:'+height+'px;'" ref="carousel" @updated="updateCarousel")
-      slide.slide(v-for="(slideInfo, index) in slides" :key="index")
-        SlideContent(:slideInfo="slideInfo" v-resize="setHeight" ref="slide")
+    hooper.hooper(:initialSlide="999" :settings="hooperSettings" :style="'height:'+height" ref="carousel" @updated="updateCarousel")
+      slide.slide(v-for="(slideInfo, index) in $store.getters['slider/GET_SLIDES']" :key="index")
+        SlideContent(:slideInfo="slideInfo" ref="slide")
       hooper-pagination.pagination(slot="hooper-addons")
 </template>
+
 <script>
 import { Hooper, Slide, Pagination as HooperPagination } from 'hooper'
 import '@/assets/styles/hooper.css'
-import Vue from 'vue'
-Vue.directive('resize', {
-  inserted(el, binding) {
-    const onResize = binding.value
-    window.addEventListener('resize', () => {
-      onResize(el)
-    })
-  },
-})
 export default {
   name: 'SliderComponent',
+  props: ['height'],
   data() {
     return {
-      slides: [
-        {
-          title: 'Moroccan Tajine 1',
-          description:
-            'Amongst the most sought-after dishes in Morocco is Tajine. With a very particular cooking method and multiple versions, this dish never ceases to delight the most demanding gourmets ! Food such as fish, chicken, meat, vegetables, and sometimes nuts, plums and apricots, are steamed with a bit of spices that enhances its flavour.',
-          img: '/slide.png',
-        },
-        {
-          title: 'Moroccan Tajine 2',
-          description:
-            'Amongst the most sought-after dishes in Morocco is Tajine. With a very particular cooking method and multiple versions, this dish never ceases to delight the most demanding gourmets ! Food such as fish, chicken, meat, vegetables, and sometimes nuts, plums and apricots, are steamed with a bit of spices that enhances its flavour.',
-          img: '/slide.png',
-        },
-        {
-          title: 'Moroccan Tajine 3',
-          description:
-            'Amongst the most sought-after dishes in Morocco is Tajine. With a very particular cooking method and multiple versions, this dish never ceases to delight the most demanding gourmets ! Food such as fish, chicken, meat, vegetables, and sometimes nuts, plums and apricots, are steamed with a bit of spices that enhances its flavour.',
-          img: '/slide.png',
-        },
-        {
-          title: 'Moroccan Tajine 4',
-          description:
-            'Amongst the most sought-after dishes in Morocco is Tajine. With a very particular cooking method and multiple versions, this dish never ceases to delight the most demanding gourmets ! Food such as fish, chicken, meat, vegetables, and sometimes nuts, plums and apricots, are steamed with a bit of spices that enhances its flavour.',
-          img: '/slide.png',
-        },
-      ],
       hooperSettings: {
         itemsToShow: 1,
         centerMode: true,
         transition: 750,
         vertical: true
       },
-      height: 1040,
     }
   },
   components: {
@@ -65,27 +31,13 @@ export default {
     HooperPagination,
   },
   methods: {
-    setHeight(el) {
-      this.height = el.clientHeight
-    },
-    getHeight() {
-      this.height = this.$refs.slide[0].$el.clientHeight
-    },
     updateCarousel(payload) {
-      console.log(payload)
-      payload.containerHeight = this.$refs.slide[0].$el.clientHeight
-      console.log(this.$refs.slide[0].$el.clientHeight)
       if (payload.containerWidth < 640) {
         payload.settings.vertical = false
       } else {
         payload.settings.vertical = true
       }
     },
-  },
-  mounted() {
-    setTimeout(() => {
-      this.getHeight()
-    }, 500)
   },
 }
 </script>
@@ -95,7 +47,6 @@ export default {
   @apply w-full max-w-page m-auto flex justify-center bg-teal;
   background-image: url('~/assets/noise-teal.png');
 }
-
 .content {
   @apply w-full max-w-6xl relative;
 }

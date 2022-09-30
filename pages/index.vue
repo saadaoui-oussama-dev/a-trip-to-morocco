@@ -3,7 +3,7 @@ div
   Navbar
   Banner
   PostsList(title='Our Private Trips' list='PRIVATE_TRIPS')
-  Slider
+  Slider(:height="height")
   PostsList(title='Our Day Trips' list='DAY_TRIPS')
   PostsList(title='Our Activities' list='ACTIVITIES')
   Gallery
@@ -18,12 +18,37 @@ div
 <script>
 export default {
   name: 'IndexPage',
+  data() {
+    return {
+      height: 1040,
+    }
+  },
+  mounted() {
+    let width = parseFloat(getComputedStyle(document.body).width)
+    if (width < 640) {
+        console.log('phone')
+        this.height = '300px'
+    } else if (width < 768) {
+      console.log('sm')
+      this.height = '350px'
+    } else if (width < 1024) {
+      console.log('md')
+      this.height = '600px'
+    } else if (width < 1280) {
+      console.log('lg')
+      this.height = '1000px'
+    } else {
+      console.log('xl')
+      this.height = '600px'
+    }
+  },
   async asyncData({ store }) {
     let trips = await store.dispatch('trips/SET_PRIVATE_TRIPS')
     trips = await store.dispatch('trips/SET_DAY_TRIPS')
     trips = await store.dispatch('trips/SET_ACTIVITIES')
     let gallery = await store.dispatch('gallery/SET_GALLERY')
     let cities = await store.dispatch('cities/SET_CITIES')
+    let slides = await store.dispatch('slider/SET_SLIDES')
   }
 }
 </script>
