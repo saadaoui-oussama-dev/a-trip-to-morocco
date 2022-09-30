@@ -4,14 +4,13 @@ div
   Banner
   PostsList(title='Our Private Trips' list='PRIVATE_TRIPS')
   slider
-  Banner
   PostsList(title='Our Day Trips' list='DAY_TRIPS')
   PostsList(title='Our Activities' list='ACTIVITIES')
   Gallery
   .section-7
     .content
       Feedback
-      City(v-for="(city, index) in [0, 1, 2, 3]" :key="index" :city="city")
+      City(v-for="(city, index) in $store.getters['cities/GET_CITIES']" :key="index" :city="city")
       ContactUsForm
 </template>
 
@@ -23,6 +22,7 @@ export default {
     trips = await store.dispatch('trips/SET_DAY_TRIPS')
     trips = await store.dispatch('trips/SET_ACTIVITIES')
     let gallery = await store.dispatch('gallery/SET_GALLERY')
+    let cities = await store.dispatch('cities/SET_CITIES')
   }
 }
 </script>
