@@ -9,7 +9,7 @@
 
 <script>
 export default {
-  name: 'slideContent',
+  name: 'SlideContent',
   props: ['slideInfo'],
 }
 </script>

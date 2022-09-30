@@ -4,7 +4,7 @@
     iconsArrowDown.iconsArrowDown(@click.native="slideNext" color="#F7EBDB")
     hooper.hooper(:touchDrag="false" :mouseDrag="false" :wheelControl="false" :shortDrag="false" :keysControl="false" :settings="hooperSettings" :style="'height:'+height+'px;'" ref="carousel" @slide="updateCarousel")
       slide.slide(v-for="(slideInfo, index) in slides" :key="index")
-        slideContent(:slideInfo="slideInfo" v-resize="setHeight" ref="slide")
+        SlideContent(:slideInfo="slideInfo" v-resize="setHeight" ref="slide")
       hooper-pagination.pagination(slot="hooper-addons")
 </template>
 <script>
@@ -20,7 +20,7 @@ Vue.directive('resize', {
   },
 })
 export default {
-  name: 'sliderComponent',
+  name: 'SliderComponent',
   data() {
     return {
       slides: [
@@ -101,7 +101,7 @@ export default {
   @apply w-full max-w-6xl relative;
 }
 .iconsArrowDown {
-  @apply absolute z-10 top-9 left-12 xl:top-64 lg:top-48 md:top-20 sm:left-20;
+  @apply absolute z-10 top-9 left-12 xl:top-64 lg:top-48 md:top-20 sm:left-20 cursor-pointer;
 }
 .slide {
   @apply min-w-full;
