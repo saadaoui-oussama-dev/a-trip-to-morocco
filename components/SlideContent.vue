@@ -23,7 +23,6 @@ img {
 }
 .info {
   @apply w-full h-1/2 py-28 sm:py-0 sm:h-auto sm:w-1/2;
-  background-image: url('../assets/bg-slider.png');
 }
 .parent {
   @apply flex flex-col justify-center h-full pl-12 pr-5 sm:pl-20 sm:pr-10 gap-6;

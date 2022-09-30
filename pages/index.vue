@@ -29,7 +29,7 @@ export default {
 
 <style scoped>
 .section-7 {
-  @apply w-full flex justify-center bg-albescent;
+  @apply w-full max-w-page m-auto flex justify-center bg-albescent;
   background: url(~/assets/noise-cotton.svg), linear-gradient(to bottom, #F7EBDB 50%, #FFF 50%);
 }
 .section-7 .content {

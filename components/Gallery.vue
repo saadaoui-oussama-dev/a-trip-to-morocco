@@ -18,7 +18,7 @@ export default {
 
 <style scoped>
 .gallery {
-  @apply w-full px-2 flex justify-center bg-kashmir;
+  @apply w-full max-w-page m-auto px-2 flex justify-center bg-kashmir;
   background-image: url(~/assets/noise-kashmir.svg);
   @apply sm:px-6 lg:px-10;
 }
