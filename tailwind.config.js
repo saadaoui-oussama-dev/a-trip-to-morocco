@@ -17,6 +17,11 @@ module.exports = {
         '152': '38rem',
         '184': '46rem',
       },
+      spacing: {
+        '144': '36rem',
+        '192': '48rem',
+        '212': '53rem',
+      },
       maxWidth: {
         'page': '90rem',
       }
