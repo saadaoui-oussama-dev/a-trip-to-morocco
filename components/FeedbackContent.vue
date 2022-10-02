@@ -1,9 +1,9 @@
 <template lang="pug">
 .slide
   img(:src="slideInfo.img")
-  .content
-    p.feedback {{slideInfo.feedback}}
-    p.writer {{slideInfo.writer}}
+  div
+    p {{ slideInfo.feedback }}
+    p.text-stone.mb-0 {{ slideInfo.writer }}
 
 </template>
 
@@ -21,13 +21,7 @@ export default {
 img {
   @apply px-4 lg:px-16 sm:px-12;
 }
-.content {
-  @apply flex flex-col gap-4 items-center;
-}
 p {
   @apply text-center text-xs;
-}
-.writer {
-  @apply text-stone;
 }
 </style>

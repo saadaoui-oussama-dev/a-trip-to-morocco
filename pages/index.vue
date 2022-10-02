@@ -19,12 +19,13 @@ div
 export default {
   name: 'IndexPage',
   async asyncData({ store }) {
-    let trips = await store.dispatch('trips/SET_PRIVATE_TRIPS')
-    trips = await store.dispatch('trips/SET_DAY_TRIPS')
-    trips = await store.dispatch('trips/SET_ACTIVITIES')
-    let gallery = await store.dispatch('gallery/SET_GALLERY')
-    let cities = await store.dispatch('cities/SET_CITIES')
-    let slides = await store.dispatch('slider/SET_SLIDES')
+    let privateTrips = await store.dispatch('trips/SET_PRIVATE_TRIPS'),
+      slides = await store.dispatch('slider/SET_SLIDES'),
+      dayTrips = await store.dispatch('trips/SET_DAY_TRIPS'),
+      activities = await store.dispatch('trips/SET_ACTIVITIES'),
+      gallery = await store.dispatch('gallery/SET_GALLERY'),
+      feedback = await store.dispatch('feedback/SET_FEEDBACKS'),
+      cities = await store.dispatch('cities/SET_CITIES')
   },
 }
 </script>

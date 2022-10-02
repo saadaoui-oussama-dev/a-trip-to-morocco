@@ -1,11 +1,14 @@
 <template lang="pug">
 .feedback
   .slider
-    iconsArrowUpFb.iconsArrowUp(@click.native="slideNext")
-    hooper.hooper(:touchDrag="false" :mouseDrag="false" :wheelControl="false" :shortDrag="false" :keysControl="false" :settings="hooperSettings" :style="'height:'+height+'px;'" ref="carousel" @slide="updateCarousel")
-      slide.slide(v-for="(slideInfo, index) in slides" :key="index")
+    iconsArrowUpFb.arrow-up(@click.native="slideNext")
+    hooper(
+      :style="`height: ${height}px;`" :settings="hooperSettings" ref="carousel" @slide="updateCarousel"
+      :touchDrag="false" :mouseDrag="false" :wheelControl="false" :shortDrag="false" :keysControl="false"
+    )
+      slide.slide(v-for="(slideInfo, index) in $store.getters['feedback/GET_FEEDBACKS']" :key="index")
         FeedbackContent(:slideInfo="slideInfo" v-resize="setHeight" ref="slide")
-    iconsArrowDownFb.iconsArrowDown(@click.native="slidePrev")
+    iconsArrowDownFb.arrow-down(@click.native="slidePrev")
 </template>
 
 <script>
@@ -20,6 +23,7 @@ Vue.directive('resize', {
     })
   },
 })
+
 export default {
   name: 'FeedbackComponent',
   components: {
@@ -28,38 +32,6 @@ export default {
   },
   data() {
     return {
-      slides: [
-        {
-          img: 'feedback.png',
-          feedback:
-            'Our guide Mohammed,  Salem the driver and Brahim our desert friend were very helpful and took care of everything to make this trip special. We had a great experience and great fun. Definitely one to remember!! I can assure you that Best Travel is the best in organizing these tours. Thank You from Chris, Sasha, Jonathan and Melanie from Malta.',
-          writer: 'Chris Do.',
-        },
-        {
-          img: 'feedback.png',
-          feedback:
-            'Our guide Mohammed, Salem the driver and Brahim our desert friend were very helpful and took care of everything to make this trip special. We had a great experience and great fun. Definitely one to remember!! I can assure you that Best Travel is the best in organizing these tours. Thank You from Chris, Sasha, Jonathan and Melanie from Malta.',
-          writer: 'Chris Do.',
-        },
-        {
-          img: 'feedback.png',
-          feedback:
-            'Our guide Mohammed, Salem the driver and Brahim our desert friend were very helpful and took care of everything to make this trip special. We had a great experience and great fun. Definitely one to remember!! I can assure you that Best Travel is the best in organizing these tours. Thank You from Chris, Sasha, Jonathan and Melanie from Malta.',
-          writer: 'Chris Do.',
-        },
-        {
-          img: 'feedback.png',
-          feedback:
-            'Our guide Mohammed, Salem the driver and Brahim our desert friend were very helpful and took care of everything to make this trip special. We had a great experience and great fun. Definitely one to remember!! I can assure you that Best Travel is the best in organizing these tours. Thank You from Chris, Sasha, Jonathan and Melanie from Malta.',
-          writer: 'Chris Do.',
-        },
-        {
-          img: 'feedback.png',
-          feedback:
-            'Our guide Mohammed, Salem the driver and Brahim our desert friend were very helpful and took care of everything to make this trip special. We had a great experience and great fun. Definitely one to remember!! I can assure you that Best Travel is the best in organizing these tours. Thank You from Chris, Sasha, Jonathan and Melanie from Malta.',
-          writer: 'Chris Do.',
-        },
-      ],
       hooperSettings: {
         itemsToShow: 1,
         vertical: 'true',
@@ -103,8 +75,8 @@ export default {
 .slider {
   @apply flex flex-col items-center gap-10;
 }
-.iconsArrowDown,
-.iconsArrowUp {
+.arrow-down,
+.arrow-up {
   @apply h-20 text-xl cursor-pointer;
 }
 </style>

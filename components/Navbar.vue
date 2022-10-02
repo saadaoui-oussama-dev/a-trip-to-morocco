@@ -16,7 +16,7 @@
       .ant-btn.glass Guided Tours
       .ant-btn.glass Activities
       .ant-btn.glass About Us
-      .ant-btn.heath.contact-us contact Us
+      .ant-btn.heath.contact-us Contact Us
       .flex-grow(class="lg:hidden" @click="toggleOptions")
 </template>
 

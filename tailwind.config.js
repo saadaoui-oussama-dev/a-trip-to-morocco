@@ -25,6 +25,9 @@ module.exports = {
       },
       maxWidth: {
         'page': '90rem',
+      },
+      padding: {
+        '112': '28rem',
       }
     },
   },
