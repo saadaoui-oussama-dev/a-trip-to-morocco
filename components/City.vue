@@ -18,7 +18,7 @@ export default {
 
 <style scoped>
 .city {
-  @apply relative min-h-184 sm:min-h-152 lg:min-h-184;
+  @apply relative min-h-184 sm:min-h-152 lg:min-h-184 xl:min-h-248;
 }
 .image {
   @apply w-full h-full absolute bg-cover bg-center;

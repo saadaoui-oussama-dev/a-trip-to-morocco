@@ -59,7 +59,7 @@ export default {
   background: url(~/assets/noise-cotton.svg), linear-gradient(to bottom, #F7EBDB 50%, #FFF 50%);
 }
 .section-7 .content {
-  @apply w-full max-w-6xl grid grid-cols-1 sm:grid-cols-2;
+  @apply w-full max-w-page grid grid-cols-1 sm:grid-cols-2;
 }
 @media (min-width: 640px) {
   .section-7 {

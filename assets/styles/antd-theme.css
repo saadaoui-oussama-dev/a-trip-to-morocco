@@ -156,16 +156,22 @@ body {
 }
 textarea,
 input {
-  @apply w-full py-3 px-2 border-none rounded-none outline-none text-base;
+  @apply w-full border-none rounded-none outline-none text-xs;
+  @apply px-2 py-3 md:py-2 lg:py-3;
   background-color: #E8E8E8;
   color: #8B8B8B;
   resize: none;
+}
+textarea::placeholder,
+input::placeholder {
+  @apply text-xs;
+  color: #9b9898;
 }
 input:focus,
 textarea:focus,
 input:active,
 textarea:active {
-  background-color: #f5efef;
+  background-color: #f8f0f0;
 }
 .kashmir .text-colored {
   @apply text-kashmir;

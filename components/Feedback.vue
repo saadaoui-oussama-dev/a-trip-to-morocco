@@ -98,7 +98,7 @@ export default {
 <style scoped>
 .feedback {
   @apply flex items-center min-h-184 py-24;
-  @apply sm:min-h-152 lg:min-h-184;
+  @apply sm:min-h-152 lg:min-h-184 xl:min-h-248;
 }
 .slider {
   @apply flex flex-col items-center gap-10;
