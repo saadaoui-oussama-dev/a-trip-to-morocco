@@ -13,7 +13,7 @@
 @box-shadow-base: 0 2px 8px rgba(0, 0, 0, 0.15); // major shadow for layers */
 
 :root {
-  --lessui-default-color: #3E0E1A;
+  --lessui-default-color: #3D0E1B;
   --primary-color: var(--lessui-default-color);
   --secondary-color: #ffa069;
   --tertiary-color: #555c69;
@@ -76,57 +76,127 @@ body {
 .ant-btn {
   height: auto;
   border: none;
-  color: #fff;
+  color: #F7EBDB;
   border-radius: 0px;
+  box-shadow: none;
 }
 .heath .ant-btn {
-  background-color: #3E0E1A;
+  background-color: #3D0E1B;
 }
 .kashmir .ant-btn {
   background-color: #4D5A8E;
 }
-.stone .ant-btn {
+.teal .ant-btn {
   background-color: #025B63;
+}
+.glass .ant-btn {
+  background-color: #3D0E1B00;
+  color: #3D0E1B;
 }
 .heath .ant-btn:hover,
 .heath .ant-btn:focus,
 .heath .ant-btn:active {
   background: #33141c;
-  color: #fff;
+  color: #F7EBDB;
 }
 .kashmir .ant-btn:hover,
 .kashmir .ant-btn:focus,
 .kashmir .ant-btn:active {
   background: #3b456d;
-  color: #fff;
+  color: #F7EBDB;
 }
-.stone .ant-btn:hover,
-.stone .ant-btn:focus,
-.stone .ant-btn:active {
+.teal .ant-btn:hover,
+.teal .ant-btn:focus,
+.teal .ant-btn:active {
   background: #06484e;
-  color: #fff;
+  color: #F7EBDB;
+}
+.glass .ant-btn:hover,
+.glass .ant-btn:focus,
+.glass .ant-btn:active {
+  background: #3D0E1B10;
+  color: #3D0E1B;
 }
 .ant-btn.heath {
-  background-color: #3E0E1A;
+  background-color: #3D0E1B;
 }
 .ant-btn.kashmir {
   background-color: #4D5A8E;
 }
-.ant-btn.stone {
+.ant-btn.teal {
   background-color: #025B63;
+}
+.ant-btn.glass {
+  background-color: #3D0E1B00;
+  color: #3D0E1B;
 }
 .ant-btn.heath:hover,
 .ant-btn.heath:focus,
 .ant-btn.heath:active {
   background: #33141c;
+  color: #F7EBDB;
 }
 .ant-btn.kashmir:hover,
 .ant-btn.kashmir:focus,
 .ant-btn.kashmir:active {
   background: #3b456d;
+  color: #F7EBDB;
 }
-.ant-btn.stone:hover,
-.ant-btn.stone:focus,
-.ant-btn.stone:active {
+.ant-btn.teal:hover,
+.ant-btn.teal:focus,
+.ant-btn.teal:active {
   background: #06484e;
+  color: #F7EBDB;
+}
+.ant-btn.glass:hover,
+.ant-btn.glass:focus,
+.ant-btn.glass:active {
+  background: #3D0E1B10;
+  color: #3D0E1B;
+}
+textarea,
+input {
+  @apply w-full border-none rounded-none outline-none text-xs;
+  @apply px-2 py-3 md:py-2 lg:py-3;
+  background-color: #E8E8E8;
+  color: #8B8B8B;
+  resize: none;
+}
+textarea::placeholder,
+input::placeholder {
+  @apply text-xs;
+  color: #9b9898;
+}
+input:focus,
+textarea:focus,
+input:active,
+textarea:active {
+  background-color: #f8f0f0;
+}
+.kashmir .text-colored {
+  @apply text-kashmir;
+}
+.kashmir .border-colored {
+  @apply border-kashmir;
+}
+.kashmir .bg-colored {
+  @apply bg-kashmir;
+}
+.teal .text-colored {
+  @apply text-teal;
+}
+.teal .border-colored {
+  @apply border-teal;
+}
+.teal .bg-colored {
+  @apply bg-teal;
+}
+.heath .text-colored {
+  @apply text-heath;
+}
+.heath .border-colored {
+  @apply border-heath;
+}
+.heath .bg-colored {
+  @apply bg-heath;
 }

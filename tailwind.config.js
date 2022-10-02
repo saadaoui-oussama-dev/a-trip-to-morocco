@@ -6,13 +6,26 @@ module.exports = {
     },
     extend: {
       colors: {
-        heath: '#3E0E1A',
+        heath: '#3D0E1B',
         albescent: '#F7EBDB',
         cotton: '#FFFBF6',
         kashmir: '#4D5A8E',
         teal: '#025B63',
         stone: '#464646',
       },
+      minHeight: {
+        '152': '38rem',
+        '184': '46rem',
+        '248': '62rem',
+      },
+      spacing: {
+        '144': '36rem',
+        '192': '48rem',
+        '212': '53rem',
+      },
+      maxWidth: {
+        'page': '90rem',
+      }
     },
   },
 }
