@@ -4,7 +4,8 @@
   .content
     div
       h3.title.text-colored {{ post.title }}
-      p.description {{description }}
+      p.description(class="sm:hidden") {{ description[0] }}
+      p.description(class="hidden sm:block") {{ description[1] }}
     .info
       .price-parent
         span.text-colored STARTING FROM
@@ -19,27 +20,23 @@ export default {
   props: ['post'],
   data() {
     return {
-      description: null,
+      description: [],
     }
   },
-  methods: {
-    fillter() {
-      if (this.post.description.length > 200) {
-        this.description = this.post.description.substring(0, 200) + '...'
-      } else {
-        this.description = this.post.description
-      }
-    },
-  },
   created() {
-    this.fillter()
+    this.description[0] = this.post.description.length > 100
+      ? this.post.description.substring(0, 100).trim() + '...'
+      : this.post.description
+    this.description[1] = this.post.description.length > 180
+      ? this.post.description.substring(0, 180).trim() + '...'
+      : this.post.description
   },
 }
 </script>
 
 <style scoped>
 .post {
-  @apply flex flex-col gap-6;
+  @apply flex flex-col gap-2 sm:gap-4;
 }
 .content {
   @apply px-2 max-h-80 sm:max-w-sm overflow-hidden flex flex-col justify-between flex-grow;
@@ -55,7 +52,7 @@ export default {
   @apply md:text-2xl sm:text-xl;
 }
 .description {
-  @apply text-xs text-stone mb-3;
+  @apply text-xs text-stone mb-1;
 }
 .info {
   @apply flex flex-col gap-2 sm:flex-row sm:gap-0 justify-between;
