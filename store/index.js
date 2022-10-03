@@ -1,6 +1,6 @@
 export const state = () => ({
   app: {
-    name: 'A Trip To Morroco',
+    name: 'A Trip To Morocco',
   },
 })
 
