@@ -72,10 +72,11 @@ export default {
 .iconsArrowDown {
   @apply absolute hidden sm:block z-10;
   @apply top-12 lg:top-20 left-12 sm:left-12 lg:left-20;
+  rotate: 180deg;
 }
 .iconsArrowRight {
   @apply absolute bottom-0 left-9 pt-1 z-10 block sm:hidden;
-  rotate: -90deg;
+  rotate: 90deg;
 }
 .pagination {
   @apply w-max hidden sm:block left-12 p-0;
