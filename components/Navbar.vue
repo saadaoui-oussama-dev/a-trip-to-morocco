@@ -33,7 +33,7 @@ export default {
 
 <style scoped>
 .navbar {
-  @apply w-full px-2 sm:px-6 lg:px-10 sticky -top-4 lg:-top-6 z-50 flex justify-center bg-albescent;
+  @apply w-full px-2 sm:px-6 lg:px-10 sticky -top-4 lg:-top-6 z-40 flex justify-center bg-albescent;
 }
 .nav-top {
   @apply w-full max-w-6xl pt-7 pb-3 lg:pt-10 lg:pb-4 flex justify-between items-center;

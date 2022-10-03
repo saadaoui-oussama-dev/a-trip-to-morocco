@@ -7,6 +7,7 @@ div
   PostsList(title='Our Day Trips' list='DAY_TRIPS')
   PostsList(title='Our Activities' list='ACTIVITIES')
   Gallery
+  GallerySlider
   .section-7
     .content
       Feedback
