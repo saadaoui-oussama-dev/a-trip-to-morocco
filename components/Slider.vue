@@ -63,7 +63,8 @@ export default {
 <style scoped>
 .slider {
   background-image: url('~/assets/noise-teal.png');
-  @apply w-full max-w-page m-auto flex justify-center bg-teal sm:bg-none sm:bg-transparent;
+  @apply w-full max-w-page m-auto flex justify-center bg-teal mt-10;
+  @apply sm:bg-none sm:bg-transparent sm:mt-12 md:mt-20;
 }
 .content {
   @apply w-full max-w-6xl relative;
