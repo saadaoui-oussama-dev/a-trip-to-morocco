@@ -33,17 +33,9 @@ export default {
 
 <style scoped>
 .section-7 {
-  @apply w-full max-w-page m-auto flex justify-center bg-albescent;
-  background: url(~/assets/noise-cotton.svg),
-    linear-gradient(to bottom, #f7ebdb 50%, #fff 50%);
+  @apply w-full max-w-page m-auto flex justify-center;
 }
 .section-7 .content {
   @apply w-full max-w-page grid grid-cols-1 sm:grid-cols-2;
-}
-@media (min-width: 640px) {
-  .section-7 {
-    background: url(~/assets/noise-cotton.svg),
-      linear-gradient(to right, #f7ebdb 50%, #fff 50%);
-  }
 }
 </style>
