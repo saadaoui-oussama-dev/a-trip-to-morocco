@@ -1,10 +1,9 @@
 <template lang="pug">
 .slide
-  img(:src="slideInfo.img")
-  .content
-    p.feedback {{slideInfo.feedback}}
-    p.writer {{slideInfo.writer}}
-
+  .img(:style="`background-image: url('${slideInfo.img}')`")
+  div
+    p {{ slideInfo.feedback }}
+    p.text-stone.mb-0 {{ slideInfo.writer }}
 </template>
 
 <script>
@@ -18,16 +17,10 @@ export default {
 .slide {
   @apply flex flex-col gap-10 items-center px-8 lg:px-12 sm:px-6;
 }
-img {
-  @apply px-4 lg:px-16 sm:px-12;
-}
-.content {
-  @apply flex flex-col gap-4 items-center;
+.img {
+  @apply bg-cover bg-center w-64 h-40 lg:w-80 lg:h-48;
 }
 p {
   @apply text-center text-xs;
-}
-.writer {
-  @apply text-stone;
 }
 </style>

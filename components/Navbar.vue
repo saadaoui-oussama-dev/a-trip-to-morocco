@@ -1,5 +1,5 @@
 <template lang="pug">
-.navbar
+#navbar
   .nav-top(ref="navTop")
     .icons
       iconsLogo
@@ -12,28 +12,63 @@
     iconsMore.more(@click.native="toggleOptions")
     .back(@click="toggleOptions")
     .pages
-      .ant-btn.glass Private Tours
-      .ant-btn.glass Guided Tours
-      .ant-btn.glass Activities
-      .ant-btn.glass About Us
-      .ant-btn.heath.contact-us contact Us
+      .ant-btn.under(
+        @click="goTo('#private-trips')"
+        :class="{ current: currentSection == '#private-trips' }"
+      ) Private Tours
+      .ant-btn.under(
+        @click="goTo('#day-trips')"
+        :class="{ current: currentSection == '#day-trips' }"
+      ) Guided Tours
+      .ant-btn.under(
+        @click="goTo('#activities')"
+        :class="{ current: currentSection == '#activities' }"
+      ) Activities
+      .ant-btn.under About Us
+      .ant-btn.heath.contact-us(@click="goTo('#contact-us')") Contact Us
       .flex-grow(class="lg:hidden" @click="toggleOptions")
 </template>
 
 <script>
 export default {
 	name: 'NavbarComponent',
+  data() {
+    return {
+      currentSection: '',
+    }
+  },
   methods: {
     toggleOptions() {
       this.$refs.navTop.classList.toggle('visible')
     },
+    goTo(target) {
+      this.toggleOptions()
+      document.querySelector(target).scrollIntoView()
+    },
+    detectCurrantSection() {
+      let sections = ['#contact-us', '#activities', '#day-trips', '#private-trips'],
+        halfScreen = (window.innerHeight - document.querySelector('#navbar').getBoundingClientRect().bottom) / 2,
+        currentSection = ''
+      for (let section of sections) {
+        let top = document.querySelector(section).getBoundingClientRect().top,
+          bottom = document.querySelector(section).getBoundingClientRect().bottom
+        if (top <= halfScreen) {
+          currentSection = (bottom <= halfScreen) ? '' : section
+          break
+        }
+      }
+      this.currentSection = currentSection;
+    },
+  },
+  async mounted() {
+    document.addEventListener('scroll', this.detectCurrantSection)
   }
 }
 </script>
 
 <style scoped>
-.navbar {
-  @apply w-full px-2 sm:px-6 lg:px-10 sticky -top-4 lg:-top-6 z-50 flex justify-center bg-albescent;
+#navbar {
+  @apply w-full px-2 sm:px-6 lg:px-10 sticky -top-4 lg:-top-6 z-40 flex justify-center bg-albescent;
 }
 .nav-top {
   @apply w-full max-w-6xl pt-7 pb-3 lg:pt-10 lg:pb-4 flex justify-between items-center;
@@ -62,6 +97,20 @@ export default {
 }
 .pages .contact-us {
   @apply lg:py-2.5 lg:px-9;
+}
+.pages .under {
+  @apply bg-transparent text-heath;
+}
+.pages .under::after {
+  content: '';
+  @apply w-0 absolute bg-heath bottom-0 left-1/2;
+  height: 1px;
+  transform: translateX(-50%);
+}
+.pages .under:hover::after,
+.pages .ant-btn.current::after {
+  @apply w-4/5;
+  transition: width 0.15s;
 }
 .back {
   @apply w-0 h-screen fixed top-0 right-0;

@@ -4,9 +4,10 @@
     h1 Our Gallery
     .columns
       .group(v-for="(group, index) in $store.getters['gallery/GET_GALLERY']" :key="index")
-        figure.bg-cover.bg-center.m-0(
+        figure.bg-cover.bg-center.m-0.cursor-pointer(
           v-for="(image, index) in group" :key="'image' + index"
           :style="`background-image: url('${image.url}'); grid-area: ${image.coords};`"
+          @click="$nuxt.$emit('showSlider', image.id)"
         )
 </template>
 
@@ -18,9 +19,9 @@ export default {
 
 <style scoped>
 .gallery {
-  @apply w-full max-w-page m-auto px-2 flex justify-center bg-kashmir;
+  @apply w-full max-w-page m-auto mt-10 px-2 flex justify-center bg-kashmir;
   background-image: url(~/assets/noise-kashmir.svg);
-  @apply sm:px-6 lg:px-10;
+  @apply sm:px-6 lg:px-10 sm:mt-12 md:mt-20;
 }
 .content {
   @apply w-full max-w-6xl mt-10 pb-4;
@@ -34,7 +35,7 @@ h1 {
   @apply grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-5;
 }
 .group {
-  @apply grid grid-cols-2 grid-rows-3 gap-3 md:gap-5;
+  @apply grid grid-cols-2 gap-3 md:gap-5;
   grid-template-rows: repeat(3, minmax(0, 9rem));
 }
 </style>

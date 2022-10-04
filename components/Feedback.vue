@@ -1,25 +1,30 @@
 <template lang="pug">
 .feedback
   .slider
-    iconsArrowUpFb.iconsArrowUp(@click.native="slideNext")
-    hooper.hooper(:touchDrag="false" :mouseDrag="false" :wheelControl="false" :shortDrag="false" :keysControl="false" :settings="hooperSettings" :style="'height:'+height+'px;'" ref="carousel" @slide="updateCarousel")
-      slide.slide(v-for="(slideInfo, index) in slides" :key="index")
-        FeedbackContent(:slideInfo="slideInfo" v-resize="setHeight" ref="slide")
-    iconsArrowDownFb.iconsArrowDown(@click.native="slidePrev")
+    iconsArrowUpFb.arrow-up(@click.native='slideNext')
+    hooper(
+      :style='`height: ${height}px;`',
+      :settings='hooperSettings',
+      ref='carousel',
+      @slide='updateCarousel',
+      :touchDrag='false',
+      :mouseDrag='false',
+      :wheelControl='false',
+      :shortDrag='false',
+      :keysControl='false'
+    )
+      slide.slide(
+        v-for='(slideInfo, index) in $store.getters["feedback/GET_FEEDBACKS"]',
+        :key='index'
+      )
+        FeedbackContent(:slideInfo='slideInfo')
+    iconsArrowDownFb.arrow-down(@click.native='slidePrev')
 </template>
 
 <script>
 import { Hooper, Slide } from 'hooper'
 import '@/assets/styles/hooper.css'
-import Vue from 'vue'
-Vue.directive('resize', {
-  inserted(el, binding) {
-    const onResize = binding.value
-    window.addEventListener('resize', () => {
-      onResize(el.clientHeight)
-    })
-  },
-})
+
 export default {
   name: 'FeedbackComponent',
   components: {
@@ -28,38 +33,6 @@ export default {
   },
   data() {
     return {
-      slides: [
-        {
-          img: 'feedback.png',
-          feedback:
-            'Our guide Mohammed,  Salem the driver and Brahim our desert friend were very helpful and took care of everything to make this trip special. We had a great experience and great fun. Definitely one to remember!! I can assure you that Best Travel is the best in organizing these tours. Thank You from Chris, Sasha, Jonathan and Melanie from Malta.',
-          writer: 'Chris Do.',
-        },
-        {
-          img: 'feedback.png',
-          feedback:
-            'Our guide Mohammed, Salem the driver and Brahim our desert friend were very helpful and took care of everything to make this trip special. We had a great experience and great fun. Definitely one to remember!! I can assure you that Best Travel is the best in organizing these tours. Thank You from Chris, Sasha, Jonathan and Melanie from Malta.',
-          writer: 'Chris Do.',
-        },
-        {
-          img: 'feedback.png',
-          feedback:
-            'Our guide Mohammed, Salem the driver and Brahim our desert friend were very helpful and took care of everything to make this trip special. We had a great experience and great fun. Definitely one to remember!! I can assure you that Best Travel is the best in organizing these tours. Thank You from Chris, Sasha, Jonathan and Melanie from Malta.',
-          writer: 'Chris Do.',
-        },
-        {
-          img: 'feedback.png',
-          feedback:
-            'Our guide Mohammed, Salem the driver and Brahim our desert friend were very helpful and took care of everything to make this trip special. We had a great experience and great fun. Definitely one to remember!! I can assure you that Best Travel is the best in organizing these tours. Thank You from Chris, Sasha, Jonathan and Melanie from Malta.',
-          writer: 'Chris Do.',
-        },
-        {
-          img: 'feedback.png',
-          feedback:
-            'Our guide Mohammed, Salem the driver and Brahim our desert friend were very helpful and took care of everything to make this trip special. We had a great experience and great fun. Definitely one to remember!! I can assure you that Best Travel is the best in organizing these tours. Thank You from Chris, Sasha, Jonathan and Melanie from Malta.',
-          writer: 'Chris Do.',
-        },
-      ],
       hooperSettings: {
         itemsToShow: 1,
         vertical: 'true',
@@ -67,10 +40,24 @@ export default {
         infiniteScroll: 'true',
         transition: '750',
       },
-      height: 1000,
+      height: null,
     }
   },
   methods: {
+    async setHeight() {
+      let width = parseFloat(getComputedStyle(document.body).width)
+      if (width < 640) {
+        this.height = 400
+      } else if (width < 768) {
+        this.height = 350
+      } else if (width < 1024) {
+        this.height = 400
+      } else if (width < 1280) {
+        this.height = 400
+      } else {
+        this.height = 500
+      }
+    },
     slideNext() {
       this.$refs.carousel.slideNext()
     },
@@ -78,33 +65,30 @@ export default {
       this.$refs.carousel.slidePrev()
     },
     updateCarousel(payload) {
+      this.setHeight()
       this.myCarouselData = payload.currentSlide
     },
-    setHeight(height) {
-      this.height = height
-    },
-    getHeight() {
-      this.height = this.$refs.slide[0].$el.clientHeight
-    },
   },
-  mounted() {
-    setTimeout(() => {
-      this.getHeight()
-    }, 500)
+  created() {
+    this.setHeight()
   },
 }
 </script>
 
 <style scoped>
 .feedback {
-  @apply flex items-center min-h-184 py-24;
+  @apply flex items-center min-h-184 py-24 bg-albescent;
   @apply sm:min-h-152 lg:min-h-184 xl:min-h-248;
+  background-image: url(~/assets/noise-cotton.svg);
+}
+li {
+  @apply flex items-center;
 }
 .slider {
   @apply flex flex-col items-center gap-10;
 }
-.iconsArrowDown,
-.iconsArrowUp {
+.arrow-down,
+.arrow-up {
   @apply h-20 text-xl cursor-pointer;
 }
 </style>

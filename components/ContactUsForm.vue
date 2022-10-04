@@ -1,5 +1,5 @@
 <template lang="pug">
-.contact-us-form
+#contact-us
   div.px-5
     h1 Cantact Us
     .contacts
@@ -16,11 +16,17 @@
   div.form
     .info.mb-4
       div
-        p FULL NAME
-        input(placeholder="FULL NAME")
+        p FIRST NAME
+        input(placeholder="FIRST NAME")
+      div
+        p LAST NAME
+        input(placeholder="LAST NAME")
       div
         p EMAIL
         input(placeholder="EMAIL")
+      div
+        p PHONE
+        input(placeholder="PHONE")
     .message.mb-4
       div
         p MESSAGE
@@ -35,10 +41,11 @@ export default {
 </script>
 
 <style scoped>
-.contact-us-form {
-  @apply flex justify-center items-center flex-col overflow-hidden;
+#contact-us {
+  @apply flex justify-center items-center flex-col overflow-hidden bg-white;
   @apply min-h-184 sm:min-h-152 lg:min-h-184 xl:min-h-248;
-  @apply px-8 sm:px-4 md:px-3 lg:px-16;
+  @apply py-4 px-8 sm:px-4 md:px-3 lg:px-16;
+  background-image: url(~/assets/noise-cotton.svg);
 }
 h1 {
   @apply text-2xl text-center mb-2 text-heath;
@@ -68,10 +75,15 @@ svg {
   @apply grid grid-cols-1 md:grid-cols-2 gap-3;
 }
 .form p {
-  @apply mb-0.5 px-2;
+  @apply mb-0.5 text-xs;
 }
 .form .ant-btn {
-  @apply w-28 py-1 px-4 absolute right-0 bg-albescent text-base text-heath;
+  @apply w-28 py-1 px-4 float-right bg-albescent text-base text-heath;
   @apply sm:py-1.5 sm:px-4;
+}
+.form .ant-btn:hover,
+.form .ant-btn:active,
+.form .ant-btn:focus {
+  background-color: #f8e1c3;
 }
 </style>

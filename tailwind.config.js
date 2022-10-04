@@ -19,12 +19,16 @@ module.exports = {
         '248': '62rem',
       },
       spacing: {
+        '9.5': '2.375rem',
         '144': '36rem',
         '192': '48rem',
         '212': '53rem',
       },
       maxWidth: {
         'page': '90rem',
+      },
+      padding: {
+        '112': '28rem',
       }
     },
   },

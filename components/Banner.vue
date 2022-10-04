@@ -25,7 +25,7 @@ export default {
 
 <style scoped>
 .banner {
-  @apply w-full max-w-page m-auto flex justify-center bg-albescent overflow-hidden;
+  @apply w-full flex justify-center bg-albescent overflow-hidden;
   @apply px-2 sm:px-6 lg:px-10;
 }
 .content {

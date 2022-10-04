@@ -1,5 +1,5 @@
 <template lang="pug">
-.list
+.list(:id="list == 'PRIVATE_TRIPS' ? 'private-trips' : list == 'DAY_TRIPS' ? 'day-trips' : 'activities'")
   .content(:class="{heath: list == 'PRIVATE_TRIPS', teal: list == 'DAY_TRIPS', kashmir: list == 'ACTIVITIES' }")
     h2.title.text-colored {{ title }}
     .posts
@@ -43,8 +43,8 @@ export default {
   @apply sm:px-6 lg:px-10;
 }
 .content {
-  @apply w-full max-w-6xl mt-10 pb-14;
-  @apply sm:pb-24 sm:mt-12 md:mt-16;
+  @apply w-full max-w-6xl mt-10;
+  @apply sm:mt-12 md:mt-20;
 }
 .title {
   @apply text-4xl mb-9;
