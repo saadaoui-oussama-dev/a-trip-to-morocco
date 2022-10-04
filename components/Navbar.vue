@@ -12,10 +12,19 @@
     iconsMore.more(@click.native="toggleOptions")
     .back(@click="toggleOptions")
     .pages
-      .ant-btn.glass(@click="goTo('#private-trips')") Private Tours
-      .ant-btn.glass(@click="goTo('#day-trips')") Guided Tours
-      .ant-btn.glass(@click="goTo('#activities')") Activities
-      .ant-btn.glass About Us
+      .ant-btn.under(
+        @click="goTo('#private-trips')"
+        :class="{ current: currentSection == '#private-trips' }"
+      ) Private Tours
+      .ant-btn.under(
+        @click="goTo('#day-trips')"
+        :class="{ current: currentSection == '#day-trips' }"
+      ) Guided Tours
+      .ant-btn.under(
+        @click="goTo('#activities')"
+        :class="{ current: currentSection == '#activities' }"
+      ) Activities
+      .ant-btn.under About Us
       .ant-btn.heath.contact-us(@click="goTo('#contact-us')") Contact Us
       .flex-grow(class="lg:hidden" @click="toggleOptions")
 </template>
@@ -23,6 +32,11 @@
 <script>
 export default {
 	name: 'NavbarComponent',
+  data() {
+    return {
+      currentSection: '',
+    }
+  },
   methods: {
     toggleOptions() {
       this.$refs.navTop.classList.toggle('visible')
@@ -43,7 +57,7 @@ export default {
           break
         }
       }
-      console.log(currentSection);
+      this.currentSection = currentSection;
     },
   },
   async mounted() {
@@ -83,6 +97,20 @@ export default {
 }
 .pages .contact-us {
   @apply lg:py-2.5 lg:px-9;
+}
+.pages .under {
+  @apply bg-transparent text-heath;
+}
+.pages .under::after {
+  content: '';
+  @apply w-0 absolute bg-heath bottom-0 left-1/2;
+  height: 1px;
+  transform: translateX(-50%);
+}
+.pages .under:hover::after,
+.pages .ant-btn.current::after {
+  @apply w-4/5;
+  transition: width 0.15s;
 }
 .back {
   @apply w-0 h-screen fixed top-0 right-0;
