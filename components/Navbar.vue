@@ -31,7 +31,24 @@ export default {
       this.toggleOptions()
       document.querySelector(target).scrollIntoView()
     },
+    detectCurrantSection() {
+      let sections = ['#contact-us', '#activities', '#day-trips', '#private-trips'],
+        halfScreen = (window.innerHeight - document.querySelector('#navbar').getBoundingClientRect().bottom) / 2,
+        currentSection = ''
+      for (let section of sections) {
+        let top = document.querySelector(section).getBoundingClientRect().top,
+          bottom = document.querySelector(section).getBoundingClientRect().bottom
+        if (top <= halfScreen) {
+          currentSection = (bottom <= halfScreen) ? '' : section
+          break
+        }
+      }
+      console.log(currentSection);
+    },
   },
+  async mounted() {
+    document.addEventListener('scroll', this.detectCurrantSection)
+  }
 }
 </script>
 
