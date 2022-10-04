@@ -1,5 +1,5 @@
 <template lang="pug">
-.navbar
+#navbar
   .nav-top(ref="navTop")
     .icons
       iconsLogo
@@ -12,11 +12,11 @@
     iconsMore.more(@click.native="toggleOptions")
     .back(@click="toggleOptions")
     .pages
-      .ant-btn.glass Private Tours
-      .ant-btn.glass Guided Tours
-      .ant-btn.glass Activities
+      .ant-btn.glass(@click="goTo('#private-trips')") Private Tours
+      .ant-btn.glass(@click="goTo('#day-trips')") Guided Tours
+      .ant-btn.glass(@click="goTo('#activities')") Activities
       .ant-btn.glass About Us
-      .ant-btn.heath.contact-us Contact Us
+      .ant-btn.heath.contact-us(@click="goTo('#contact-us')") Contact Us
       .flex-grow(class="lg:hidden" @click="toggleOptions")
 </template>
 
@@ -27,12 +27,16 @@ export default {
     toggleOptions() {
       this.$refs.navTop.classList.toggle('visible')
     },
-  }
+    goTo(target) {
+      this.toggleOptions()
+      document.querySelector(target).scrollIntoView()
+    },
+  },
 }
 </script>
 
 <style scoped>
-.navbar {
+#navbar {
   @apply w-full px-2 sm:px-6 lg:px-10 sticky -top-4 lg:-top-6 z-40 flex justify-center bg-albescent;
 }
 .nav-top {

@@ -1,5 +1,5 @@
 <template lang="pug">
-.list
+.list(:id="list == 'PRIVATE_TRIPS' ? 'private-trips' : list == 'DAY_TRIPS' ? 'day-trips' : 'activities'")
   .content(:class="{heath: list == 'PRIVATE_TRIPS', teal: list == 'DAY_TRIPS', kashmir: list == 'ACTIVITIES' }")
     h2.title.text-colored {{ title }}
     .posts

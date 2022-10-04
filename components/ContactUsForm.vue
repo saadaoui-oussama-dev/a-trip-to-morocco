@@ -1,5 +1,5 @@
 <template lang="pug">
-.contact-us-form
+#contact-us
   div.px-5
     h1 Cantact Us
     .contacts
@@ -41,7 +41,7 @@ export default {
 </script>
 
 <style scoped>
-.contact-us-form {
+#contact-us {
   @apply flex justify-center items-center flex-col overflow-hidden;
   @apply min-h-184 sm:min-h-152 lg:min-h-184 xl:min-h-248;
   @apply my-4 px-8 sm:px-4 md:px-3 lg:px-16;
