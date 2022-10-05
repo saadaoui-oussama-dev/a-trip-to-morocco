@@ -12,7 +12,7 @@
         div
           iconsMessage
           p contact@atriptomoroco.com
-      iconsArrowDown(class="mb-10 sm:mb-4")
+      iconsArrowDown.mb-4
     .img-container
       div
 </template>
@@ -49,7 +49,7 @@ h1 {
   @apply sm:mb-9 md:mb-9 sm:py-3 sm:px-8;
 }
 .contacts {
-  @apply mb-32 sm:mb-20 flex items-center flex-col sm:items-start;
+  @apply mb-12 flex items-center flex-col sm:items-start;
 }
 .contacts div {
   @apply flex gap-1 items-center;
