@@ -24,6 +24,7 @@ export default {
     return {
       visible: false,
       currentImg: 1,
+      touch: {},
     }
   },
   computed: {
@@ -40,6 +41,8 @@ export default {
     hideSlider() {
       this.visible = false
       window.removeEventListener('resize' , this.resize)
+      document.body.children[0].removeEventListener('touchmove', this.dragging)
+      document.body.children[0].removeEventListener('touchstart', this.dragStart)
     },
     breakParentEvent(e) {
       e.stopPropagation()
@@ -69,7 +72,7 @@ export default {
         }, 170)
       }
     },
-    resize(repeat = true) {
+    resize() {
       try {
         let imgSize = [ this.$refs.image.naturalWidth, this.$refs.image.naturalHeight ],
           parentSize = [
@@ -79,12 +82,32 @@ export default {
           coefficient = Math.min(parentSize[0] / imgSize[0], parentSize[1] / imgSize[1])
         this.$refs.image.style.width = (100 * coefficient * imgSize[0] / parentSize[0]) + '%'
         this.$refs.image.style.height = (100 * coefficient * imgSize[1] / parentSize[1])  + '%'
-      } catch {
-        if (repeat) {
-          setTimeout(() => {
-            this.resize(false)
-          }, 100)
+      } catch {}
+    },
+    dragStart(e) {
+      if (e.touches.length === 1) {
+        this.touch.start = e.touches[0].pageX
+      }
+    },
+    dragging(e) {
+      e.preventDefault()
+      if (e.touches.length === 1) {
+        this.touch.end = e.touches[0].pageX
+        if ((this.touch.start - this.touch.end) / window.innerWidth > 0.1) {
+          this.slideNext()
+          document.body.children[0].addEventListener('touchend', this.dragEnd)
+          document.body.children[0].removeEventListener('touchmove', this.dragging)
+        } else if ((this.touch.start - this.touch.end) / window.innerWidth < -0.1) {
+          this.slidePrev()
+          document.body.children[0].addEventListener('touchend', this.dragEnd)
+          document.body.children[0].removeEventListener('touchmove', this.dragging)
         }
+      }
+    },
+    dragEnd(e) {
+      if (e.touches.length === 0) {
+        document.body.children[0].addEventListener('touchmove', this.dragging)
+        document.body.children[0].removeEventListener('touchend', this.dragEnd)
       }
     }
   },
@@ -94,9 +117,11 @@ export default {
       this.currentImg = imgId
       window.addEventListener('resize' , this.resize)
       this.resize()
-      setTimeout(() => {
+      setInterval(() => {
         this.resize()
-      }, 1)
+      }, 10)
+      document.body.children[0].addEventListener('touchstart', this.dragStart)
+      document.body.children[0].addEventListener('touchmove', this.dragging)
     })
   },
 }
@@ -133,7 +158,7 @@ export default {
   }
 }
 .arrow {
-  @apply w-8 h-8 absolute top-1/2 z-50 flex justify-center items-center rounded-full bg-kashmir cursor-pointer;
+  @apply hidden sm:flex w-8 h-8 absolute top-1/2 z-50 justify-center items-center rounded-full bg-kashmir cursor-pointer;
   background-image: url(~/assets/noise-kashmir.svg);
   transform: translateY(-50%);
 }
