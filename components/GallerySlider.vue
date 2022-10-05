@@ -57,14 +57,17 @@ export default {
       this.setActiveImage(imgId)
     },
     setActiveImage(imgId) {
-      this.$refs.image.style.opacity = 0.1
-      setTimeout(() => {
-        this.currentImg = imgId
-        this.$refs.image.style.opacity = 1
+      if (this.currentImg != imgId) {
+        this.$refs.image.style.opacity = 0.1
         setTimeout(() => {
+          this.currentImg = imgId
+          this.$refs.image.style.opacity = 1
           this.resize()
-        }, 2)
-      }, 170)
+          setTimeout(() => {
+            this.resize()
+          }, 1)
+        }, 170)
+      }
     },
     resize(repeat = true) {
       try {
@@ -90,6 +93,7 @@ export default {
       this.visible = true
       this.currentImg = imgId
       window.addEventListener('resize' , this.resize)
+      this.resize()
       setTimeout(() => {
         this.resize()
       }, 1)
@@ -146,14 +150,28 @@ export default {
   @apply w-3.5 h-3.5;
 }
 .footer {
-  @apply flex justify-around w-full sm:w-auto px-4 sm:px-0 absolute bottom-4 left-1/2 gap-0.5 sm:gap-1 md:gap-1.5;
+  max-width: 400px;
+  @apply flex justify-around w-full px-4 absolute bottom-4 left-1/2 gap-0.5;
+  @apply sm:max-w-full sm:w-auto sm:px-0 sm:gap-1 md:gap-1.5;
   transform: translateX(-50%);
 }
 .footer div {
-  @apply w-8 h-8 sm:w-11 sm:h-11 md:w-14 md:h-14 rounded-xl bg-cover bg-center bg-heath cursor-pointer;
+  @apply w-8 h-8 mx-auto relative rounded-lg bg-cover bg-center bg-heath cursor-pointer;
+  @apply sm:w-11 sm:h-11 md:w-14 md:h-14 sm:rounded-xl;
+  transition: width 0.3s ease-in-out, height 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }
 .footer div.active {
-  @apply border-heath;
-  border-width: 3px;
+  @apply w-7 h-7 sm:w-9 sm:h-9 md:w-11 md:h-11 ;
+}
+.footer div::after {
+  content: '';
+  @apply w-0 absolute -bottom-1 sm:-bottom-2 left-1/2 bg-white rounded-full;
+  height: 2px;
+  transform: translateX(-50%);
+  transition: width 0.1s ease-in-out;
+}
+.footer div.active::after {
+  @apply w-4/5;
+  transition: width 0.3s 0.3s ease-in-out;
 }
 </style>
