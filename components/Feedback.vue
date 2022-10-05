@@ -52,10 +52,8 @@ export default {
         this.height = 350
       } else if (width < 1024) {
         this.height = 400
-      } else if (width < 1280) {
-        this.height = 400
       } else {
-        this.height = 500
+        this.height = 400
       }
     },
     slideNext() {
