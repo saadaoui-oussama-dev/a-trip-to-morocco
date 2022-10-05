@@ -25,6 +25,7 @@ export default {
       visible: false,
       currentImg: 1,
       touch: {},
+      resizeInterval: null,
     }
   },
   computed: {
@@ -43,6 +44,7 @@ export default {
       window.removeEventListener('resize' , this.resize)
       document.body.children[0].removeEventListener('touchmove', this.dragging)
       document.body.children[0].removeEventListener('touchstart', this.dragStart)
+      clearInterval(this.resizeInterval)
     },
     breakParentEvent(e) {
       e.stopPropagation()
@@ -117,7 +119,7 @@ export default {
       this.currentImg = imgId
       window.addEventListener('resize' , this.resize)
       this.resize()
-      setInterval(() => {
+      this.resizeInterval = setInterval(() => {
         this.resize()
       }, 10)
       document.body.children[0].addEventListener('touchstart', this.dragStart)
