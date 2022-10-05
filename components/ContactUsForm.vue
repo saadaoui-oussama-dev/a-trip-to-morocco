@@ -7,7 +7,7 @@
         iconsPhone(color="#3D0E1B")
         span +212&nbsp;674&nbsp;271&nbsp;222
       div
-        iconsWhatsapp(color="#3D0E1B")
+        iconsWhatsapp.iconsWhatsapp(color="#3D0E1B")
         span +212&nbsp;674&nbsp;271&nbsp;222
       div
         iconsMessage(color="#3D0E1B")
@@ -67,6 +67,9 @@ svg {
 .address {
   @apply text-center text-xs mb-8 px-5;
   color: #333;
+}
+.iconsWhatsapp{
+  width: 14px;
 }
 .form {
   @apply w-full relative;

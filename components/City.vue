@@ -18,15 +18,15 @@ export default {
 
 <style scoped>
 .city {
-  @apply relative min-h-184 sm:min-h-152 lg:min-h-184 xl:min-h-248;
+  @apply relative min-h-184 flex flex-col sm:block sm:min-h-152 lg:min-h-184 xl:min-h-248;
 }
 .image {
-  @apply w-full h-full absolute bg-cover bg-center;
+  @apply w-full h-full sm:absolute bg-cover bg-center;
 }
 .centered {
-  @apply w-full h-full absolute flex justify-center items-center flex-col opacity-0 hover:opacity-100;
+  background-image: url("~/assets/zellige.svg");
+  @apply w-full h-3/5 py-8 sm:py-0 sm:h-full sm:bg-none bg-blend-overlay sm:absolute bg-heath sm:bg-city flex justify-center items-center flex-col sm:opacity-0 sm:hover:opacity-100;
   transition: opacity 0.5s, background-color 0.5s;
-  background-color: #00000080;
 }
 .centered > *:not(svg, .ant-btn) {
   @apply  text-albescent text-center;
@@ -39,11 +39,11 @@ h3 {
   @apply md:mb-2 md:px-10;
 }
 h1 {
-  @apply mb-5 px-5 text-3xl;
+  @apply mb-5 px-5 text-base sm:text-3xl;
   @apply md:px-10;
 }
 p {
-  @apply mb-4 px-16;
+  @apply  mb-4 px-8 sm:px-16;
   font-size: 11px;
 }
 .ant-btn {

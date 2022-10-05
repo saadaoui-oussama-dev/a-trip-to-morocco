@@ -96,19 +96,19 @@ body {
 .heath .ant-btn:hover,
 .heath .ant-btn:focus,
 .heath .ant-btn:active {
-  background: #33141c;
+  background: #63162b;
   color: #F7EBDB;
 }
 .kashmir .ant-btn:hover,
 .kashmir .ant-btn:focus,
 .kashmir .ant-btn:active {
-  background: #3b456d;
+  background: #54629c;
   color: #F7EBDB;
 }
 .teal .ant-btn:hover,
 .teal .ant-btn:focus,
 .teal .ant-btn:active {
-  background: #06484e;
+  background: #107b85;
   color: #F7EBDB;
 }
 .glass .ant-btn:hover,
@@ -133,19 +133,19 @@ body {
 .ant-btn.heath:hover,
 .ant-btn.heath:focus,
 .ant-btn.heath:active {
-  background: #33141c;
+  background: #63162b;
   color: #F7EBDB;
 }
 .ant-btn.kashmir:hover,
 .ant-btn.kashmir:focus,
 .ant-btn.kashmir:active {
-  background: #3b456d;
+  background: #54629c;
   color: #F7EBDB;
 }
 .ant-btn.teal:hover,
 .ant-btn.teal:focus,
 .ant-btn.teal:active {
-  background: #06484e;
+  background: #107b85;
   color: #F7EBDB;
 }
 .ant-btn.glass:hover,
