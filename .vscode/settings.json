@@ -4,5 +4,8 @@
     "nuxt",
     "unauthet"
   ],
-  "nuxt.isNuxtApp": true
+  "nuxt.isNuxtApp": true,
+  "i18n-ally.localesPaths": [
+    "D:/WahibWorks.dev/ATTM"
+  ]
 }

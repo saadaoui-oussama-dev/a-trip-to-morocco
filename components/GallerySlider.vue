@@ -45,6 +45,7 @@ export default {
       document.body.children[0].removeEventListener('touchmove', this.dragging)
       document.body.children[0].removeEventListener('touchstart', this.dragStart)
       clearInterval(this.resizeInterval)
+      this.enableScroll()
     },
     breakParentEvent(e) {
       e.stopPropagation()
@@ -111,6 +112,46 @@ export default {
         document.body.children[0].addEventListener('touchmove', this.dragging)
         document.body.children[0].removeEventListener('touchend', this.dragEnd)
       }
+    },
+    preventDefault(e) {
+      e.preventDefault()
+    },
+    preventScrollKeys(e) {
+      let keys = {37: 1, 38: 1, 39: 1, 40: 1}
+      if (keys[e.keyCode]) {
+        e.preventDefault()
+        return false
+      }
+    },
+    disableScroll() {
+      let supportsPassive = false
+      try {
+        window.addEventListener("test", null, Object.defineProperty({}, 'passive', {
+          get: function () { supportsPassive = true } 
+        }))
+      } catch(e) {}
+      let wheelOpt = supportsPassive ? { passive: false } : false
+      window.addEventListener('DOMMouseScroll', this.preventDefault, false)
+      try {
+        window.addEventListener('wheel', this.preventDefault, wheelOpt)
+        window.addEventListener('mousewheel', this.preventDefault, wheelOpt)
+      } catch {}
+      window.addEventListener('keydown', this.preventScrollKeys, false)
+    },
+    enableScroll() {
+      let supportsPassive = false
+      try {
+        window.addEventListener("test", null, Object.defineProperty({}, 'passive', {
+          get: function () { supportsPassive = true }
+        }))
+      } catch(e) {}
+      let wheelOpt = supportsPassive ? { passive: false } : false
+      window.removeEventListener('DOMMouseScroll', this.preventDefault, false)
+      try {
+        window.removeEventListener('wheel', this.preventDefault, wheelOpt)
+        window.removeEventListener('mousewheel', this.preventDefault, wheelOpt)
+      } catch {}
+      window.removeEventListener('keydown', this.preventScrollKeys, false)
     }
   },
   mounted() {
@@ -124,6 +165,7 @@ export default {
       }, 10)
       document.body.children[0].addEventListener('touchstart', this.dragStart)
       document.body.children[0].addEventListener('touchmove', this.dragging)
+      this.disableScroll()
     })
   },
 }
