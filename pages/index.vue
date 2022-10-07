@@ -33,7 +33,7 @@ export default {
 
 <style scoped>
 .section-7 {
-  @apply w-full max-w-page m-auto flex justify-center;
+  @apply w-full max-w-page m-auto flex justify-center mb-12;
 }
 .section-7 .content {
   @apply w-full max-w-page grid grid-cols-1 sm:grid-cols-2;
