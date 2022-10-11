@@ -17,26 +17,40 @@
     .info.mb-4
       div
         p FIRST NAME
-        input(placeholder="FIRST NAME")
+        input(placeholder="FIRST NAME" ref='firstName')
       div
         p LAST NAME
-        input(placeholder="LAST NAME")
+        input(placeholder="LAST NAME" ref='lastName')
       div
         p EMAIL
-        input(placeholder="EMAIL")
+        input(placeholder="EMAIL" ref='email')
       div
         p PHONE
-        input(placeholder="PHONE")
+        input(placeholder="PHONE" ref='phone')
     .message.mb-4
       div
         p MESSAGE
-        textarea(placeholder="MESSAGE" rows="5")
-    .ant-btn Send
+        textarea(placeholder="MESSAGE" rows="5" ref='message')
+    .ant-btn(@click="validateForm") Send
 </template>
 
 <script>
+import Validator from '../plugins/Validator'
+
 export default {
   name: 'ContactUsFromComponent',
+  methods: {
+    validateForm() {
+      let { valid } = Validator.schema({
+        required: [null, this.$refs],
+        latinText_alpha_extra: [['firstName', 'lastName'], this.$refs],
+        latinText_complexe_extra: [this.$refs.message],
+        email: [this.$refs.email],
+        phone: [this.$refs.phone],
+      })
+      if (valid) alert('valid'); else alert('not valid')
+    }
+  }
 }
 </script>
 
