@@ -3,7 +3,12 @@
   .content(:class="{heath: list == 'PRIVATE_TRIPS', teal: list == 'DAY_TRIPS', kashmir: list == 'ACTIVITIES' }")
     h2.title.text-colored {{ title }}
     .posts
-      Post(v-for="(trip, index) in visibleList" :key="index" :post="trip")
+      Post(
+        v-for="(trip, index) in visibleList"
+        :key="index"
+        :post="trip"
+        :type="list == 'PRIVATE_TRIPS' ? 'private_trips' : list == 'DAY_TRIPS' ? 'day_trips' : 'activities'"
+      )
     .actions(v-if="fullListLength > 6")
       .horizontal-line.bg-colored
       .buttons

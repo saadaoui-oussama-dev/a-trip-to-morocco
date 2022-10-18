@@ -10,14 +10,14 @@
       .price-parent
         span.text-colored STARTING FROM
         span.text-colored.price ${{ post.price }}
-      NuxtLink.ant-btn(:to="post.url") Learn More
+      NuxtLink.ant-btn(:to="`trips/${type}-${post.id}`") Learn More
         iconsArrowRight
 </template>
 
 <script>
 export default {
   name: 'PostComponent',
-  props: ['post'],
+  props: ['post', 'type'],
   data() {
     return {
       description: [],
