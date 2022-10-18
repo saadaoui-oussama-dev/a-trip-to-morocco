@@ -31,16 +31,25 @@
       div
         p MESSAGE
         textarea(placeholder="MESSAGE" rows="5" ref='message')
-    .ant-btn(@click="validateForm") Send
+    .ant-btn(v-if="spinActive" style="background-color: #f8e1c3")
+      a-spin
+    .ant-btn(v-else @click="validateForm") Send
 </template>
 
 <script>
-import Validator from '../plugins/Validator'
+import Validator from '../../plugins/Validator'
 
 export default {
   name: 'ContactUsFromComponent',
+  data() {
+    return {
+      spinActive: false,
+      from: {}
+    }
+  },
   methods: {
     validateForm() {
+      this.spinActive = true
       let { valid } = Validator.schema({
         required: [null, this.$refs],
         latinText_alpha_extra: [['firstName', 'lastName'], this.$refs],
@@ -48,7 +57,10 @@ export default {
         email: [this.$refs.email],
         phone: [this.$refs.phone],
       })
-      if (valid) alert('valid'); else alert('not valid')
+      setTimeout(() => {
+        this.spinActive = false
+        if (valid) alert('valid'); else alert('not valid')
+      }, 750)
     }
   }
 }

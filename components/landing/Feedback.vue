@@ -17,7 +17,7 @@
         v-for='(slideInfo, index) in $store.getters["feedback/GET_FEEDBACKS"]',
         :key='index'
       )
-        FeedbackContent(:slideInfo='slideInfo')
+        landingFeedbackContent(:slideInfo='slideInfo')
     iconsArrowDownFb.arrow-down(@click.native='slidePrev')
 </template>
 

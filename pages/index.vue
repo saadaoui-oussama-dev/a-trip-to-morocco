@@ -1,18 +1,18 @@
 <template lang="pug">
 div
-  Navbar
-  Banner
-  PostsList(title='Our Private Trips' list='PRIVATE_TRIPS')
-  Slider
-  PostsList(title='Our Day Trips' list='DAY_TRIPS')
-  PostsList(title='Our Activities' list='ACTIVITIES')
-  Gallery
-  GallerySlider
+  Navbar.bg-albescent
+  landingBanner
+  landingPostsList(title='Our Private Trips' list='PRIVATE_TRIPS')
+  landingSlider
+  landingPostsList(title='Our Day Trips' list='DAY_TRIPS')
+  landingPostsList(title='Our Activities' list='ACTIVITIES')
+  landingGallery
+  landingGallerySlider
   .section-7
     .content
-      Feedback
-      City(v-for="(city, index) in $store.getters['cities/GET_CITIES']" :key="index" :city="city")
-      ContactUsForm
+      landingFeedback
+      landingCity(v-for="(city, index) in $store.getters['cities/GET_CITIES']" :key="index" :city="city")
+      landingContactUsForm
   Footer
 </template>
 

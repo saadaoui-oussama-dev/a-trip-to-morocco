@@ -1,9 +1,9 @@
 <template lang="pug">
 .slide
-  .img(:style="`background-image: url('${slideInfo.img}')`")
+  .img(:style="`background-image: url('${slideInfo.image}')`")
   div
-    p {{ slideInfo.feedback }}
-    p.text-stone.mb-0 {{ slideInfo.writer }}
+    p {{ slideInfo.description }}
+    p.text-stone.mb-0 {{ slideInfo.author }}
 </template>
 
 <script>

@@ -16,7 +16,7 @@
         :key='index',
         style='height: 700px'
       )
-        SlideContent(:slideInfo='slideInfo')
+        landingSlideContent(:slideInfo='slideInfo')
       hooper-pagination.pagination(slot='hooper-addons')
     hooper.hidden(
       ref='carousel2',
@@ -31,7 +31,7 @@
         :key='index',
         style='height: 600px'
       )
-        SlideContent(:slideInfo='slideInfo')
+        landingSlideContent(:slideInfo='slideInfo')
       hooper-pagination.pagination(slot='hooper-addons')
     hooper.hidden(
       ref='carousel3',
@@ -46,7 +46,7 @@
         :key='index',
         style='height: 550px'
       )
-        SlideContent(:slideInfo='slideInfo')
+        landingSlideContent(:slideInfo='slideInfo')
       hooper-pagination.pagination(slot='hooper-addons')
     hooper.block(
       ref='carousel4',
@@ -60,7 +60,7 @@
         :key='index',
         style='height: 600px'
       )
-        SlideContent(:slideInfo='slideInfo')
+        landingSlideContent(:slideInfo='slideInfo')
       hooper-pagination.pagination(slot='hooper-addons')
 </template>
 
@@ -101,29 +101,6 @@ export default {
       this.carouselData = payload.currentSlide
     },
   },
-  //   methods: {
-  //     async setHeight() {
-  //       let width = parseFloat(getComputedStyle(document.body).width)
-  //       this.hooperSettings.vertical = 640 <= width
-  //       if (width < 640) {
-  //         this.height = 600
-  //       } else if (width < 768) {
-  //         this.height = 550
-  //       } else if (width < 1024) {
-  //         this.height = 600
-  //       } else {
-  //         this.height = 700
-  //       }
-  //     },
-  //   //   updateCarousel(payload) {
-  //   //     this.setHeight()
-  //   //     payload.settings.vertical = 640 <= payload.containerWidth
-  //   //     console.log(payload)
-  //   //   },
-  //   // },
-  //   // created() {
-  //   //   this.setHeight()
-  //   // },
 }
 </script>
 
