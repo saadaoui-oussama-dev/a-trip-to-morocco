@@ -75,7 +75,7 @@ export default {
 
 <style scoped>
 .feedback {
-  @apply flex items-center min-h-184 py-24 bg-albescent;
+  @apply flex justify-center items-center min-h-184 py-24 bg-albescent;
   @apply sm:min-h-152 lg:min-h-184 xl:min-h-248;
   background-image: url(~/assets/noise-cotton.svg);
 }

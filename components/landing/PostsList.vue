@@ -1,6 +1,6 @@
 <template lang="pug">
 .limited(:id="list == 'PRIVATE_TRIPS' ? 'private-trips' : list == 'DAY_TRIPS' ? 'day-trips' : 'activities'")
-  .content(:class="{heath: list == 'PRIVATE_TRIPS', teal: list == 'DAY_TRIPS', kashmir: list == 'ACTIVITIES' }")
+  .content(:class="{ heath: list == 'PRIVATE_TRIPS', teal: list == 'DAY_TRIPS', kashmir: list == 'ACTIVITIES' }")
     h2.title.text-colored {{ title }}
     .posts
       Post(

@@ -42,22 +42,28 @@ export default {
       this.$refs.navTop.classList.toggle('visible')
     },
     goTo(target) {
-      this.toggleOptions()
-      document.querySelector(target).scrollIntoView()
+      try {
+        this.toggleOptions()
+        document.querySelector(target).scrollIntoView()
+      } catch {
+        this.$router.push(`/${target}`)
+      }
     },
     detectCurrantSection() {
-      let sections = ['#contact-us', '#activities', '#day-trips', '#private-trips'],
+      try {
+        let sections = ['#activities', '#day-trips', '#private-trips'],
         halfScreen = (window.innerHeight - document.querySelector('#navbar').getBoundingClientRect().bottom) / 2,
         currentSection = ''
-      for (let section of sections) {
-        let top = document.querySelector(section).getBoundingClientRect().top,
+        for (let section of sections) {
+          let top = document.querySelector(section).getBoundingClientRect().top,
           bottom = document.querySelector(section).getBoundingClientRect().bottom
-        if (top <= halfScreen) {
-          currentSection = (bottom <= halfScreen) ? '' : section
-          break
+          if (top <= halfScreen) {
+            currentSection = (bottom <= halfScreen) ? '' : section
+            break
+          }
         }
-      }
-      this.currentSection = currentSection;
+        this.currentSection = currentSection;
+      } catch {}
     },
   },
   async mounted() {
@@ -69,6 +75,10 @@ export default {
 <style scoped>
 #navbar {
   @apply max-w-full sticky -top-4 lg:-top-6 z-40;
+}
+#navbar.albescent,
+.albescent .pages {
+  @apply bg-albescent;
 }
 .content {
   @apply pt-7 pb-3 lg:pt-10 lg:pb-4 flex justify-between items-center;

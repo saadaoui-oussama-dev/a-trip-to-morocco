@@ -1,6 +1,10 @@
 <template lang="pug">
-div
+div(:class="{ heath: type == 'p', teal: type == 'd', kashmir: type == 'a' }")
   navbar
+  .static-text.limited
+    .content
+      h1.text-6xl.text-colored Tour Itinerary
+      p.text-stone We are experts at creating a Moroccan experience perfectly tailored to our guest's needs. These are some of our most popular itineraries, and they may be customized to the utmost extent of your imagination
   tripsImagesSection(:list="trip.images")
   Footer
 </template>
