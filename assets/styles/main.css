@@ -31,3 +31,9 @@ html {
 ::-webkit-scrollbar-thumb:hover {
   background: #5558;
 }
+.limited {
+  @apply w-full max-w-page m-auto px-2 sm:px-6 lg:px-10 flex justify-center items-center;
+}
+.limited > .content {
+  @apply w-full max-w-6xl;
+}

@@ -1,8 +1,8 @@
 <template lang="pug">
 div
-  div {{ type }}
-  div {{ id }}
-  div {{ object }}
+  navbar
+  tripsImagesSection(:list="trip.images")
+  Footer
 </template>
 
 <script>
@@ -10,16 +10,16 @@ export default {
   name: 'TripPage',
   data() {
     return {
-      type: 'private_trips',
+      type: 'p',
       id: 1,
-      object: {},
+      trip: {},
     }
   },
   created() {
     let params = this.$route.params.id.split('-')
     this.type = params[0]
     this.id = params[1]
-    this.object = {
+    this.trip = {
       id: 1,
       img: '/trips/tafilalet-4.jpg',
       title: 'Imperial Cities Tour 8 days',
@@ -46,6 +46,14 @@ export default {
           description : 'We will meet you upon your arrival in Casablanca to accompany you to your hotel, where you can relax and settle in. Depending on your arrival time, you may wish to take a guided tour of the city or explore at your leisure before having dinner and spending the night.',
           image: '/trips/morocco-gda-global-dmc-alliance-kti-voyages-Oujda-Saïdia-3.jpg',
         },
+      ],
+      images: [
+        '/cities/city1.png',
+        '/trips/OIP.jpg',
+        '/trips/morocco-gda-global-dmc-alliance-kti-voyages-Oujda-Saïdia-3.jpg',
+        '/cities/city1.png',
+        '/trips/OIP.jpg',
+        '/trips/morocco-gda-global-dmc-alliance-kti-voyages-Oujda-Saïdia-3.jpg',
       ],
     }
   }

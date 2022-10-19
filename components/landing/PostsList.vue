@@ -7,7 +7,7 @@
         v-for="(trip, index) in visibleList"
         :key="index"
         :post="trip"
-        :type="list == 'PRIVATE_TRIPS' ? 'private_trips' : list == 'DAY_TRIPS' ? 'day_trips' : 'activities'"
+        :type="list[0].toLowerCase()"
       )
     .actions(v-if="fullListLength > 6")
       .horizontal-line.bg-colored

@@ -83,7 +83,7 @@ export default {
   @apply lg:hidden;
 }
 .pages {
-  @apply h-screen pt-4 px-0.5 fixed top-0 right-0 flex flex-col gap-2 bg-albescent;
+  @apply h-screen pt-4 px-0.5 fixed top-0 right-0 flex flex-col gap-2;
   @apply lg:h-auto lg:p-0 lg:static lg:flex-row lg:items-center lg:gap-6;
   transition: transform 0.3s ease-in-out;
   transform: translateX(105%);
