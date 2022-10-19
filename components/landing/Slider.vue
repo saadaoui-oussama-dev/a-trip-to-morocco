@@ -1,6 +1,6 @@
 <template lang="pug">
-.slider
-  .content
+.limited
+  .content.relative
     iconsArrowDown.iconsArrowDown(color='#F7EBDB')
     iconsArrowDown.iconsArrowRight(color='#F7EBDB')
     hooper.hidden(
@@ -105,13 +105,10 @@ export default {
 </script>
 
 <style scoped>
-.slider {
+.limited {
   background-image: url('~/assets/noise-teal.png');
-  @apply w-full max-w-page m-auto flex justify-center bg-teal mt-10;
+  @apply bg-teal mt-10 px-0;
   @apply sm:bg-none sm:bg-transparent sm:mt-12 md:mt-20;
-}
-.content {
-  @apply w-full max-w-6xl relative;
 }
 .iconsArrowDown {
   @apply absolute hidden sm:block z-10;

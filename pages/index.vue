@@ -8,7 +8,7 @@ div
   landingPostsList(title='Our Activities' list='ACTIVITIES')
   landingGallery
   landingGallerySlider
-  .section-7
+  .section-7.limited
     .content
       landingFeedback
       landingCity(v-for="(city, index) in $store.getters['cities/GET_CITIES']" :key="index" :city="city")
@@ -33,9 +33,9 @@ export default {
 
 <style scoped>
 .section-7 {
-  @apply w-full max-w-page m-auto flex justify-center mb-12;
+  @apply mb-12 px-0;
 }
 .section-7 .content {
-  @apply w-full max-w-page grid grid-cols-1 sm:grid-cols-2;
+  @apply max-w-page grid grid-cols-1 sm:grid-cols-2;
 }
 </style>

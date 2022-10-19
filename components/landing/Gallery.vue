@@ -1,5 +1,5 @@
 <template lang="pug">
-.gallery
+.limited
   .content
     h1 Our Gallery
     .columns
@@ -18,13 +18,13 @@ export default {
 </script>
 
 <style scoped>
-.gallery {
-  @apply w-full max-w-page m-auto mt-10 px-2 flex justify-center bg-kashmir;
+.limited {
+  @apply mt-10 bg-kashmir;
   background-image: url(~/assets/noise-kashmir.svg);
-  @apply sm:px-6 lg:px-10 sm:mt-12 md:mt-20;
+  @apply sm:mt-12 md:mt-20;
 }
 .content {
-  @apply w-full max-w-6xl mt-10 pb-4;
+  @apply mt-10 pb-4;
   @apply sm:mt-16 md:mt-20 sm:pb-8 md:pb-12;
 }
 h1 {

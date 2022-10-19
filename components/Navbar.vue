@@ -1,6 +1,6 @@
 <template lang="pug">
-#navbar
-  .nav-top(ref="navTop")
+#navbar.limited
+  .content(ref="navTop")
     .icons
       iconsLogo
       .contact
@@ -68,10 +68,10 @@ export default {
 
 <style scoped>
 #navbar {
-  @apply w-full px-2 sm:px-6 lg:px-10 sticky -top-4 lg:-top-6 z-40 flex justify-center;
+  @apply max-w-full sticky -top-4 lg:-top-6 z-40;
 }
-.nav-top {
-  @apply w-full max-w-6xl pt-7 pb-3 lg:pt-10 lg:pb-4 flex justify-between items-center;
+.content {
+  @apply pt-7 pb-3 lg:pt-10 lg:pb-4 flex justify-between items-center;
 }
 .icons {
   @apply flex gap-4 sm:gap-7;

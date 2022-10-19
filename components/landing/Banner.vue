@@ -1,5 +1,5 @@
 <template lang="pug">
-.banner
+.limited
   .content
     .info
       h1 Explore&nbsp;a colorful Morocco
@@ -24,12 +24,11 @@ export default {
 </script>
 
 <style scoped>
-.banner {
-  @apply w-full flex justify-center bg-albescent overflow-hidden;
-  @apply px-2 sm:px-6 lg:px-10;
+.limited {
+  @apply max-w-full bg-albescent overflow-hidden;
 }
 .content {
-  @apply w-full max-w-6xl relative flex gap-4 justify-center sm:justify-between;
+  @apply relative flex gap-4 justify-center sm:justify-between;
 }
 .info {
   @apply pt-16 md:pt-24 flex items-center flex-col sm:items-start;
