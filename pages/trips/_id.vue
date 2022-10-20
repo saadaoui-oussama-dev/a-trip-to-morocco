@@ -115,7 +115,7 @@ p {
   @apply flex items-center gap-3;
 }
 .icon {
-  @apply w-4 sm:w-4 lg:w-4 h-auto;
+  @apply w-3 sm:w-4 lg:w-4 h-auto;
 }
 .parnet-content {
   @apply w-full absolute bottom-0 flex flex-col gap-8 sm:flex-row justify-between items-center  bg-opacity-50 px-8 py-8;
@@ -144,10 +144,10 @@ p {
   @apply sm:gap-8 lg:gap-16;
 }
 .info .price span {
-  @apply text-xs;
+  @apply text-xs font-medium;
 }
 .info p {
-  @apply text-xs lg:text-base font-medium;
+  @apply text-xs lg:text-base font-semibold sm:font-medium;
 }
 .contact-book > .ant-btn {
   @apply font-semibold text-xs px-16 py-2.5;
