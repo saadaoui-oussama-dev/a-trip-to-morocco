@@ -1,38 +1,19 @@
 <template lang="pug">
 div(:class='{ heath: type == "p", teal: type == "d", kashmir: type == "a" }')
   navbar#navbar
-  .banner(:style='"background-image:url(" + trip.img + ")"')
-    .parnet-content.bg-colored
-      .title-info
-        h1.title {{ trip.title }}
-        .info 
-          .parnet-price
-            iconsPrice.icon
-            p.price
-              span STARTING FROM
-              |
-              | ${{ trip.price }}
-          .parnet-duration
-            iconsDuration.icon
-            p.duration {{ trip.duration }} DAYS
-          .parnet-point
-            iconsPosition.icon
-            p.point {{ trip.startPoint }}
-
-      .contact-book.albescent
-        .contact
-          .phone
-            iconsPhoneSolid.icon(color='#F7EBDB')
-            p +212 06xxxxxxxx
-          .email
-            iconsEmail.icon
-            p contact@atriptomorocco.com
-        .ant-btn.text-colored Book a trip now
-
-  .static-text.limited
+  tripsBanner(:trip='trip')
+  .contant-days.limited
     .content
-      h1.text-6xl.text-colored Tour Itinerary
-      p.text-stone We are experts at creating a Moroccan experience perfectly tailored to our guest's needs. These are some of our most popular itineraries, and they may be customized to the utmost extent of your imagination
+      h1.text-colored Tour Itinerary
+      p We are experts at creating a Moroccan experience perfectly tailored to our guest's needs. These are some of our most popular itineraries, and they may be customized to the utmost extent of your imagination
+    .days
+      tripsDay(
+        v-for='(day, index) in trip.days',
+        :key='index',
+        :day='day',
+        :arrow='index == trip.days.length - 1',
+        :type='type'
+      )
   tripsImagesSection(:list='trip.images')
   Footer
 </template>
@@ -104,53 +85,23 @@ p {
 #navbar {
   @apply fixed;
 }
-.banner {
-  @apply min-h-screen bg-cover bg-center relative text-albescent mb-28;
+.contant-days {
+  @apply flex flex-col items-center py-28 bg-albescent;
 }
-.parnet-price,
-.parnet-duration,
-.parnet-point,
-.phone,
-.email {
-  @apply flex items-center gap-3;
+.contant-days .content {
+  @apply flex flex-col items-center gap-8 max-w-xs mb-32;
+  @apply sm:max-w-sm md:max-w-lg lg:max-w-lg;
 }
-.icon {
-  @apply w-3 sm:w-4 lg:w-4 h-auto;
+.contant-days .content > h1 {
+  @apply text-4xl;
+  @apply md:text-5xl lg:text-6xl;
 }
-.parnet-content {
-  @apply w-full absolute bottom-0 flex flex-col gap-8 sm:flex-row justify-between items-center  bg-opacity-50 px-8 py-8;
-  @apply px-0 sm:px-8 sm:py-8 lg:px-16 lg:py-12;
-  mix-blend-mode: normal;
-  backdrop-filter: blur(5px);
+.contant-days .content > p {
+  @apply text-xs text-stone text-center;
+  @apply sm:text-sm;
 }
-.title-info {
-  @apply flex flex-col gap-8 sm:gap-12 justify-between items-start;
-}
-.title-info > .title {
-  @apply font-bold text-albescent text-lg;
-  @apply sm:text-lg lg:text-4xl;
-}
-.contact-book {
-  @apply flex flex-col gap-8 sm:gap-12 justify-between items-center sm:items-start;
-}
-.contact {
-  @apply flex flex-col gap-3 items-center sm:items-start;
-}
-.contact p {
-  @apply text-xs lg:text-sm;
-}
-.info {
-  @apply flex items-center gap-8;
-  @apply sm:gap-8 lg:gap-16;
-}
-.info .price span {
-  @apply text-xs font-medium;
-}
-.info p {
-  @apply text-xs lg:text-base font-semibold sm:font-medium;
-}
-.contact-book > .ant-btn {
-  @apply font-semibold text-xs px-16 py-2.5;
-  @apply lg:text-sm sm:px-16 sm:py-2.5 lg:px-16 lg:py-2.5;
+.days {
+  @apply flex flex-col gap-10;
+  @apply sm:gap-0;
 }
 </style>
