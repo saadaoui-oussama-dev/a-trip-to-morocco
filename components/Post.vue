@@ -1,6 +1,6 @@
 <template lang="pug">
 .post
-  .bg-img(:style="'background-image:url('+post.img+')'")
+  .bg-img(:style="`background-image:url('${post.banner}')`")
   .content
     div
       h3.title.text-colored {{ post.title }}

@@ -1,0 +1,45 @@
+query ($id: ID!) {
+  privateTrip(id: $id) {
+    data {
+      id
+      attributes {
+        title
+        description
+        price
+        duration
+        startPoint
+        days {
+          data {
+            id
+            attributes {
+              number
+              title
+              description
+              image {
+                data {
+                  attributes {
+                    url
+                  }
+                }
+              }
+            }
+          }
+        }
+        banner {
+          data {
+            attributes {
+              url
+            }
+          }
+        }
+        images{
+          data {
+            attributes {
+              url
+            }
+          }
+        }
+      }
+    }
+  }
+}
