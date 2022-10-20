@@ -15,24 +15,25 @@ module.exports = {
         city: '#00000080',
       },
       minHeight: {
-        '152': '38rem',
-        '184': '46rem',
-        '248': '62rem',
+        152: '38rem',
+        184: '46rem',
+        248: '62rem',
+        min: 'min-content',
       },
       spacing: {
-        '9.5': '2.375rem',
-        '120': '30rem',
-        '144': '36rem',
-        '160': '40rem',
-        '192': '48rem',
-        '212': '53rem',
+        9.5: '2.375rem',
+        120: '30rem',
+        144: '36rem',
+        160: '40rem',
+        192: '48rem',
+        212: '53rem',
       },
       maxWidth: {
-        'page': '90rem',
+        page: '90rem',
       },
       padding: {
-        '112': '28rem',
-      }
+        112: '28rem',
+      },
     },
   },
 }

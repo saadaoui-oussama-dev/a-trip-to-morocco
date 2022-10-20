@@ -81,7 +81,7 @@ export default {
   @apply bg-albescent;
 }
 .content {
-  @apply pt-7 pb-3 lg:pt-10 lg:pb-4 flex justify-between items-center;
+  @apply max-w-full pt-7 pb-3 lg:pt-10 lg:pb-4 flex justify-between items-center;
 }
 .icons {
   @apply flex gap-4 sm:gap-7;

@@ -1,11 +1,20 @@
 <template lang="pug">
-div(:class="{ heath: type == 'p', teal: type == 'd', kashmir: type == 'a' }")
-  navbar
-  .limited
+div(:class='{ heath: type == "p", teal: type == "d", kashmir: type == "a" }')
+  navbar#navbar
+  tripsBanner(:trip='trip')
+  .contant-days.limited
     .content
-      h1.text-6xl.text-colored Tour Itinerary
-      p.text-stone We are experts at creating a Moroccan experience perfectly tailored to our guest's needs. These are some of our most popular itineraries, and they may be customized to the utmost extent of your imagination
-  tripsImagesSection(:list="trip.images")
+      h1.text-colored Tour Itinerary
+      p We are experts at creating a Moroccan experience perfectly tailored to our guest's needs. These are some of our most popular itineraries, and they may be customized to the utmost extent of your imagination
+    .days
+      tripsDay(
+        v-for='(day, index) in trip.days',
+        :key='index',
+        :day='day',
+        :arrow='index == trip.days.length - 1',
+        :type='type'
+      )
+  tripsImagesSection(:list='trip.images')
   Footer
 </template>
 
@@ -16,13 +25,6 @@ import activityQuery from '~/apollo/queries/activities/one.gql'
 
 export default {
   name: 'TripPage',
-  data() {
-    return {
-      type: 'p',
-      id: 1,
-      trip: {},
-    }
-  },
   validate({ params }) {
     return /^[pad]\-[1-9][0-9]*$/.test(params.id)
   },
@@ -59,7 +61,36 @@ export default {
     }
     trip.days.sort((a, b) => a.number - b.number)
     trip.days.sort((a, b) => (a.number == b.number) ? a.id - b.id : 0)
-    return { type, id, trip }
+    return { type, trip }
   },
 }
 </script>
+
+<style scoped>
+h1,
+p {
+  @apply m-0 p-0;
+}
+#navbar {
+  @apply fixed;
+}
+.contant-days {
+  @apply max-w-full flex flex-col items-center py-28 bg-albescent;
+}
+.contant-days .content {
+  @apply flex flex-col items-center gap-8 max-w-xs mb-32;
+  @apply sm:max-w-sm md:max-w-lg lg:max-w-lg;
+}
+.contant-days .content > h1 {
+  @apply text-4xl;
+  @apply md:text-5xl lg:text-6xl;
+}
+.contant-days .content > p {
+  @apply text-xs text-stone text-center;
+  @apply sm:text-sm;
+}
+.days {
+  @apply flex flex-col gap-10;
+  @apply sm:gap-0;
+}
+</style>

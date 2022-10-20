@@ -89,6 +89,9 @@ body {
 .teal .ant-btn {
   background-color: #025B63;
 }
+.albescent .ant-btn {
+  background-color: #F7EBDB;
+}
 .glass .ant-btn {
   background-color: #3D0E1B00;
   color: #3D0E1B;
