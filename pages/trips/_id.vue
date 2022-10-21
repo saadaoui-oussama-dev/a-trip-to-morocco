@@ -2,7 +2,8 @@
 div(:class='{ heath: type == "p", teal: type == "d", kashmir: type == "a" }')
   navbar#navbar
   tripsBanner(:trip='trip')
-  .contant-days.limited
+  tripsOverview(:type="type")
+  .content-days.limited
     .content
       h1.text-colored Tour Itinerary
       p We are experts at creating a Moroccan experience perfectly tailored to our guest's needs. These are some of our most popular itineraries, and they may be customized to the utmost extent of your imagination
@@ -85,20 +86,20 @@ p {
 #navbar {
   @apply fixed;
 }
-.contant-days {
+.content-days {
   @apply flex flex-col items-center py-28 bg-albescent;
 }
-.contant-days .content {
+.content-days .content {
   @apply flex flex-col items-center gap-8 max-w-xs mb-32;
   @apply sm:max-w-sm md:max-w-lg lg:max-w-lg;
 }
-.contant-days .content > h1 {
+.content-days .content > h1 {
   @apply text-4xl;
   @apply md:text-5xl lg:text-6xl;
 }
-.contant-days .content > p {
+.content-days .content > p {
   @apply text-xs text-stone text-center;
-  @apply sm:text-sm;
+  @apply md:text-sm;
 }
 .days {
   @apply flex flex-col gap-10;
