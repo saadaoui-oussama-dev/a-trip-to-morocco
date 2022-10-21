@@ -2,7 +2,7 @@
 .navbar.limited
   .content(ref="navTop")
     .icons
-      iconsLogo
+      iconsLogo.logo(@click.native="goTo('')")
       .contact
         iconsTripAdvisor
         iconsTwitter
@@ -43,8 +43,12 @@ export default {
     },
     goTo(target) {
       try {
-        this.toggleOptions()
-        document.querySelector(target).scrollIntoView()
+        if (target == '') {
+          this.$router.push('/')
+        } else {
+          this.toggleOptions()
+          document.querySelector(target).scrollIntoView()
+        }
       } catch {
         this.$router.push(`/${target}`)
       }
@@ -133,6 +137,7 @@ export default {
 .icons div,
 .pages div,
 .more,
+.logo,
 .back {
   cursor: pointer;
 }
