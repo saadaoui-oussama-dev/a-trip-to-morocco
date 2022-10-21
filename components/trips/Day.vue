@@ -1,18 +1,18 @@
 <template lang="pug">
 .day
   .day-parent
-    .day-number.border-colored.text-colored Day {{ day.dayNumber }}
+    .day-number.border-colored.text-colored Day {{ day.number }}
   .info-parent
     .image-parent
-      .img(:style='"background-image:url(" + day.image + ")"')
+      .img(:style='`background-image:url("${day.image}")`')
     .line-parent
       .line.bg-colored
       iconsArrow.arrow(
         v-if='arrow',
         :color='type == "p" ? "#3D0E1B" : type == "d" ? "#025B63" : type == "a" ? "#4D5A8E" : ""'
       )
-    .content-parent 
-      .content 
+    .content-parent
+      .content
         h3.text-colored {{ day.title }}
         p {{ day.description }}
 </template>

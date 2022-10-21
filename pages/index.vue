@@ -20,10 +20,10 @@ div
 export default {
   name: 'IndexPage',
   async asyncData({ store }) {
-    let privateTrips = await store.dispatch('trips/SET_PRIVATE_TRIPS'),
+    let privateTrips = await store.dispatch('trips/SET_LIST', 'privateTrips'),
       slides = await store.dispatch('slider/SET_SLIDES'),
-      dayTrips = await store.dispatch('trips/SET_DAY_TRIPS'),
-      activities = await store.dispatch('trips/SET_ACTIVITIES'),
+      dayTrips = await store.dispatch('trips/SET_LIST', 'dayTrips'),
+      activities = await store.dispatch('trips/SET_LIST', 'activities'),
       gallery = await store.dispatch('gallery/SET_GALLERY'),
       feedback = await store.dispatch('feedback/SET_FEEDBACKS'),
       cities = await store.dispatch('cities/SET_CITIES')

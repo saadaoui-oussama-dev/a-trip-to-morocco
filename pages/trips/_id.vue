@@ -2,7 +2,7 @@
 div(:class='{ heath: type == "p", teal: type == "d", kashmir: type == "a" }')
   navbar#navbar
   tripsBanner(:trip='trip')
-  tripsOverview(:type="type")
+  tripsOverview(:type='type')
   .content-days.limited
     .content
       h1.text-colored Tour Itinerary
@@ -20,64 +20,58 @@ div(:class='{ heath: type == "p", teal: type == "d", kashmir: type == "a" }')
 </template>
 
 <script>
+import privateTripQuery from '~/apollo/queries/private-trips/one.gql'
+import dayTripQuery from '~/apollo/queries/day-trips/one.gql'
+import activityQuery from '~/apollo/queries/activities/one.gql'
+
 export default {
   name: 'TripPage',
-  data() {
-    return {
-      type: 'p',
-      id: 1,
-      trip: {},
-    }
+  validate({ params }) {
+    return /^[pad]\-[1-9][0-9]*$/.test(params.id)
   },
-  created() {
-    let params = this.$route.params.id.split('-')
-    this.type = params[0]
-    this.id = params[1]
-    this.trip = {
-      id: 1,
-      img: '/trips/tafilalet-4.jpg',
-      title: 'The untainted charm of Marrakech Tour 3 days',
-      price: 8500,
-      description:
-        'This oasis lost in the desert is crossed by the wadi Ziz and is spread over twenty or so communes in the region spread over the towns of Rissani and Erfoud. We let you discover in a few pictures these green islets of Tafilalet covering, as far as the eye can see, the valleys of the wadis Ghéris and Ziz.',
-      duration: 3,
-      startPoint: 'Marrakech',
-      days: [
-        {
-          dayNumber: 1,
-          title: 'Arrival at Marrakech Airport, Afternoon at Your Leisure',
-          description:
-            'We will meet you upon your arrival in Casablanca to accompany you to your hotel, where you can relax and settle in. Depending on your arrival time, you may wish to take a guided tour of the city or explore at your leisure before having dinner and spending the night.',
-          image: '/trips/istockphoto-656635000-612x612.jpg',
-        },
-        {
-          dayNumber: 2,
-          title: 'Arrival at Marrakech Airport, Afternoon at Your Leisure',
-          description:
-            'We will meet you upon your arrival in Casablanca to accompany you to your hotel, where you can relax and settle in. Depending on your arrival time, you may wish to take a guided tour of the city or explore at your leisure before having dinner and spending the night.',
-          image: '/trips/OIP.jpg',
-        },
-        {
-          dayNumber: 3,
-          title: 'Arrival at Marrakech Airport, Afternoon at Your Leisure',
-          description:
-            'We will meet you upon your arrival in Casablanca to accompany you to your hotel, where you can relax and settle in. Depending on your arrival time, you may wish to take a guided tour of the city or explore at your leisure before having dinner and spending the night.',
-          image:
-            '/trips/morocco-gda-global-dmc-alliance-kti-voyages-Oujda-Saïdia-3.jpg',
-        },
-      ],
-      images: [
-        '/cities/city1.png',
-        '/trips/OIP.jpg',
-        '/trips/morocco-gda-global-dmc-alliance-kti-voyages-Oujda-Saïdia-3.jpg',
-        '/cities/city1.png',
-        '/trips/OIP.jpg',
-        '/trips/morocco-gda-global-dmc-alliance-kti-voyages-Oujda-Saïdia-3.jpg',
-      ],
+  async asyncData({ params, app, redirect, store }) {
+    params = params.id.split('-')
+    let type = params[0],
+      id = Number(params[1]),
+      query =
+        type == 'p'
+          ? privateTripQuery
+          : type == 'd'
+          ? dayTripQuery
+          : activityQuery,
+      attr = type == 'p' ? 'privateTrip' : type == 'd' ? 'dayTrip' : 'activity',
+      { data } = await app.apolloProvider.defaultClient.query({
+        query,
+        variables: { id },
+        fetchPolicy: 'no-cache',
+      })
+    if (!data[attr].data) redirect('/')
+    attr = data[attr].data.attributes
+    let endpoint = store.state.strapi.httpEndpoint
+    let trip = {
+      id,
+      title: attr.title,
+      description: attr.description,
+      price: attr.price,
+      duration: attr.duration,
+      startPoint: attr.startPoint,
+      days: attr.days.data.map(({ id, attributes }) => ({
+        id,
+        number: attributes.number,
+        title: attributes.title,
+        description: attributes.description,
+        image: endpoint + attributes.image.data.attributes.url,
+      })),
+      banner: endpoint + attr.banner.data.attributes.url,
+      images: attr.images.data.map(({ attributes: { url } }) => endpoint + url),
     }
+    trip.days.sort((a, b) => a.number - b.number)
+    trip.days.sort((a, b) => (a.number == b.number ? a.id - b.id : 0))
+    return { type, trip }
   },
 }
 </script>
+
 <style scoped>
 h1,
 p {
@@ -86,8 +80,12 @@ p {
 #navbar {
   @apply fixed;
 }
+
 .content-days {
   @apply flex flex-col items-center py-28 bg-albescent;
+}
+.contant-days {
+  @apply max-w-full flex flex-col items-center py-28 bg-albescent;
 }
 .content-days .content {
   @apply flex flex-col items-center gap-8 max-w-xs mb-32;

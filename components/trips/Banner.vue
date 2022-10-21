@@ -1,5 +1,5 @@
 <template lang="pug">
-.banner(:style='"background-image:url(" + trip.img + ")"')
+.banner(:style='`background-image:url("${trip.banner}")`')
   .parnet-content.bg-colored
     .title-info
       h1.title {{ trip.title }}
@@ -12,11 +12,10 @@
             | ${{ trip.price }}
         .parnet-duration
           iconsDuration.icon
-          p.duration {{ trip.duration }} DAYS
+          p.duration {{ trip.duration }}
         .parnet-point
           iconsPosition.icon
           p.point {{ trip.startPoint }}
-
     .contact-book.albescent
       .contact
         .phone

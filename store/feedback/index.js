@@ -11,17 +11,17 @@ export const getters = {
 }
 
 export const actions = {
-  async SET_FEEDBACKS({ commit }) {
+  async SET_FEEDBACKS({ commit, rootState }) {
     let { data } = await this.app.apolloProvider.defaultClient.query({
       query: reviewQuery,
       fetchPolicy: 'no-cache',
     })
-    let feedbacks = data.reviews.data.map(review => {
+    let feedbacks = data.reviews.data.map(({ id, attributes}) => {
       return {
-        id: review.id,
-        author: review.attributes.author,
-        description: review.attributes.description,
-        image: review.attributes.image.data.attributes.url,
+        id,
+        author: attributes.author,
+        description: attributes.description,
+        image: rootState.strapi.httpEndpoint +  attributes.image.data.attributes.url,
       }
     })
     commit('SET_FEEDBACKS', feedbacks)
