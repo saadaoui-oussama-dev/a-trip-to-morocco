@@ -25,8 +25,8 @@
 
 <script>
 export default {
-  	name: 'OverviewComponent',
-    props: ['type'],
+  name: 'OverviewComponent',
+  props: ['type'],
   data() {
     return {
       overview: {
@@ -37,7 +37,7 @@ export default {
         places: 'Casablanca, Rabat, Chefchaouen, Fes, Merzouga (Sahara Desert) Ouarzazate, Marrakech, Essaouria'
       },
       color:null
-      }
+    }
   },
   created() {
     this.color = this.type == "p" ? "#3D0E1B" : this.type == "d" ? "#025B63" : this.type == "a" ? "#4D5A8E" : ""

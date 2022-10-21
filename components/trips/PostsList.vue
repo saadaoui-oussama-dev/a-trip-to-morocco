@@ -5,7 +5,7 @@
     .posts(ref="list")
       Post.w(v-for="(trip, index) in getList" :key="index" :post="trip" :type="list[0].toLowerCase()" path="../" ref="post")
     .arrow(:class="{ visible }")
-      iconsArrowDown
+      iconsArrowDown(:color='list == "PRIVATE_TRIPS" ? "#3D0E1B" : list == "DAY_TRIPS" ? "#025B63" : "#4D5A8E"')
 .content(v-else)
 </template>
 
