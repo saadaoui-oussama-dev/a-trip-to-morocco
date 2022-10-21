@@ -80,6 +80,12 @@ body {
   border-radius: 0px;
   box-shadow: none;
 }
+.teal::selection {
+  background: #025B63;
+}
+.kashmir::selection {
+  background: #4D5A8E;
+}
 .teal ::selection {
   background: #025B63;
 }

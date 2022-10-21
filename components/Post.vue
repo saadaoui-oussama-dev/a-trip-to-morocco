@@ -10,17 +10,23 @@
       .price-parent
         span.text-colored STARTING FROM
         span.text-colored.price ${{ post.price }}
-      NuxtLink.ant-btn(:to="`trips/${type}-${post.id}`") Learn More
+      .ant-btn(@click="goTo()") Learn More
         iconsArrowRight
 </template>
 
 <script>
 export default {
   name: 'PostComponent',
-  props: ['post', 'type'],
+  props: ['path', 'post', 'type'],
   data() {
     return {
       description: [],
+    }
+  },
+  methods: {
+    goTo() {
+      let target = this.path ? this.path : ''
+      this.$router.push(`${target}trips/${this.type}-${this.post.id}`)
     }
   },
   created() {
@@ -39,10 +45,10 @@ export default {
   @apply flex flex-col gap-2 sm:gap-4;
 }
 .content {
-  @apply px-2 max-h-80 sm:max-w-sm overflow-hidden flex flex-col justify-between flex-grow;
+  @apply px-2 max-h-80 overflow-hidden flex flex-col justify-between flex-grow;
 }
 .bg-img {
-  @apply w-full h-36 lg:h-60 md:h-44 sm:h-64 bg-cover bg-center;
+  @apply w-full h-36 sm:h-52 md:h-44 lg:h-60 bg-cover bg-center;
 }
 .img {
   @apply max-w-full opacity-0;
@@ -52,7 +58,7 @@ export default {
   @apply md:text-2xl sm:text-xl;
 }
 .description {
-  @apply text-xs text-stone mb-1;
+  @apply text-xs text-stone mb-1.5;
 }
 .info {
   @apply flex flex-col gap-2 sm:flex-row sm:gap-0 justify-between;
@@ -70,5 +76,8 @@ export default {
 .ant-btn {
   @apply  text-xs py-2 px-4 flex items-center justify-center text-albescent;
   @apply sm:justify-start sm:w-max sm:py-2 sm:px-6;
+}
+.w .content {
+  @apply w-52 sm:w-72 lg:w-80;
 }
 </style>

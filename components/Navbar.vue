@@ -1,5 +1,5 @@
 <template lang="pug">
-#navbar.limited
+.navbar.limited
   .content(ref="navTop")
     .icons
       iconsLogo
@@ -52,7 +52,7 @@ export default {
     detectCurrantSection() {
       try {
         let sections = ['#activities', '#day-trips', '#private-trips'],
-        halfScreen = (window.innerHeight - document.querySelector('#navbar').getBoundingClientRect().bottom) / 2,
+        halfScreen = (window.innerHeight - document.querySelector('.navbar').getBoundingClientRect().bottom) / 2,
         currentSection = ''
         for (let section of sections) {
           let top = document.querySelector(section).getBoundingClientRect().top,
@@ -73,12 +73,12 @@ export default {
 </script>
 
 <style scoped>
-#navbar {
+.navbar {
   @apply max-w-full sticky -top-4 lg:-top-6 z-40;
+  transition: all 0.15s linear;
 }
-#navbar.albescent,
-.albescent .pages {
-  @apply bg-albescent;
+.navbar.fix {
+  @apply fixed;
 }
 .content {
   @apply max-w-full pt-7 pb-3 lg:pt-10 lg:pb-4 flex justify-between items-center;
@@ -93,10 +93,13 @@ export default {
   @apply lg:hidden;
 }
 .pages {
-  @apply h-screen pt-4 px-0.5 fixed top-0 right-0 flex flex-col gap-2;
+  @apply h-screen pt-4 px-0.5 fixed top-0 right-0 flex flex-col gap-2 bg-albescent;
   @apply lg:h-auto lg:p-0 lg:static lg:flex-row lg:items-center lg:gap-6;
   transition: transform 0.3s ease-in-out;
   transform: translateX(105%);
+}
+.fix .pages {
+  @apply lg:bg-transparent;
 }
 .visible .pages {
   transform: translateX(0%);
@@ -113,14 +116,13 @@ export default {
 }
 .pages .under::after {
   content: '';
-  @apply w-0 absolute bg-heath bottom-0 left-1/2;
-  height: 1px;
+  @apply w-0 h-px absolute bg-heath bottom-0 left-1/2;
   transform: translateX(-50%);
 }
 .pages .under:hover::after,
 .pages .ant-btn.current::after {
   @apply w-4/5;
-  transition: width 0.15s;
+  transition: width 0.35s;
 }
 .back {
   @apply w-0 h-screen fixed top-0 right-0;

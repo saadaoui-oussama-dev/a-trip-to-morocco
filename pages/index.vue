@@ -1,6 +1,6 @@
 <template lang="pug">
 div
-  Navbar.albescent
+  Navbar.bg-albescent
   landingBanner
   landingPostsList(title='Our Private Trips' list='PRIVATE_TRIPS')
   landingSlider

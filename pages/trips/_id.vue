@@ -1,6 +1,6 @@
 <template lang="pug">
 div(:class='{ heath: type == "p", teal: type == "d", kashmir: type == "a" }')
-  navbar#navbar
+  navbar.fix(:class="{ 'bg-albescent': navbarVisibile, 'hover:bg-opacity-80 hover:bg-albescent': ! navbarVisibile }")
   tripsBanner(:trip='trip')
   tripsOverview(:type='type')
   .content-days.limited
@@ -16,6 +16,11 @@ div(:class='{ heath: type == "p", teal: type == "d", kashmir: type == "a" }')
         :type='type'
       )
   tripsImagesSection(:list='trip.images')
+  tripsPostsList(
+    title="Other Trips",
+    :list='type == "p" ? "PRIVATE_TRIPS" : type == "d" ? "DAY_TRIPS" : "ACTIVITIES"',
+    :active='trip.id',
+  )
   Footer
 </template>
 
@@ -28,6 +33,11 @@ export default {
   name: 'TripPage',
   validate({ params }) {
     return /^[pad]\-[1-9][0-9]*$/.test(params.id)
+  },
+  data() {
+    return {
+      navbarVisibile: false,
+    }
   },
   async asyncData({ params, app, redirect, store }) {
     params = params.id.split('-')
@@ -67,8 +77,25 @@ export default {
     }
     trip.days.sort((a, b) => a.number - b.number)
     trip.days.sort((a, b) => (a.number == b.number ? a.id - b.id : 0))
+    let list = type == 'p' ? 'privateTrips' : type == 'd' ? 'dayTrips' : 'activities',
+      trips = await store.dispatch('trips/SET_LIST', list)
     return { type, trip }
   },
+  methods: {
+    detectScroll() {
+      let nav =
+        parseFloat(getComputedStyle(document.querySelector('.navbar')).height) +
+        parseFloat(getComputedStyle(document.querySelector('.navbar')).top),
+        top = document.querySelector('.parnet-content').getBoundingClientRect().top
+      this.navbarVisibile = top - nav <= 0
+    },
+  },
+  async mounted() {
+    document.addEventListener('scroll', this.detectScroll)
+  },
+  beforeDestroy() {
+    document.removeEventListener('scroll', this.detectScroll)
+  }
 }
 </script>
 
@@ -77,10 +104,6 @@ h1,
 p {
   @apply m-0 p-0;
 }
-#navbar {
-  @apply fixed;
-}
-
 .content-days {
   @apply flex flex-col items-center py-28 bg-albescent;
 }

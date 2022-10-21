@@ -8,11 +8,10 @@
           iconsPrice.icon
           p.price
             span STARTING FROM
-            |
-            | ${{ trip.price }}
+            | &nbsp;${{ trip.price }}
         .parnet-duration
           iconsDuration.icon
-          p.duration {{ trip.duration }}
+          p.duration {{ trip.duration }} DAYS
         .parnet-point
           iconsPosition.icon
           p.point {{ trip.startPoint }}
@@ -58,7 +57,7 @@ p {
   backdrop-filter: blur(5px);
 }
 .title-info {
-  @apply flex flex-col gap-8 sm:gap-12 justify-between items-start;
+  @apply flex flex-col gap-8 sm:gap-12 justify-between items-center sm:items-start;
 }
 .title-info > .title {
   @apply font-bold text-albescent text-lg;
