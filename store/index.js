@@ -3,7 +3,7 @@ export const state = () => ({
     name: 'A Trip To Morocco',
   },
   strapi: {
-    httpEndpoint: 'http://192.168.8.104:1337'
+    httpEndpoint: 'http://localhost:1337'
   }
 })
 

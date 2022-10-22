@@ -36,7 +36,7 @@ export default {
         httpEndpoint:
           process.env.NODE_ENV === 'production'
             ? 'http://localhost:1337/graphql'
-            : 'http://192.168.8.104:1337/graphql',
+            : 'http://localhost:1337/graphql',
       },
     },
   },
