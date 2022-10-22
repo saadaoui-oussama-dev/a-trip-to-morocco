@@ -1,4 +1,12 @@
 const Validator = {
+  email(items, src = 0, attribute = 'value') {
+    let regEx = /^[\w-\.]+@([\w-]+\.)*[\w-]+$/
+    return Validator.regExp(items, src, attribute, regEx)
+  },
+  required(items, src = 0, attribute = 'value') {
+    // if string is empty or not
+    return Validator.regExp(items, src, attribute, /([^\s])/)
+  },
   latinWord: {
     // at least one character ( && numbers if alphaNum ) && no spaces && no symbols
     normal(items, src = 0, attribute = 'value', extra = false) {
@@ -6,32 +14,32 @@ const Validator = {
       let regEx = extra
         ? /^(([A-ZÀ-ÖÙ-ÝĀĒĪŌŪŨŶŸŒ]{1}[a-zà-öù-ýÿāēīōũūŷœ]*)|([a-zà-öù-ýÿāēīōũūŷœ]+)|([A-ZÀ-ÖÙ-ÝĀĒĪŌŪŨŶŸŒ]+)){1}$/
         : /^(([A-Za-z]{1}[a-z]*)|([a-z]+)|([A-Z]+)){1}$/
-      return Validator.stringRegExp(items, src, attribute, regEx)
+      return Validator.regExp(items, src, attribute, regEx)
     },
     lower(items, src = 0, attribute = 'value', extra = false) {
       // soufiane : lowercase
       let regEx = extra ? /^[a-zà-öù-ýÿāēīōũūŷœ]+$/ : /^[a-z]+$/
-      return Validator.stringRegExp(items, src, attribute, regEx)
+      return Validator.regExp(items, src, attribute, regEx)
     },
     upperFisrt(items, src = 0, attribute = 'value', extra = false) {
       // Soufiane : Only the first letter is capital and the rest are not
       let regEx = extra ? /^([A-ZÀ-ÖÙ-ÝĀĒĪŌŪŨŶŸŒ]{1}[a-zà-öù-ýÿāēīōũūŷœ]*){1}$/ : /^([A-Z]{1}[a-z]*){1}$/
-      return Validator.stringRegExp(items, src, attribute, regEx)
+      return Validator.regExp(items, src, attribute, regEx)
     },
     upper(items, src = 0, attribute = 'value', extra = false) {
       // ALAOUI : uppercase
       let regEx = extra ? /^[A-ZÀ-ÖÙ-ÝĀĒĪŌŪŨŶŸŒ]+$/ : /^[A-Z]+$/
-      return Validator.stringRegExp(items, src, attribute, regEx)
+      return Validator.regExp(items, src, attribute, regEx)
     },
     ignoreCases(items, src = 0, attribute = 'value', extra = false) {
       // iBrAhiM : Cases are ignored
       let regEx = extra ? /^[A-Za-zÀ-ÖÙ-ÝĀĒĪŌŪŨŶŸŒà-öù-ýÿāēīōũūŷœ]+$/ : /^[A-Za-z]+$/
-      return Validator.stringRegExp(items, src, attribute, regEx)
+      return Validator.regExp(items, src, attribute, regEx)
     },
     alphaNum(items, src = 0, attribute = 'value', extra = false) {
       // Mix between letters lower and upper, and numbers
       let regEx = extra ? /^[A-Za-z0-9À-ÖÙ-ÝĀĒĪŌŪŨŶŸŒà-öù-ýÿāēīōũūŷœ]+$/ : /^[A-Za-z0-9]+$/
-      return Validator.stringRegExp(items, src, attribute, regEx)
+      return Validator.regExp(items, src, attribute, regEx)
     },
   },
   arabicWord: {
@@ -41,45 +49,45 @@ const Validator = {
       let regEx = extra
         ? /^[\u0620-\u063F\u0641-\u065F\u066E-\u06EF\u06FA-\u08FF]+$/
         : /^[\u0621-\u063A\u0641-\u065F]+$/
-      return Validator.stringRegExp(items, src, attribute, regEx)
+      return Validator.regExp(items, src, attribute, regEx)
     },
     alphaNum(items, src = 0, attribute = 'value', extra = false) {
       // Mix between Arabic letters and numbers 0-9 and indian numbers : ٩-٠
       let regEx = extra
         ? /^[0-9|\u0660-\u0669\u0620-\u063F\u0641-\u065F\u066E-\u06EF\u06FA-\u08FF]+$/
         : /^[0-9|\u0660-\u0669\u0621-\u063A\u0641-\u065F]+$/
-      return Validator.stringRegExp(items, src, attribute, regEx)
+      return Validator.regExp(items, src, attribute, regEx)
     },
   },
   latinText: {
     alpha(items, src = 0, attribute = 'value', extra = false) {
       // letters lower and upper, spaces
       let regEx = extra ? /^[A-Za-z\sÀ-ÖÙ-ÝĀĒĪŌŪŨŶŸŒà-öù-ýÿāēīōũūŷœ]+$/ : /^[A-Za-z\s]+$/
-      return Validator.stringRegExp(items, src, attribute, regEx)
+      return Validator.regExp(items, src, attribute, regEx)
     },
     alphaNum(items, src = 0, attribute = 'value', extra = false) {
       // letters lower and upper, numbers, spaces
       let regEx = extra ? /^[A-Za-z\s0-9À-ÖÙ-ÝĀĒĪŌŪŨŶŸŒà-öù-ýÿāēīōũūŷœ]+$/ : /^[A-Za-z\s0-9]+$/
-      return Validator.stringRegExp(items, src, attribute, regEx)
+      return Validator.regExp(items, src, attribute, regEx)
     },
     phrase(items, src = 0, attribute = 'value', extra = false) {
       // letters lower and upper, numbers, spaces, comma, point
       let regEx = extra ? /^[A-Za-z\s,.0-9À-ÖÙ-ÝĀĒĪŌŪŨŶŸŒà-öù-ýÿāēīōũūŷœ]+$/ : /^[A-Za-z\s,.0-9]+$/
-      return Validator.stringRegExp(items, src, attribute, regEx)
+      return Validator.regExp(items, src, attribute, regEx)
     },
     normal(items, src = 0, attribute = 'value', extra = false) {
       // letters lower and upper, numbers, spaces, normal symbols : ,.:-/()[]{}&"'`!?
       let regEx = extra
         ? /^[A-Za-z0-9\s,.:\-/()[\]{}&"'`!?À-ÖÙ-ÝĀĒĪŌŪŨŶŸŒà-öù-ýÿāēīōũūŷœ]+$/
         : /^[A-Za-z0-9\s,.:\-/()[\]{}&"'`!?]+$/
-      return Validator.stringRegExp(items, src, attribute, regEx)
+      return Validator.regExp(items, src, attribute, regEx)
     },
     complexe(items, src = 0, attribute = 'value', extra = false) {
       // letters lower and upper, numbers, spaces, complexe symbols : ,.:-/()[]{}&"'`!?@#%\|_*+±×÷=<^>~$¢£¥¤°º«»;¿
       let regEx = extra
         ? /^[A-Za-z0-9\s,.:\-/()[\]{}&"'`!?@#%\\|_*+±×÷=<^>~$¢£¥¤°º«»;¿À-ÖÙ-ÝĀĒĪŌŪŨŶŸŒà-öù-ýÿāēīōũūŷœ]+$/
         : /^[A-Za-z0-9\s,.:\-/()[\]{}&"'`!?@#%\\|_*+±×÷=<^>~$¢£¥¤°º«»;¿]+$/
-      return Validator.stringRegExp(items, src, attribute, regEx)
+      return Validator.regExp(items, src, attribute, regEx)
     },
   },
   phone: {
@@ -87,26 +95,18 @@ const Validator = {
       // it can start by : 321 || + 2654 || (32) || (+313) || ( + 321 ) || none   and    () == [] == {}
       // the rest can be separeted by (space - .) : 654-62 || 654.5466 || 654621 31 || 654.54-3.664.54
       let regEx = /^\s*(\+{0,1}\s*\d*\s*)?([(\[{]\s*\+{0,1}\s*\d+\s*[)\]}])?[\s.-\d]+$/
-      return Validator.stringRegExp(items, src, attribute, regEx)
+      return Validator.regExp(items, src, attribute, regEx)
     },
     moroccan(items, src = 0, attribute = 'value') {
       // it's included in phone.normal
       // it can start by : (+ 212) || + 212 || + ( 212 ) || none
       // the rest can be : 6... || 5... || 7... || 06... || 05... || 07... and separeted by (space - .)
       let regEx = /^\s*(\+{0,1}\s*212\s*)?([(\[{]\s*\+{0,1}\s*212\s*[)\]}])?\s*0{0,1}[567][\s.-\d]+\d+$/
-      return Validator.stringRegExp(items, src, attribute, regEx)
+      return Validator.regExp(items, src, attribute, regEx)
     },
   },
-  email: {
-    normal(items, src = 0, attribute = 'value') {
-      let regEx = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,5}$/
-      return Validator.stringRegExp(items, src, attribute, regEx)
-    }
-  },
-  required: {
-    normal(items, src = 0, attribute = 'value') {
-      // if string is empty or not
-      return Validator.stringRegExp(items, src, attribute, /([^\s])/)
+  size: {
+    length(items, length, src = 0, attribute = 'value') {
     },
     lengthMin(items,  minLength, src = 0, attribute = 'value') {
     },
@@ -114,8 +114,6 @@ const Validator = {
     },
     lengthMinMax(items, minLength, maxLength, src = 0, attribute = 'value') {
     },
-    length(items, length, src = 0, attribute = 'value') {
-    }
   },
   getElements(items, src) {
     let $src, $elements, $items
@@ -165,9 +163,9 @@ const Validator = {
       return { element, value: undefined, valid: false, error: 'Unknown error in getting element value' }
     }
   },
-  stringRegExp(items, src = 0, attribute = 'value', regExp) {
+  regExp(items, src = 0, attribute = 'value', regExp) {
     attribute = typeof attribute  == 'boolean' ? null : attribute
-    let res = { valid: true, details: [] }, $valid
+    let res = { valid: true, details: [] }
     let $elements = Validator.getElements(items, src)
     res.details = $elements.map($el => {
       $el = $el.valid ? $el = Validator.getValue($el, attribute) : $el
@@ -182,7 +180,7 @@ const Validator = {
     return res
   },
   groupByMethod(schema = {}, mode = 'AND') {
-    let res = {}, notNesting = ['regExp', 'schema', 'groupByMethod', 'groupByValue']
+    let res = {}, notNesting = ['regExp', 'schema', 'groupByMethod', 'groupByValue', 'email', 'required']
     mode = mode == 'OR' || mode == 'or' ? 'OR' : 'AND'
     res.valid = mode != 'OR'
     res.details = Object.entries(schema).map(method => {
