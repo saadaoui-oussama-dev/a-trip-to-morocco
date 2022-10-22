@@ -13,27 +13,28 @@
         iconsMessage(color="#3D0E1B")
         span contact@atriptomoroco.com
     p.address Angle boulevard Emile Zola et Rue Rethel 7éme Étage N°20 Casablanca 20300 Morocco
-  div.form
+  div.form(:class="!valid ? 'require-error':''")
     .info.mb-4
-      div
+      .input(:class="!validator.firstName ? 'require-error':''")
         p FIRST NAME
         input(placeholder="FIRST NAME" ref='firstName')
-      div
+      .input(:class="!validator.lastName ? 'require-error':''")
         p LAST NAME
         input(placeholder="LAST NAME" ref='lastName')
-      div
+      .input(:class="!validator.email ? 'require-error':''")
         p EMAIL
         input(placeholder="EMAIL" ref='email')
-      div
+      .input(:class="!validator.phone ? 'require-error':''")
         p PHONE
         input(placeholder="PHONE" ref='phone')
     .message.mb-4
-      div
+      .input(:class="!validator.message ? 'require-error':''")
         p MESSAGE
         textarea(placeholder="MESSAGE" rows="5" ref='message')
     .ant-btn(v-if="spinActive" style="background-color: #f8e1c3")
       a-spin
     .ant-btn(v-else @click="validateForm") Send
+    p()
 </template>
 
 <script>
@@ -44,23 +45,53 @@ export default {
   data() {
     return {
       spinActive: false,
-      from: {}
+      from: {},
+      validator: {
+        firstName: true,
+        lastName: true,
+        email: true,
+        phone: true,
+        message: true,
+      },
+      valid: true,
     }
   },
   methods: {
     validateForm() {
       this.spinActive = true
-      let { valid } = Validator.schema({
-        required: [null, this.$refs],
-        latinText_alpha_extra: [['firstName', 'lastName'], this.$refs],
-        latinText_complexe_extra: [this.$refs.message],
-        email: [this.$refs.email],
-        phone: [this.$refs.phone],
+      this.valid= true
+      Object.keys(this.validator).map(attr => {
+        this.validator[attr] = true
       })
       setTimeout(() => {
+        let res  = Validator.schema({
+          latinText_alpha_extra: [this.$refs.firstName],
+          latinText_alpha_extra_: [this.$refs.lastName],
+          email: [this.$refs.email],
+          phone: [this.$refs.phone],
+          latinText_complexe_extra: [this.$refs.message],
+          required: [null, this.$refs],
+        })
+        this.valid = res.valid
+        Object.keys(this.validator).map((attr,index) => {
+        this.validator[attr] = res.details[index].valid && res.details[5].details[index].valid
+      }) 
+
+        
+        // this.valid.lastName = Validator.latinText.alpha('lastName', this.$refs, 'value', true).valid
+        // // 'Last name is not valid'
+        // this.valid.firstName = Validator.latinText.alpha('firstName', this.$refs, 'value', true).valid
+        // // 'First name is not valid'
+        // this.valid.message = Validator.latinText.complexe('message', this.$refs, 'value', true).valid
+        // // 'Some characters in the message are unacceptable'
+        // this.valid.email = Validator.email(this.$refs.email).valid
+        // // 'email is not valid'
+        // this.valid.phone = Validator.phone.normal(this.$refs.phone).valid
+        
+        // this.valid.all = Validator.required(null, this.$refs).valid
+        // 'all inputs are required'
         this.spinActive = false
-        if (valid) alert('valid'); else alert('not valid')
-      }, 750)
+      },700)
     }
   }
 }
@@ -114,5 +145,35 @@ svg {
 .form .ant-btn:active,
 .form .ant-btn:focus {
   background-color: #f8e1c3;
+}
+.form.require-error::before {
+  @apply absolute text-xs text-red-600 left-0 bottom-0;
+  content: "There is an error in some fields";
+  animation: error 0.5s;
+}
+.input.require-error input,
+.input.require-error textarea {
+  @apply border-red-600 border-solid border;
+}
+.input.require-error input,
+.input.require-error p{
+  @apply text-red-600;
+}
+.input.require-error p {
+  animation: error 0.5s;
+}
+@keyframes error {
+  59% {
+    margin-left: 0;
+  }
+
+  60%,
+  80% {
+    margin-left: 3px;
+  }
+  70%,
+  90% {
+    margin-left: -3px;
+  }
 }
 </style>
