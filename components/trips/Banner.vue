@@ -51,20 +51,20 @@ p {
   @apply w-3 sm:w-4 lg:w-4 h-auto;
 }
 .parnet-content {
-  @apply w-full absolute bottom-0 flex flex-col gap-8 sm:flex-row justify-between items-center  bg-opacity-50 px-8 py-8;
+  @apply w-full absolute bottom-0 flex flex-col gap-4 sm:gap-8 sm:flex-row justify-between items-center  bg-opacity-50 px-8 py-8;
   @apply px-0 sm:px-8 sm:py-8 lg:px-16 lg:py-12;
   mix-blend-mode: normal;
   backdrop-filter: blur(5px);
 }
 .title-info {
-  @apply flex flex-col gap-8 sm:gap-12 justify-between items-center sm:items-start;
+  @apply flex flex-col gap-4 sm:gap-12 justify-between items-center sm:items-start;
 }
 .title-info > .title {
   @apply font-bold text-albescent text-lg;
   @apply sm:text-lg lg:text-4xl;
 }
 .contact-book {
-  @apply flex flex-col gap-8 sm:gap-12 justify-between items-center sm:items-start;
+  @apply flex flex-col gap-4 sm:gap-12 justify-between items-center sm:items-start;
 }
 .contact {
   @apply flex flex-col gap-3 items-center sm:items-start;
