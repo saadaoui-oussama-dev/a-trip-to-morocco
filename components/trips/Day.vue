@@ -13,8 +13,8 @@
       )
     .content-parent
       .content
-        h3.text-colored {{ day.title }}
-        p {{ day.description }}
+        h3.m-0.text-colored {{ day.title }}
+        p.m-0 {{ day.description }}
 </template>
 
 <script>
@@ -25,10 +25,6 @@ export default {
 </script>
 
 <style scoped>
-h3,
-p {
-  @apply m-0;
-}
 .day {
   @apply flex flex-col items-center;
 }
@@ -67,7 +63,6 @@ p {
 .line-parent .arrow {
   @apply absolute -bottom-0.5 w-3.5;
 }
-
 .content h3 {
   @apply text-lg  font-medium text-center  mb-4;
   @apply sm:text-base md:text-lg lg:text-2xl sm:text-left sm:mb-8;

@@ -2,40 +2,32 @@
 .overview.limited(:class='{ heath: type == "p", teal: type == "d", kashmir: type == "a" }')
   .title
       h1.text-colored Tour Overview
-      p {{overview.description}}
+      p {{ trip.description }}
   .content 
     .icon-description
       .icon-parent
         iconsSleep(:color="color").icon
-      p {{overview.sleep}}
+      p {{ trip.housing }}
     .icon-description
       .icon-parent
         iconsLanguage(:color="color").icon
-      p {{overview.languages}}
+      p {{ trip.guide }}
     .icon-description
       .icon-parent
         iconsTransport(:color="color").icon
-      p {{overview.transport}}
+      p {{ trip.transport }}
     .icon-description
       .icon-parent
         iconsPlaces(:color="color").icon
-      p {{overview.places}}
-
+      p {{ trip.places }}
 </template>
 
 <script>
 export default {
   name: 'OverviewComponent',
-  props: ['type'],
+  props: ['type', 'trip'],
   data() {
     return {
-      overview: {
-        description: 'From the bustling markets of Marrakech, to the blue streets of Chefchaouen and the tranquil beauty of the Sahara - this tour is for those who want it all, and have some time to spend exploring the best of Morocco at a slower pace',
-        sleep: 'Carefully selected hotels, Kasbahs, Riads. Includes one night in a traditional Berber desert camp',
-        transport: 'Air-conditioned 4WD vehicle(s), mini bus or motor-coach',
-        languages: 'Qualified multi-language guide fluent in English, French, Spanish',
-        places: 'Casablanca, Rabat, Chefchaouen, Fes, Merzouga (Sahara Desert) Ouarzazate, Marrakech, Essaouria'
-      },
       color:null
     }
   },

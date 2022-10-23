@@ -5,6 +5,10 @@ query ($id: ID!) {
       attributes {
         title
         description
+        housing
+        guide
+        transport
+        places
         price
         duration
         startPoint
