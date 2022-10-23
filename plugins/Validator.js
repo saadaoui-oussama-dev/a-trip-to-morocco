@@ -1,6 +1,6 @@
 const Validator = {
   email(items, src = 0, attribute = 'value') {
-    let regEx = /^[\w-\.]+@([\w-]+\.)*[\w-]+$/
+    let regEx = /^\s*(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))\s*$/
     return Validator.regExp(items, src, attribute, regEx)
   },
   required(items, src = 0, attribute = 'value') {
@@ -94,25 +94,25 @@ const Validator = {
     normal(items, src = 0, attribute = 'value') {
       // it can start by : 321 || + 2654 || (32) || (+313) || ( + 321 ) || none   and    () == [] == {}
       // the rest can be separeted by (space - .) : 654-62 || 654.5466 || 654621 31 || 654.54-3.664.54
-      let regEx = /^\s*(\+{0,1}\s*\d*\s*)?([(\[{]\s*\+{0,1}\s*\d+\s*[)\]}])?[\s.-\d]+$/
+      let regEx = /^\s*(\+{0,1}\s*\d*\s*)?([(\[{]\s*\+{0,1}\s*\d+\s*[)\]}])?([\s\d]+[.\-]{0,1}[\s\d]*)+[\s\d]+$/
       return Validator.regExp(items, src, attribute, regEx)
     },
     moroccan(items, src = 0, attribute = 'value') {
       // it's included in phone.normal
       // it can start by : (+ 212) || + 212 || + ( 212 ) || none
       // the rest can be : 6... || 5... || 7... || 06... || 05... || 07... and separeted by (space - .)
-      let regEx = /^\s*(\+{0,1}\s*212\s*)?([(\[{]\s*\+{0,1}\s*212\s*[)\]}])?\s*0{0,1}[567][\s.-\d]+\d+$/
+      let regEx = /^\s*(\+{0,1}\s*212\s*)?([(\[{]\s*\+{0,1}\s*212\s*[)\]}])?\s*0{0,1}[567]([\s\d]+[.\-]{0,1}[\s\d]*)+[\s\d]+$/
       return Validator.regExp(items, src, attribute, regEx)
     },
   },
   size: {
     length(items, length, src = 0, attribute = 'value') {
     },
-    lengthMin(items,  minLength, src = 0, attribute = 'value') {
+    min(items,  minLength, src = 0, attribute = 'value') {
     },
-    lengthMax(items,  maxLength, src = 0, attribute = 'value') {
+    max(items,  maxLength, src = 0, attribute = 'value') {
     },
-    lengthMinMax(items, minLength, maxLength, src = 0, attribute = 'value') {
+    minMax(items, minLength, maxLength, src = 0, attribute = 'value') {
     },
   },
   getElements(items, src) {
@@ -123,7 +123,7 @@ const Validator = {
         (typeof items == 'object') ? items : (! items) ? null : undefined
       $src = (typeof src == 'object' && src) ? src : (!src) ? null : undefined
       if (typeof $src == 'undefined' || typeof $elements == 'undefined')
-        return [{ element: undefined, value: undefined, valid: false, error: 'Invalid parameters !' }]
+        return [{ element: undefined, value: undefined, valid: false, error: 'Invalid parameters' }]
       $items = typeof $src == 'undefined'
         ? [undefined]
         : ! $src ? $elements
@@ -134,9 +134,9 @@ const Validator = {
       return $items.map(item =>
         (item || typeof item == 'number' || typeof item == 'string') && typeof item != 'boolean'
           ? { element: item, value: item, valid: true }
-          : { element: item, value: item, valid: false, error: 'Invalid element value || Element not found !' }
+          : { element: item, value: item, valid: false, error: 'Invalid element value || Element not found' }
       )
-    } catch { return [{ element: undefined, valid: false, error: 'Unknown error in getting element !' }] }
+    } catch { return [{ element: undefined, valid: false, error: 'Unknown error in getting element' }] }
   },
   getValue(item, attr) {
     attr = typeof attr  == 'boolean' ? null : attr
@@ -145,19 +145,19 @@ const Validator = {
       return (typeof element == 'number' || typeof element == 'string') && ! attr
         ? { element, value: element, valid: true }
         : typeof element == 'number' || typeof element == 'string'
-        ? { element, value: element, valid: true, error: 'Useless Attribute !' }
+        ? { element, value: element, valid: true, alert: `Useless Attribute: ${attr}` }
         : typeof attr == 'object' && attr
-        ? { element, value: undefined, valid: false, error: 'Invaild Attribute !' }
+        ? { element, value: undefined, valid: false, error: `Invaild Attribute: ${attr}` }
         : ! item
-        ? { element, value: element, valid: false, error: 'Invalid element value !' }
+        ? { element, value: element, valid: false, error: 'Invalid element value' }
         : typeof item == 'object'
         ? attr in element && (typeof element[attr] == 'number' || typeof element[attr] == 'string')
         ? { element, value: element[attr], valid: true }
         : attr in element || typeof attr == 'number' || typeof attr == 'string'
-        ? { element, value: element[attr], valid: false, error: 'Invalid element value !' }
+        ? { element, value: element[attr], valid: false, error: 'Invalid element value' }
         : ! attr && typeof attr != 'number' && typeof attr != 'string'
-        ? { element, value: element, valid: false, error: 'Invalid element value !' }
-        : { element, value: undefined, valid: false, error: 'Unknown key in object / array !' }
+        ? { element, value: element, valid: false, error: 'Invalid element value' }
+        : { element, value: undefined, valid: false, error: `Unknown key ${attr} in object / array` }
         : { element, value: undefined, valid: false, error: 'Unknown error in getting element value' }
     } catch {
       return { element, value: undefined, valid: false, error: 'Unknown error in getting element value' }
@@ -213,7 +213,7 @@ const Validator = {
   },
   groupByValues(schema = [], mode = 'AND') {
     mode = mode == 'OR' || mode == 'or' ? 'OR' : 'AND'
-    let res = { valid: false, error: 'script of Schema[ groupByValues ] does\'t exist yet !' }
+    let res = { valid: false, error: 'script of Schema[ groupByValues ] does\'t exist yet' }
     res.schema = `groupByValues (${mode})`
     return res
   },
@@ -229,8 +229,82 @@ const Validator = {
         ? Validator[method](schema, mode)
         : { valid: false, error: 'Schema should be an object or an array'}
     } catch {
-      return { valid: false, error: 'An unhandled error was detected while executing the scheme !'}
+      return { valid: false, error: 'An unhandled error was detected while executing the scheme'}
     }
+  },
+
+  // Methods to use directly to change inputs values before validation
+  // Ex : force change 'last name' to upperCase
+  // It is recommended to use forceChange.trim() in any context, [ if it's used, there's no need to required() ]
+  // These methods should NOT be called in SCHEMA
+  forceChange: {
+    trim(items, attr = null) {
+      // to remove white spaces from the beginning and the end of text
+      return Validator.forceChange.byFunction(items, attr, (str) => str.trim())
+    },
+    // to change characters depending on method
+    lower(items, attr = null) {
+      return Validator.forceChange.byFunction(items, attr, (str) => str.toLowerCase())
+    },
+    upper(items, attr = null) {
+      return Validator.forceChange.byFunction(items, attr, (str) => str.toUpperCase())
+    },
+    upFirst(items, attr = null) {
+      return Validator.forceChange.byFunction(items, attr, (str) =>
+        str.trim().charAt(0).toUpperCase() + str.trim().substring(1).toLowerCase()
+      )
+    },
+    upWord(items, attr = null) {
+      return Validator.forceChange.byFunction(items, attr, (str) => {
+        let words = str.trim().toLowerCase().split(/[\s,.:\-/()[\]{}&"'`!?@#%\\|_*+±×÷=<^>~$¢£¥¤°º«»;¿]+/).map(word => {
+          return word.trim().charAt(0).toUpperCase() + word.trim().substring(1)
+        })
+        words = words.filter(notEmpty => notEmpty)
+        let newStr = ''
+        str = str.toLowerCase()
+        words.map(word => {
+          newStr += str.substring(0, str.indexOf(word.toLowerCase())).trim() + ' ' + word
+          str = str.substring(str.indexOf(word.toLowerCase()) + word.length)
+        })
+        return newStr.trim()
+      })
+    },
+    upSentence(items, attr = null) {
+      return Validator.forceChange.byFunction(items, attr, (str) => {
+        let sentences = str.trim().toLowerCase().split(/[.:!?;¿]+/).map(sentence => {
+          return sentence.trim().charAt(0).toUpperCase() + sentence.trim().substring(1)
+        })
+        sentences = sentences.filter(notEmpty => notEmpty)
+        let newStr = ''
+        str = str.toLowerCase()
+        sentences.map(sentence => {
+          newStr += str.substring(0, str.indexOf(sentence.toLowerCase())).trim() + ' ' + sentence
+          str = str.substring(str.indexOf(sentence.toLowerCase()) + sentence.length)
+        })
+        return newStr.trim()
+      })
+    },
+    byFunction(items, attr, func) {
+      if (typeof items == 'string') {
+        items = func(items)
+      } else if (typeof items == 'object' && items) {
+        Object.keys(items).map(field => {
+          if (typeof items[field] == 'string') {
+            items[field] = func(items[field])
+          } else if (
+            (typeof attr == 'number' || typeof attr == 'string') &&
+            items[field] && typeof items[field] == 'object' && typeof items[field][attr] == 'string'
+          ) {
+            items[field][attr] = func(items[field][attr])
+          } else {
+            console.error('invalid attribute : "' , attr,'" or item ', items[field], ' in ', items)
+          }
+        })
+      } else {
+        console.error('invalid params: items: ', items, ', attribute : ', attr)
+      }
+      return items
+    },
   },
 }
 

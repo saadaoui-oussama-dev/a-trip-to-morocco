@@ -3,13 +3,14 @@ export default {
     port: process.env.NODE_ENV === 'production' ? 2023 : 3000,
   },
   head: {
-    title: 'A Trip To Morroco',
+    title: 'A Trip To Morocco',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'initial-scale=1.0, maximum-scale=1.0' },
       { hid: 'description', name: 'description', content: '' },
       { name: 'format-detection', content: 'telephone=no' },
     ],
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/logo.ico' }],
   },
   css: [
     '~/static/global/libs/antd.css',
@@ -31,15 +32,15 @@ export default {
       default: {
         httpEndpoint:
           process.env.NODE_ENV === 'production'
-            ? 'https://localhost:1337/graphql'
-            : 'https://localhost:1337/graphql',
+            ? 'http://localhost:1337/graphql'
+            : 'http://localhost:1337/graphql',
       },
     },
   },
   googleFonts: {
     families: {
-      Tajawal: true,
-      Cairo: true,
+      Dosis: true,
+      DavidLibre: true,
     },
   },
 }

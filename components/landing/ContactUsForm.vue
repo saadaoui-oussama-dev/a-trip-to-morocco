@@ -13,85 +13,97 @@
         iconsMessage(color="#3D0E1B")
         span contact@atriptomoroco.com
     p.address Angle boulevard Emile Zola et Rue Rethel 7éme Étage N°20 Casablanca 20300 Morocco
-  div.form(:class="!valid ? 'require-error':''")
+  div.form(:class="{ error: state == 1, netError: state == 2, send: state == 3 }")
     .info.mb-4
-      .input(:class="!validator.firstName ? 'require-error':''")
+      .input(:class="!valid.fname ? 'error' : ''")
         p FIRST NAME
-        input(placeholder="FIRST NAME" ref='firstName')
-      .input(:class="!validator.lastName ? 'require-error':''")
+        input(placeholder="FIRST NAME" ref='fname')
+      .input(:class="!valid.lname ? 'error' : ''")
         p LAST NAME
-        input(placeholder="LAST NAME" ref='lastName')
-      .input(:class="!validator.email ? 'require-error':''")
+        input(placeholder="LAST NAME" ref='lname')
+      .input(:class="!valid.email ? 'error' : ''")
         p EMAIL
         input(placeholder="EMAIL" ref='email')
-      .input(:class="!validator.phone ? 'require-error':''")
+      .input(:class="!valid.phone ? 'error' : ''")
         p PHONE
         input(placeholder="PHONE" ref='phone')
     .message.mb-4
-      .input(:class="!validator.message ? 'require-error':''")
+      .input(:class="!valid.message ? 'error' : ''")
         p MESSAGE
         textarea(placeholder="MESSAGE" rows="5" ref='message')
     .ant-btn(v-if="spinActive" style="background-color: #f8e1c3")
       a-spin
-    .ant-btn(v-else @click="validateForm") Send
-    p()
+    .ant-btn(v-else-if="state != 3" @click="validateForm") Send
+    .ant-btn(v-else) Wait
 </template>
 
 <script>
 import Validator from '../../plugins/Validator'
+import contactMutation from '~/apollo/mutations/contact/create.gql'
 
 export default {
-  name: 'ContactUsFromComponent',
+  name: 'ContactUsComponent',
   data() {
     return {
       spinActive: false,
-      from: {},
-      validator: {
-        firstName: true,
-        lastName: true,
+      state: 0,
+      valid: {
+        fname: true,
+        lname: true,
         email: true,
         phone: true,
         message: true,
       },
-      valid: true,
     }
   },
   methods: {
     validateForm() {
       this.spinActive = true
-      this.valid= true
-      Object.keys(this.validator).map(attr => {
-        this.validator[attr] = true
+      this.$refs = Validator.forceChange.trim(this.$refs, 'value')
+      this.$refs.lname.value = Validator.forceChange.upWord(this.$refs.lname.value)
+      this.$refs.fname.value = Validator.forceChange.upWord(this.$refs.fname.value)
+      this.$refs.email.value = Validator.forceChange.lower(this.$refs.email.value)
+      this.state = 0
+      Object.keys(this.valid).map(attr => {
+        this.valid[attr] = true
       })
-      setTimeout(() => {
-        let res  = Validator.schema({
-          latinText_alpha_extra: [this.$refs.firstName],
-          latinText_alpha_extra_: [this.$refs.lastName],
-          email: [this.$refs.email],
-          phone: [this.$refs.phone],
-          latinText_complexe_extra: [this.$refs.message],
-          required: [null, this.$refs],
+      let res = Validator.schema({
+        latinText_alpha_extra: [this.$refs.fname],
+        latinText_alpha_extra_: [this.$refs.lname],
+        email: [this.$refs.email],
+        phone: [this.$refs.phone],
+        latinText_complexe_extra: [this.$refs.message],
+      })
+      setTimeout(async () => {
+        Object.keys(this.valid).map((attr, index) => {
+          this.valid[attr] = res.details[index].valid
         })
-        this.valid = res.valid
-        Object.keys(this.validator).map((attr,index) => {
-        this.validator[attr] = res.details[index].valid && res.details[5].details[index].valid
-      }) 
-
-        
-        // this.valid.lastName = Validator.latinText.alpha('lastName', this.$refs, 'value', true).valid
-        // // 'Last name is not valid'
-        // this.valid.firstName = Validator.latinText.alpha('firstName', this.$refs, 'value', true).valid
-        // // 'First name is not valid'
-        // this.valid.message = Validator.latinText.complexe('message', this.$refs, 'value', true).valid
-        // // 'Some characters in the message are unacceptable'
-        // this.valid.email = Validator.email(this.$refs.email).valid
-        // // 'email is not valid'
-        // this.valid.phone = Validator.phone.normal(this.$refs.phone).valid
-        
-        // this.valid.all = Validator.required(null, this.$refs).valid
-        // 'all inputs are required'
+        if (res.valid) {
+          try {
+            res = await this.$apollo.provider.defaultClient.mutate({
+              mutation: contactMutation,
+              variables: {
+                contact: {
+                  fname: this.$refs.fname.value,
+                  lname: this.$refs.lname.value,
+                  email: this.$refs.email.value,
+                  phone: this.$refs.phone.value,
+                  message: this.$refs.message.value,
+                }
+              },
+              fetchPolicy: 'no-cache',
+            })
+            this.state = 3
+            setTimeout(() => {
+              Object.keys(this.$refs).map(field => {
+                this.$refs[field].value = ''
+              })
+              this.state = 0
+            }, 15000)
+          } catch(e) { this.state = 2 }
+        } else { this.state = 1 }
         this.spinActive = false
-      },700)
+      }, 700)
     }
   }
 }
@@ -146,20 +158,29 @@ svg {
 .form .ant-btn:focus {
   background-color: #f8e1c3;
 }
-.form.require-error::before {
-  @apply absolute text-xs text-red-600 left-0 bottom-0;
-  content: "There is an error in some fields";
+.form::before {
+  @apply w-3/5 absolute text-sm text-red-600 left-0 bottom-0;
   animation: error 0.5s;
 }
-.input.require-error input,
-.input.require-error textarea {
+.form.error::before {
+  content: "There is an error in some fields";
+}
+.form.netError::before {
+  content: "There is a problem connecting to the internet";
+}
+.form.send::before {
+  @apply text-green-600;
+  content: "Message sent successfully";
+}
+.input.error input,
+.input.error textarea {
   @apply border-red-600 border-solid border;
 }
-.input.require-error input,
-.input.require-error p{
+.input.error input,
+.input.error p {
   @apply text-red-600;
 }
-.input.require-error p {
+.input.error p {
   animation: error 0.5s;
 }
 @keyframes error {
