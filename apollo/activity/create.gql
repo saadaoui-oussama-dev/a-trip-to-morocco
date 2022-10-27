@@ -1,0 +1,7 @@
+mutation ($tour: ActivityInput!) {
+  createActivity(data: $tour) {
+    data {
+      id
+    }
+  }
+}

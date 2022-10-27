@@ -9,26 +9,9 @@ query ($id: ID!) {
         guide
         transport
         places
+        mainPlace
         price
         duration
-        startPoint
-        days {
-          data {
-            id
-            attributes {
-              number
-              title
-              description
-              image {
-                data {
-                  attributes {
-                    url
-                  }
-                }
-              }
-            }
-          }
-        }
         banner {
           data {
             attributes {
@@ -40,6 +23,24 @@ query ($id: ID!) {
           data {
             attributes {
               url
+            }
+          }
+        }
+        days {
+          data {
+            id
+            attributes {
+              number
+              order
+              title
+              description
+              image {
+                data {
+                  attributes {
+                    url
+                  }
+                }
+              }
             }
           }
         }

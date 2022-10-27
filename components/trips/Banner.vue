@@ -14,7 +14,7 @@
           p.duration {{ trip.duration }} DAYS
         .parnet-point
           iconsPosition.icon
-          p.point {{ trip.startPoint }}
+          p.point {{ trip.mainPlace }}
     .contact-book.albescent
       .contact
         .phone
@@ -32,6 +32,7 @@ export default {
   props: ['trip'],
 }
 </script>
+
 <style scoped>
 h1,
 p {

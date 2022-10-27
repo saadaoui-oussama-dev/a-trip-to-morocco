@@ -1,4 +1,4 @@
-import reviewQuery from '~/apollo/queries/review/all.gql'
+import reviewQuery from '~/apollo/review/all.gql'
 
 export const state = () => ({
   feedbacks: [],

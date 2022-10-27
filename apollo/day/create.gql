@@ -1,0 +1,7 @@
+mutation ($day: DayInput!) {
+  createDay(data: $day) {
+    data {
+      id
+    }
+  }
+}

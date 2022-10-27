@@ -1,6 +1,6 @@
-import privateTripsQuery from '~/apollo/queries/private-trips/all.gql'
-import dayTripsQuery from '~/apollo/queries/day-trips/all.gql'
-import activitiesQuery from '~/apollo/queries/activities/all.gql'
+import privateTripsQuery from '~/apollo/private-trip/all.gql'
+import dayTripsQuery from '~/apollo/day-trip/all.gql'
+import activitiesQuery from '~/apollo/activity/all.gql'
 
 export const state = () => ({
   privateTrips: [],

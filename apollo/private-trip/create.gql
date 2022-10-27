@@ -1,0 +1,7 @@
+mutation ($tour: PrivateTripInput!) {
+  createPrivateTrip(data: $tour) {
+    data {
+      id
+    }
+  }
+}

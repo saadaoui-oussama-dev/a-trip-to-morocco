@@ -14,9 +14,9 @@ div(:class='{ heath: type == "p", teal: type == "d", kashmir: type == "a" }')
 </template>
 
 <script>
-import privateTripQuery from '~/apollo/queries/private-trips/one.gql'
-import dayTripQuery from '~/apollo/queries/day-trips/one.gql'
-import activityQuery from '~/apollo/queries/activities/one.gql'
+import privateTripQuery from '~/apollo/private-trip/one.gql'
+import dayTripQuery from '~/apollo/day-trip/one.gql'
+import activityQuery from '~/apollo/activity/one.gql'
 
 export default {
   name: 'TripPage',
@@ -53,8 +53,7 @@ export default {
       banner: endpoint + attr.banner.data.attributes.url,
       images: attr.images.data.map(({ attributes: { url } }) => endpoint + url),
     }
-    trip.days.sort((a, b) => a.number - b.number)
-    trip.days.sort((a, b) => (a.number == b.number ? a.id - b.id : 0))
+    trip.days.sort((a, b) => a.order - b.order)
     let list = type == 'p' ? 'privateTrips' : type == 'd' ? 'dayTrips' : 'activities',
       trips = await store.dispatch('trips/SET_LIST', list)
     return { type, trip }

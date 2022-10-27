@@ -39,7 +39,7 @@
 
 <script>
 import Validator from '../../plugins/Validator'
-import contactMutation from '~/apollo/mutations/contact/create.gql'
+import contactMutation from '~/apollo/contact/create.gql'
 
 export default {
   name: 'ContactUsComponent',
