@@ -114,7 +114,7 @@ export default {
   @apply flex justify-center items-center flex-col overflow-hidden bg-white;
   @apply min-h-184 sm:min-h-152 lg:min-h-184 xl:min-h-248;
   @apply py-4 px-8 sm:px-4 md:px-3 lg:px-16;
-  background-image: url(~/assets/noise-cotton.svg);
+  background-image: url(~/assets/images/noise-cotton.svg);
 }
 h1 {
   @apply text-2xl text-center mb-2 text-heath;

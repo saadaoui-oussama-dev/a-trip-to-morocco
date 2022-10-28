@@ -203,7 +203,7 @@ export default {
 }
 .arrow {
   @apply hidden sm:flex w-8 h-8 absolute top-1/2 z-50 justify-center items-center rounded-full bg-kashmir cursor-pointer;
-  background-image: url(~/assets/noise-kashmir.svg);
+  background-image: url(~/assets/images/noise-kashmir.svg);
   transform: translateY(-50%);
 }
 .arrow.prev {
