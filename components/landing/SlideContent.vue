@@ -17,7 +17,7 @@ export default {
 <style scoped>
 .slide-content {
   @apply min-w-full h-full flex-col-reverse sm:flex-row flex bg-teal;
-  background-image: url('~/assets/noise-teal.png');
+  background-image: url('~/assets/images/noise-teal.png');
 }
 .info {
   @apply w-full h-1/2 pb-10 pt-8 sm:py-0 sm:h-auto sm:w-1/2;

@@ -18,7 +18,7 @@ export default {
 <style scoped>
 .limited {
   @apply bg-cotton;
-  background-image: url(~/assets/noise-cotton.svg);
+  background-image: url(~/assets/images/noise-cotton.svg);
 }
 .content {
   @apply grid grid-cols-2 py-9 gap-1;

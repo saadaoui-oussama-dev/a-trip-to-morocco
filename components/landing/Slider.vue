@@ -106,7 +106,7 @@ export default {
 
 <style scoped>
 .limited {
-  background-image: url('~/assets/noise-teal.png');
+  background-image: url('~/assets/images/noise-teal.png');
   @apply bg-teal mt-10 px-0;
   @apply sm:bg-none sm:bg-transparent sm:mt-12 md:mt-20;
 }

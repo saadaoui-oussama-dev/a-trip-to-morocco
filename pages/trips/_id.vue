@@ -6,7 +6,7 @@ div(:class='{ heath: type == "p", teal: type == "d", kashmir: type == "a" }')
   tripsDays(:days="trip.days" :type='type')
   tripsImagesSection(:list='trip.images')
   tripsPostsList(
-    title="Other Trips",
+    :title="title",
     :list='type == "p" ? "PRIVATE_TRIPS" : type == "d" ? "DAY_TRIPS" : "ACTIVITIES"',
     :active='trip.id',
   )
@@ -31,6 +31,7 @@ export default {
   async asyncData({ params, app, redirect, store }) {
     params = params.id.split('-')
     let type = params[0],
+      title = type == 'p' ? "Other private Trips" : type == 'd' ? "Other Day Trips" : "Other Activities",
       id = Number(params[1]),
       query = type == 'p' ? privateTripQuery : type == 'd' ? dayTripQuery : activityQuery,
       attr = type == 'p' ? 'privateTrip' : type == 'd' ? 'dayTrip' : 'activity',
@@ -56,7 +57,7 @@ export default {
     trip.days.sort((a, b) => a.order - b.order)
     let list = type == 'p' ? 'privateTrips' : type == 'd' ? 'dayTrips' : 'activities',
       trips = await store.dispatch('trips/SET_LIST', list)
-    return { type, trip }
+    return { title, type, trip }
   },
   methods: {
     detectScroll() {

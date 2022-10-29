@@ -20,7 +20,7 @@ export default {
 <style scoped>
 .limited {
   @apply mt-10 bg-kashmir;
-  background-image: url(~/assets/noise-kashmir.svg);
+  background-image: url(~/assets/images/noise-kashmir.svg);
   @apply sm:mt-12 md:mt-20;
 }
 .content {
