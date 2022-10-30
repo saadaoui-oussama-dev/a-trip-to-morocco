@@ -1,0 +1,50 @@
+query ($id: ID!) {
+  dayTrip(id: $id) {
+    data {
+      id
+      attributes {
+        title
+        description
+        housing
+        guide
+        transport
+        places
+        mainPlace
+        price
+        duration
+        banner {
+          data {
+            attributes {
+              url
+            }
+          }
+        }
+        images {
+          data {
+            attributes {
+              url
+            }
+          }
+        }
+        days {
+          data {
+            id
+            attributes {
+              number
+              order
+              title
+              description
+              image {
+                data {
+                  attributes {
+                    url
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,5 +1,5 @@
 <template lang="pug">
-.footer
+.limited
   .content(ref="navTop")
     P © COPYRIGHT 2021 - A TRIP TO MOROCCO
     .contact
@@ -16,11 +16,11 @@ export default {
 </script>
 
 <style scoped>
-.footer {
-  @apply w-full px-2 sm:px-6 lg:px-10 flex justify-center items-center bg-heath;
+.limited {
+  @apply max-w-full items-center bg-heath;
 }
 .content {
-  @apply w-full max-w-6xl py-4 flex justify-between items-center;
+  @apply py-4 flex justify-between items-center;
 }
 .contact {
   @apply flex items-center gap-2 sm:gap-4;

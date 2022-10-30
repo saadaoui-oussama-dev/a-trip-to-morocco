@@ -1,0 +1,19 @@
+query {
+  privateTrips {
+    data {
+      id
+      attributes {
+        title
+        description
+        price
+        banner {
+          data {
+            attributes {
+              url
+            }
+          }
+        }
+      }
+    }
+  }
+}

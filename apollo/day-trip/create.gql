@@ -1,0 +1,7 @@
+mutation ($tour: DayTripInput!) {
+  createDayTrip(data: $tour) {
+    data {
+      id
+    }
+  }
+}

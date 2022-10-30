@@ -80,6 +80,18 @@ body {
   border-radius: 0px;
   box-shadow: none;
 }
+.teal::selection {
+  background: #025B63;
+}
+.kashmir::selection {
+  background: #4D5A8E;
+}
+.teal ::selection {
+  background: #025B63;
+}
+.kashmir ::selection {
+  background: #4D5A8E;
+}
 .heath .ant-btn {
   background-color: #3D0E1B;
 }
@@ -88,6 +100,9 @@ body {
 }
 .teal .ant-btn {
   background-color: #025B63;
+}
+.albescent .ant-btn {
+  background-color: #F7EBDB;
 }
 .glass .ant-btn {
   background-color: #3D0E1B00;
@@ -198,5 +213,8 @@ textarea:active {
   @apply border-heath;
 }
 .heath .bg-colored {
+  @apply bg-heath;
+}
+.ant-spin .ant-spin-dot .ant-spin-dot-item {
   @apply bg-heath;
 }

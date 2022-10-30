@@ -1,8 +1,8 @@
 <template lang="pug">
-#navbar
-  .nav-top(ref="navTop")
+.navbar.limited
+  .content(ref="navTop")
     .icons
-      iconsLogo
+      iconsLogo.logo(@click.native="goTo('')")
       .contact
         iconsTripAdvisor
         iconsTwitter
@@ -42,22 +42,32 @@ export default {
       this.$refs.navTop.classList.toggle('visible')
     },
     goTo(target) {
-      this.toggleOptions()
-      document.querySelector(target).scrollIntoView()
+      try {
+        if (target == '') {
+          this.$router.push('/')
+        } else {
+          this.toggleOptions()
+          document.querySelector(target).scrollIntoView()
+        }
+      } catch {
+        this.$router.push(`/${target}`)
+      }
     },
     detectCurrantSection() {
-      let sections = ['#contact-us', '#activities', '#day-trips', '#private-trips'],
-        halfScreen = (window.innerHeight - document.querySelector('#navbar').getBoundingClientRect().bottom) / 2,
+      try {
+        let sections = ['#activities', '#day-trips', '#private-trips'],
+        halfScreen = (window.innerHeight - document.querySelector('.navbar').getBoundingClientRect().bottom) / 2,
         currentSection = ''
-      for (let section of sections) {
-        let top = document.querySelector(section).getBoundingClientRect().top,
+        for (let section of sections) {
+          let top = document.querySelector(section).getBoundingClientRect().top,
           bottom = document.querySelector(section).getBoundingClientRect().bottom
-        if (top <= halfScreen) {
-          currentSection = (bottom <= halfScreen) ? '' : section
-          break
+          if (top <= halfScreen) {
+            currentSection = (bottom <= halfScreen) ? '' : section
+            break
+          }
         }
-      }
-      this.currentSection = currentSection;
+        this.currentSection = currentSection;
+      } catch {}
     },
   },
   async mounted() {
@@ -67,11 +77,15 @@ export default {
 </script>
 
 <style scoped>
-#navbar {
-  @apply w-full px-2 sm:px-6 lg:px-10 sticky -top-4 lg:-top-6 z-40 flex justify-center bg-albescent;
+.navbar {
+  @apply max-w-full sticky -top-4 lg:-top-6 z-40;
+  transition: all 0.15s linear;
 }
-.nav-top {
-  @apply w-full max-w-6xl pt-7 pb-3 lg:pt-10 lg:pb-4 flex justify-between items-center;
+.navbar.fix {
+  @apply fixed;
+}
+.content {
+  @apply max-w-full pt-7 pb-3 lg:pt-10 lg:pb-4 flex justify-between items-center;
 }
 .icons {
   @apply flex gap-4 sm:gap-7;
@@ -88,6 +102,9 @@ export default {
   transition: transform 0.3s ease-in-out;
   transform: translateX(105%);
 }
+.fix .pages {
+  @apply lg:bg-transparent;
+}
 .visible .pages {
   transform: translateX(0%);
 }
@@ -103,14 +120,13 @@ export default {
 }
 .pages .under::after {
   content: '';
-  @apply w-0 absolute bg-heath bottom-0 left-1/2;
-  height: 1px;
+  @apply w-0 h-px absolute bg-heath bottom-0 left-1/2;
   transform: translateX(-50%);
 }
 .pages .under:hover::after,
 .pages .ant-btn.current::after {
   @apply w-4/5;
-  transition: width 0.15s;
+  transition: width 0.35s;
 }
 .back {
   @apply w-0 h-screen fixed top-0 right-0;
@@ -121,6 +137,7 @@ export default {
 .icons div,
 .pages div,
 .more,
+.logo,
 .back {
   cursor: pointer;
 }

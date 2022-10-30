@@ -1,6 +1,6 @@
 body {
   @apply font-Dosis bg-cotton;
-  background-image: url(~/assets/zellige.svg);
+  background-image: url(~/assets/images/zellige.svg);
 }
 #dashboard-layout {
   @apply h-screen;
@@ -30,4 +30,10 @@ html {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #5558;
+}
+.limited {
+  @apply w-full max-w-page m-auto px-2 sm:px-6 lg:px-10 flex justify-center;
+}
+.limited > .content {
+  @apply w-full max-w-6xl;
 }

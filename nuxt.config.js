@@ -1,12 +1,12 @@
 export default {
   server: {
-		port: process.env.NODE_ENV === 'production' ? 2023 : 3000,
-	},
+    port: process.env.NODE_ENV === 'production' ? 2023 : 3000,
+  },
   head: {
     title: 'A Trip To Morocco',
     meta: [
       { charset: 'utf-8' },
-      { name: "viewport", content: "initial-scale=1.0, maximum-scale=1.0" },
+      { name: 'viewport', content: 'initial-scale=1.0, maximum-scale=1.0' },
       { hid: 'description', name: 'description', content: '' },
       { name: 'format-detection', content: 'telephone=no' },
     ],
@@ -19,10 +19,7 @@ export default {
   ],
   plugins: ['@/plugins/ant-design-vue', '@/plugins/moment'],
   components: true,
-  buildModules: [
-    '@nuxtjs/tailwindcss',
-    '@nuxtjs/google-fonts',
-  ],
+  buildModules: ['@nuxtjs/tailwindcss', '@nuxtjs/google-fonts'],
   modules: [
     '@nuxtjs/axios',
     '@nuxtjs/apollo',
@@ -35,8 +32,8 @@ export default {
       default: {
         httpEndpoint:
           process.env.NODE_ENV === 'production'
-            ? 'https://localhost:1337/graphql'
-            : 'https://localhost:1337/graphql',
+            ? 'http://localhost:1337/graphql'
+            : 'http://localhost:1337/graphql',
       },
     },
   },
