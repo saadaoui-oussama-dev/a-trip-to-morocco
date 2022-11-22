@@ -2,11 +2,63 @@
 .feedback
   .slider
     iconsArrowUpFb.arrow-up(@click.native='slideNext')
-    hooper(
-      :style='`height: ${height}px;`',
-      :settings='hooperSettings',
-      ref='carousel',
+    hooper.hidden(
+      class='lg:block',
+      style='height: 400px',
+      ref='carousel1',
       @slide='updateCarousel',
+      :settings='hooperSettings',
+      :touchDrag='false',
+      :mouseDrag='false',
+      :wheelControl='false',
+      :shortDrag='false',
+      :keysControl='false'
+    )
+      slide.slide(
+        v-for='(slideInfo, index) in $store.getters["feedback/GET_FEEDBACKS"]',
+        :key='index'
+      )
+        landingFeedbackContent(:slideInfo='slideInfo')
+    hooper.hidden(
+      class='md:block lg:hidden',
+      style='height: 400px',
+      ref='carousel2',
+      @slide='updateCarousel',
+      :settings='hooperSettings',
+      :touchDrag='false',
+      :mouseDrag='false',
+      :wheelControl='false',
+      :shortDrag='false',
+      :keysControl='false'
+    )
+      slide.slide(
+        v-for='(slideInfo, index) in $store.getters["feedback/GET_FEEDBACKS"]',
+        :key='index'
+      )
+        landingFeedbackContent(:slideInfo='slideInfo')
+    hooper.hidden(
+      class='sm:block md:hidden',
+      style='height: 350px',
+      ref='carousel3',
+      @slide='updateCarousel',
+      :settings='hooperSettings',
+      :touchDrag='false',
+      :mouseDrag='false',
+      :wheelControl='false',
+      :shortDrag='false',
+      :keysControl='false'
+    )
+      slide.slide(
+        v-for='(slideInfo, index) in $store.getters["feedback/GET_FEEDBACKS"]',
+        :key='index'
+      )
+        landingFeedbackContent(:slideInfo='slideInfo')
+    hooper.block(
+      class='sm:hidden',
+      style='height: 400px',
+      ref='carousel4',
+      @slide='updateCarousel',
+      :settings='hooperSettings',
       :touchDrag='false',
       :mouseDrag='false',
       :wheelControl='false',
@@ -40,35 +92,27 @@ export default {
         infiniteScroll: 'true',
         transition: '750',
       },
-      height: null,
+      carouselData: 0,
     }
   },
-  methods: {
-    async setHeight() {
-      let width = parseFloat(getComputedStyle(document.body).width)
-      if (width < 640) {
-        this.height = 400
-      } else if (width < 768) {
-        this.height = 350
-      } else if (width < 1024) {
-        this.height = 400
-      } else {
-        this.height = 400
-      }
-    },
-    slideNext() {
-      this.$refs.carousel.slideNext()
-    },
-    slidePrev() {
-      this.$refs.carousel.slidePrev()
-    },
-    updateCarousel(payload) {
-      this.setHeight()
-      this.myCarouselData = payload.currentSlide
+  watch: {
+    carouselData() {
+      this.$refs.carousel1.slideTo(this.carouselData)
+      this.$refs.carousel2.slideTo(this.carouselData)
+      this.$refs.carousel3.slideTo(this.carouselData)
+      this.$refs.carousel4.slideTo(this.carouselData)
     },
   },
-  created() {
-    this.setHeight()
+  methods: {
+    slideNext() {
+      this.$refs.carousel1.slideNext()
+    },
+    slidePrev() {
+      this.$refs.carousel1.slidePrev()
+    },
+    updateCarousel(payload) {
+      this.carouselData = payload.currentSlide
+    },
   },
 }
 </script>
