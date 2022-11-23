@@ -96,6 +96,7 @@ export default {
               this.state = 0
             }, 15000)
           } catch {
+            this.validator.valid = false
             this.validator.error = "There is a problem connecting to the internet"
           }
         }

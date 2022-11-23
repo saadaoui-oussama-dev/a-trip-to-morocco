@@ -3,7 +3,7 @@ function Error(error, param1, param2, param3) {
   let errors = {
     schemaType: (schema) => ['TypeError : invalid schema (', schema, ') it should be an object of keys (of the tested object) and methods (and errors)',],
     accuracyItemType: (key) => [
-      'TypeError || TypeConflit: invalid item ("', key, '") in schema or the errorsAccuracy does not match the type of item.\n',
+      'TypeError || Conflict: invalid item ("', key, '") in schema or the errorsAccuracy does not match the type of item.\n',
       '\tNote : to change the errorsAccuracy, its the second param in the constructor\n',
       "To set an error for the whole schema: just write the error in the first param, and automatically the errorsAccuracy will be 1 if it's 0\n",
       '\tItems should be like : "email min(7)" or', ['required', 'email', 'min(7)'],'\n',
@@ -22,6 +22,7 @@ function Error(error, param1, param2, param3) {
     unknownMethod: (name, allMethods) => ['Uknown method : ' + name + '. methods that are available : \n', allMethods],
     missingAppoloProvider: () => ['Reading from database cannot be completed without an apolloProvider, send it in the second param of the method "finalize"'],
     requiredTarget: value => ["notInDB : The target is required in this case, validating", value, 'could not be completed'],
+    asyncExecuteInstead: () => ["When using notInDB, use asyncExecute instead of execute"]
   }
   console.error(...errors[error](param1, param2, param3))
   return false
@@ -40,7 +41,7 @@ let type = {
   isObj: (variable) => typeof variable == 'object' && variable && !Array.isArray(variable),
   isObjArr: (variable) => typeof variable == 'object' && variable ? true : false,
   isNormal: (variable) => type.isStrNum(variable) || type.isObjArr(variable),
-  toArray: (variable) => Array.isArray(variable) ? clone(variable) : [clone(variable)],
+  toArray: (variable) => Array.isArray(variable) ? variable : [variable],
 }
 function filteredSplit(stringArray, separator = ' ') {
   // accept a string (and split it) OR an array > then it filter duplicated items
@@ -58,177 +59,7 @@ function filteredSplit(stringArray, separator = ' ') {
   }
   return array.filter((item, index) => array.indexOf(item) === index && item !== '')
 }
-function splitSchema(schema, errorsAccuracy, variables) {
-  // transform scopes of schema that are declared in setSchema
-  let $schema = {}
-  if (type.isObj(schema)) {
-    let forAll
-    Object.keys(schema).map((item) => {
-      $schema[item] = splitItem(item, schema, errorsAccuracy, variables)
-      if (item == '_') {
-        forAll = clone($schema[item])
-        delete $schema[item]
-      }
-    })
-    if (forAll) {
-      if (Object.keys($schema).length === 0) {
-        $schema['_'] = clone(forAll)
-      } else {
-        Object.keys($schema).map((item) => ($schema[item] = mergeItems(forAll, $schema[item], errorsAccuracy)))
-      }
-    }
-  } else {
-    Error('schemaType', schema)
-  }
-  return $schema
-}
-function splitItem(item, schema, accuracy, variables) {
-  // transform items of schema from the syntax declared in setSchema to the final result shown in the Vue console
-  let $el = { valid: true, methods: [] }
-  if (accuracy >= 2) {
-    $el = { valid: true, methods: [], mainError: '', error: '' }
-  }
-  if (type.isStrArr(schema[item])) {
-    $el.methods = filteredSplit(schema[item]).map((m) => splitMethod(m, variables))
-  } else if (accuracy == 0 || accuracy === 1) {
-    Error('accuracyItemType', item)
-  } else if (type.isObj(schema[item])) {
-    if (type.isStrNum(schema[item].error)) {
-      $el.mainError = schema[item].error.toString()
-    }
-    if (type.isStrArr(schema[item].methods)) {
-      $el.methods = filteredSplit(schema[item].methods).map((m) => splitMethod(m, variables))
-    } else if (type.isObj(schema[item].methods)) {
-      $el.methods = Object.keys(schema[item].methods).map((m) => {
-        let $m = splitMethod(m, variables)
-        if (type.isStrNum(schema[item].methods[m])) {
-          $m.error = schema[item].methods[m].toString()
-        } else if (schema[item].methods[m] !== false) {
-          Error('itemErrorType', item, m)
-        }
-        return $m
-      })
-    } else {
-      Error('accuracyItemType', item)
-    }
-    if (type.isNum(schema[item].priority)) {
-      $el.priority = Number(schema[item].priority)
-    }
-  } else {
-    Error('accuracyItemType', item)
-  }
-  return $el
-}
-function splitMethod(m, variables) {
-  // accept methods and return there names and params if they are exist
-  let $m = { valid: true },
-    open = m.indexOf('('),
-    close = m.indexOf(')')
-  $m.name = m
-  if (open !== -1 && close !== -1 && open < close) {
-    $m.params = m.slice(open + 1, close).split(',').filter((notEmpty) => notEmpty).map((p) => {
-      p = p.trim()
-      try {
-        return eval(p)
-      } catch {
-        if (p in variables) return variables[p]
-      }
-      return p
-    })
-    $m.name = m.slice(0, open)
-  }
-  return $m
-}
-function mergeItems(sourceObj, targetObj, accuracy) {
-  // when we have the _ 'underscore' item, we need to merge it with all other items
-  let $src = clone(sourceObj),
-    $targ = clone(targetObj),
-    methodExist = (name) => $targ.methods.some((method) => method.name === name)
-  if (accuracy < 2) {
-    $src.methods.filter((mt) => methodExist(mt.name)).map((mt) => {
-      let i = $targ.methods.findIndex((el) => el.name == mt.name)
-      if (mt.params && !$targ.methods[i].params) {
-        $targ.methods[i].params = mt.params
-      }
-    })
-    $targ.methods = $targ.methods.concat($src.methods.filter((mt) => !methodExist(mt.name)))
-  } else {
-    if (!$targ.mainError) $targ.mainError = $src.mainError
-    $src.methods.filter((mt) => methodExist(mt.name)).map((mt) => {
-      let i = $targ.methods.findIndex((m) => m.name === mt.name)
-      if (type.isStrNum(mt.error) && !type.isStrNum($targ.methods[i].error)) {
-        $targ.methods[i].error = mt.error.toString()
-      }
-      if (mt.params && !$targ.methods[i].params) {
-        $targ.methods[i].params = mt.params
-      }
-    })
-    let newMethods = $src.methods.filter((mt) => !methodExist(mt.name))
-    if (newMethods.length) {
-      if (!type.isNum($src.priority)) $src.priority = 0.26
-      if (!type.isNum($targ.priority)) $targ.priority = 0.51
-      if ($src.priority === $targ.priority) $targ.priority++
-      if ($src.priority > $targ.priority) {
-        $targ.methods = newMethods.concat($targ.methods)
-      } else {
-        $targ.methods = $targ.methods.concat(newMethods)
-      }
-    }
-  }
-  delete $targ.priority
-  return $targ
-}
-function findElement(schema, objectUnderTest, key, attrs) {
-  // search for the element from the original object
-  let $el, $val
-  try {
-    try {
-      eval(`$el = objectUnderTest.${key}`)
-    } catch {
-      eval(`$el = objectUnderTest["${key}"]`)
-    }
-    if (Array.isArray($el) && $el.length === 1) {
-      $el = $el[0]
-    }
-  } catch {
-    Error('getElementFailed', key, objectUnderTest)
-  }
-  if (type.isNormal($el)) {
-    schema[key].element = $el
-    try {
-      $val = findValue(schema[key].element, attrs)
-    } catch {}
-    if (type.isStrNum($val)) {
-      schema[key].value = $val
-    } else {
-      schema[key].value = undefined
-      schema[key].valid = false
-      Error('valueType', key, attrs, schema[key].element)
-    }
-  } else {
-    schema[key].element = undefined
-    schema[key].value = undefined
-    schema[key].valid = false
-    Error('elementType', key, objectUnderTest)
-  }
-  return schema[key]
-}
-function findValue(element, attrs) {
-  // search for the element value from the original object
-  if (type.isStrNum(element)) return element
-  for (let attr of attrs) {
-    if (type.isStrNum(element[attr])) {
-      return element[attr]
-    }
-  }
-  for (let attr of attrs) {
-    try {
-      if (type.isStrNum(eval(`element.${attr}`))) {
-        return eval(`element.${attr}`)
-      }
-    } catch {}
-  }
-}
+
 export class Validator {
   #object
   #provider
@@ -255,12 +86,9 @@ export class Validator {
     this.attrs = filteredSplit(filteredSplit(attrs).concat(this.attrs)).map((attr) => (type.isNum(attr) ? Number(attr) : attr))
     // Object.setPrototypeOf(instance, Validator.prototype)
   }
-  setVariables(variables) {
-    this.#variables = { ...this.#variables, ...variables }
+  setVariables(variables = false) {
+    this.#variables = variables === false ? {} : { ...this.#variables, ...variables }
     return this
-  }
-  resetVaraibles() {
-    this.#variables = {}
   }
   setSchema(schema, reset = true) {
     if (reset) this.schema = {}
@@ -269,14 +97,14 @@ export class Validator {
     } else {
       this.schema = {
         ...this.schema,
-        ...splitSchema(schema, this.#errorsAccuracy, this.#variables),
+        ...this.#splitSchema(schema),
       }
     }
     if (this.#object) this.finalize(this.#object, this.#provider)
     return this
   }
   removeFromSchema(keys = []) {
-    this.ignore(keys)
+    this.watch(keys, false)
     filteredSplit(keys).map((key) => delete this.schema[key])
     return this
   }
@@ -284,44 +112,78 @@ export class Validator {
     if (apolloProvider) this.#provider = apolloProvider
     if (objectUnderTest) {
       this.#object = objectUnderTest
-      Object.keys(this.schema).map((item) => (this.schema[item] = findElement(this.schema, this.#object, item, this.attrs)))
-      if (this.watchedItems.length && !this.#watcherId && watch) {
-        this.#startWatching()
-      }
+      Object.keys(this.schema).map((item) => this.#findElement(item))
+      if (this.watchedItems.length && !this.#watcherId && watch) this.#startWatching()
     }
     return this
   }
-  watch(keys) {
-    this.watchedItems = filteredSplit(this.watchedItems.concat(filteredSplit(keys))).filter((key) => key in this.schema)
+  watch(keys = [], state = true, schema = true) {
+    this.watchedItems = state === true
+      ? keys === true ? Object.keys(this.schema) : filteredSplit(this.watchedItems.concat(filteredSplit(keys))).filter((key) => key in this.schema)
+      : keys === true ? [] : this.watchedItems.filter((key) => !filteredSplit(keys).includes(key))
     if (this.#object && !this.#watcherId) this.#startWatching()
-    return this
-  }
-  watchAll() {
-    this.watchedItems = Object.keys(this.schema)
-    if (this.#object && !this.#watcherId) this.#startWatching()
-    return this
-  }
-  watchSchema() {
-    this.#watchSchema = true
-    return this
-  }
-  ignore(keys) {
-    this.watchedItems = this.watchedItems.filter((key) => !filteredSplit(keys).includes(key))
-    if (this.watchedItems.length === 0) this.ignoreAll()
-    return this
-  }
-  ignoreAll() {
-    if (this.#watcherId || this.#watcherId === 0) clearInterval(this.#watcherId)
-    this.#watcherId = undefined
-    this.watchedItems = []
-    return this
-  }
-  ignoreSchema() {
-    this.#watchSchema = false
+    if (type.isStrNum(this.#watcherId) && this.watchedItems.length === 0) {
+      clearInterval(this.#watcherId)
+      this.#watcherId = undefined
+    }
+    this.#watchSchema = schema
     return this
   }
   getWatcherId() {
-    return this.#watcherId
+    return typeof this.#watcherId == 'number' ? this.#watcherId : -1
+  }
+  async asyncExecute() {
+    let validateSchema = async _ => {
+      let validateItems = async _ => {
+        let loopOnItems = async _ => {
+          let validSchema = true
+          for (let key of Object.keys(this.schema)) {
+            this.#resetItemErrors(key)
+            let $item = await this.#asyncValidateOne(clone(this.schema[key]))
+            if (!$item.valid) validSchema = false
+            setTimeout(() => {
+              this.schema[key] = $item
+            }, this.#minTimeout)
+          }
+          return validSchema
+        }
+        return await loopOnItems()
+      }
+      this.#resetSchemaErrors()
+      let $valid = await validateItems()
+      this.#newSchemaErrors($valid)
+      return $valid
+    }
+    if (type.isObj(this.schema)) {
+      return await validateSchema()
+    } else {
+      Error('missingObject')
+      this.valid = false
+      return false
+    }
+  }
+  execute() {
+    if (type.isObj(this.schema)) {
+      let validSchema = true
+      for (let key of Object.keys(this.schema)) {
+        this.#resetItemErrors(key)
+        let $item = this.#validateOne(clone(this.schema[key]))
+        if (!$item.valid) validSchema = false
+        setTimeout(() => {
+          this.schema[key] = $item
+        }, this.#minTimeout)
+      }
+      this.#resetSchemaErrors()
+      this.#newSchemaErrors(validSchema)
+    } else {
+      Error('missingObject')
+      this.valid = false
+    }
+    return this.valid
+  }
+  setMinTimeout(duration) {
+    this.#minTimeout = duration
+    return this
   }
   #startWatching() {
     this.finalize(this.#object, this.#provider, false)
@@ -333,11 +195,11 @@ export class Validator {
     this.#watcherId = setInterval(() => {
       let validSchema = true
       if (this.#object) {
-        this.watchedItems.filter((item) => item in this.schema).map(async (item) => {
-          this.schema[item] = findElement(this.schema, this.#object, item, this.attrs)
-          if (!this.schema[item].valid) validSchema = false
-          if (this.schema[item].value !== asyncSchema[item].value) {
-            this.schema[item] = await this.#validateOne(clone(this.schema[item]))
+        this.watchedItems.filter((key) => key in this.schema).map(async (key) => {
+          this.#findElement(key)
+          if (!this.schema[key].valid) validSchema = false
+          if (this.schema[key].value !== asyncSchema[key].value) {
+            this.schema[key] = await this.#asyncValidateOne(clone(this.schema[key]))
           }
         })
         if (this.#watchSchema) {
@@ -353,52 +215,7 @@ export class Validator {
       }
     }, 50)
   }
-  setMinTimeout(duration) {
-    this.#minTimeout = duration
-    return this
-  }
-  execute() {
-    if (type.isObj(this.schema)) {
-      let validateItems = async _ => {
-        let validSchema = true
-        for (let item of Object.keys(this.schema)) {
-          this.schema[item] = findElement(this.schema, this.#object, item, this.attrs)
-          if (this.#minTimeout) {
-            this.schema[item].valid = true
-            this.schema[item].error = ''
-          }
-          let $item = await this.#validateOne(clone(this.schema[item]))
-          if (!$item.valid) validSchema = false
-          setTimeout(() => {
-            this.schema[item] = clone($item)
-          }, this.#minTimeout)
-        }
-        return validSchema
-      }
-      if (this.#watcherId || this.#watcherId === 0) clearInterval(this.#watcherId)
-      this.#watcherId = undefined
-      if (this.#minTimeout) {
-        this.valid = true
-        this.error = ''
-      }
-      setTimeout(async () => {
-        let $valid = await validateItems()
-        setTimeout(() => {
-          this.valid = $valid
-          if (this.#errorsAccuracy) {
-            this.error = this.valid ? '' : this.schemaError
-          }
-          if (this.watchedItems.length) {
-            this.#startWatching()
-          }
-        }, this.#minTimeout)
-      }, 0)
-    } else {
-      Error('missingObject')
-      this.valid = false
-    }
-  }
-  async #validateOne(item) {
+  async #asyncValidateOne(item) {
     item.valid = true
     if (this.#errorsAccuracy >= 2) {
       item.error = ''
@@ -412,35 +229,251 @@ export class Validator {
           if (typeof func == 'undefined') throw 'invalid'
           let valid
           if (error === false) {
-            if (meths[i].name === 'notInDB') {
-              valid = await func(item.value, this.#provider, ...meths[i].params)
-            } else {
-              valid = Array.isArray(meths[i].params)
-              ? func(item.value, ...meths[i].params)
-              : func(item.value)
-            }
-            if (await valid) {
-              meths[i].valid = true
-            } else {
-              item.valid = false
-              meths[i].valid = false
-              if (error === false)
-                error = meths[i].error
-            }
+            let params = type.toArray(meths[i].params)
+            if (meths[i].name === 'notInDB') params = [this.#provider, ... params]
+            valid = await func(item.value, ... params)
+            meths[i] = this.#setMethodErrors(valid, meths[i])
+            if (!valid) { error = meths[i].error; item.valid = false }
           }
         } catch {
           item.valid = false
           meths[i].valid = false
-          Error('UnkownMethod', meths[i].name, methods)
+          Error('unknownMethod', meths[i].name, methods)
         }
       }
       return await meths
     }
     item.methods = await loopOnMethods()
-    if (this.#errorsAccuracy >= 2 && !item.valid) {
-      item.error = type.isStrNum(error) ? error : item.mainError ? item.mainError : ''
-    }
+    if (this.#errorsAccuracy >= 2 && !item.valid) item.error = type.isStrNum(error) ? error : item.mainError ? item.mainError : ''
     return item
+  }
+  #validateOne(item) {
+    item.valid = true
+    if (this.#errorsAccuracy >= 2) {
+      item.error = ''
+    }
+    let error = false
+    for (let i in item.methods) {
+      let func
+      try {
+        eval(`func = methods.${item.methods[i].name}`)
+        if (typeof func == 'undefined') throw 'invalid'
+        let valid
+        if (item.methods[i].name === 'notInDB') Error('asyncExecuteInstead')
+        if (error === false) {
+          let params = type.toArray(item.methods[i].params)
+          if (item.methods[i].name === 'notInDB') params = [this.#provider, ... params]
+          valid = func(item.value, ... params)
+          item.methods[i] = this.#setMethodErrors(valid, item.methods[i])
+          if (!valid) { error = item.methods[i].error; item.valid = false }
+        }
+      } catch {
+        item.valid = false
+        item.methods[i].valid = false
+        Error('unknownMethod', item.methods[i].name, methods)
+      }
+    }
+    if (this.#errorsAccuracy >= 2 && !item.valid) item.error = type.isStrNum(error) ? error : item.mainError ? item.mainError : ''
+    return item
+  }
+  #splitSchema(schema) {
+    // transform scopes of schema that are declared in setSchema
+    let $schema = {}
+    if (type.isObj(schema)) {
+      let forAll
+      Object.keys(schema).map((item) => {
+        $schema[item] = this.#splitItem(item, schema)
+        if (item == '_') {
+          forAll = clone($schema[item])
+          delete $schema[item]
+        }
+      })
+      if (forAll) {
+        if (Object.keys($schema).length === 0) {
+          $schema['_'] = clone(forAll)
+        } else {
+          Object.keys($schema).map((item) => ($schema[item] = this.#mergeItems(forAll, $schema[item])))
+        }
+      }
+    } else {
+      Error('schemaType', schema)
+    }
+    return $schema
+  }
+  #splitItem(item, schema) {
+    // transform items of schema from the syntax declared in setSchema to the final result shown in the Vue console
+    let splitMethod = (m) => {
+      let $m = { valid: true },
+        open = m.indexOf('('),
+        close = m.indexOf(')')
+      $m.name = m
+      if (open !== -1 && close !== -1 && open < close) {
+        $m.params = m.slice(open + 1, close).split(',').filter((notEmpty) => notEmpty).map((p) => {
+          p = p.trim()
+          try {
+            return eval(p)
+          } catch {
+            if (p in this.#variables) return this.#variables[p]
+          }
+          return p
+        })
+        $m.name = m.slice(0, open)
+      }
+      return $m
+    }
+    let $el = { valid: true, methods: [] }
+    if (this.#errorsAccuracy >= 2) {
+      $el = { valid: true, methods: [], mainError: '', error: '' }
+    }
+    if (type.isStrArr(schema[item])) {
+      $el.methods = filteredSplit(schema[item]).map((m) => splitMethod(m))
+    } else if (this.#errorsAccuracy == 0 || this.#errorsAccuracy === 1) {
+      Error('accuracyItemType', item)
+    } else if (type.isObj(schema[item])) {
+      if (type.isStrNum(schema[item].error)) {
+        $el.mainError = schema[item].error.toString()
+      }
+      if (type.isStrArr(schema[item].methods)) {
+        $el.methods = filteredSplit(schema[item].methods).map((m) => splitMethod(m))
+      } else if (type.isObj(schema[item].methods)) {
+        $el.methods = Object.keys(schema[item].methods).map((m) => {
+          let $m = splitMethod(m)
+          if (type.isStrNum(schema[item].methods[m])) {
+            $m.error = schema[item].methods[m].toString()
+          } else if (schema[item].methods[m] !== false) {
+            Error('itemErrorType', item, m)
+          }
+          return $m
+        })
+      } else {
+        Error('accuracyItemType', item)
+      }
+      if (type.isNum(schema[item].priority)) {
+        $el.priority = Number(schema[item].priority)
+      }
+    } else {
+      Error('accuracyItemType', item)
+    }
+    return $el
+  }
+  #mergeItems(sourceObj, targetObj) {
+    // when we have the _ 'underscore' item, we need to merge it with all other items
+    let $src = clone(sourceObj),
+      $targ = clone(targetObj),
+      methodExist = (name) => $targ.methods.some((method) => method.name === name)
+    if (this.#errorsAccuracy < 2) {
+      $src.methods.filter((mt) => methodExist(mt.name)).map((mt) => {
+        let i = $targ.methods.findIndex((el) => el.name == mt.name)
+        if (mt.params && !$targ.methods[i].params) {
+          $targ.methods[i].params = mt.params
+        }
+      })
+      $targ.methods = $targ.methods.concat($src.methods.filter((mt) => !methodExist(mt.name)))
+    } else {
+      if (!$targ.mainError) $targ.mainError = $src.mainError
+      $src.methods.filter((mt) => methodExist(mt.name)).map((mt) => {
+        let i = $targ.methods.findIndex((m) => m.name === mt.name)
+        if (type.isStrNum(mt.error) && !type.isStrNum($targ.methods[i].error)) {
+          $targ.methods[i].error = mt.error.toString()
+        }
+        if (mt.params && !$targ.methods[i].params) {
+          $targ.methods[i].params = mt.params
+        }
+      })
+      let newMethods = $src.methods.filter((mt) => !methodExist(mt.name))
+      if (newMethods.length) {
+        if (!type.isNum($src.priority)) $src.priority = 0.26
+        if (!type.isNum($targ.priority)) $targ.priority = 0.51
+        if ($src.priority === $targ.priority) $targ.priority++
+        if ($src.priority > $targ.priority) {
+          $targ.methods = newMethods.concat($targ.methods)
+        } else {
+          $targ.methods = $targ.methods.concat(newMethods)
+        }
+      }
+    }
+    delete $targ.priority
+    return $targ
+  }
+  #findElement(key) {
+    // search for the element from the original object
+    let $el, $val, $object = this.#object
+    try {
+      try {
+        eval(`$el = $object.${key}`)
+      } catch {
+        eval(`$el = $object["${key}"]`)
+      }
+      if (Array.isArray($el) && $el.length === 1) {
+        $el = $el[0]
+      }
+    } catch {
+      Error('getElementFailed', key, this.#object)
+    }
+    if (type.isNormal($el)) {
+      this.schema[key].element = $el
+      try {
+        if (type.isStrNum(this.schema[key].element)) $val = this.schema[key].element
+        for (let attr of this.attrs) {
+          if (type.isStrNum(this.schema[key].element[attr])) {
+            $val = this.schema[key].element[attr]
+          }
+        }
+        for (let attr of attrs) {
+          try {
+            if (type.isStrNum(eval(`this.schema[key].element.${attr}`))) {
+              $val = eval(`this.schema[key].element.${attr}`)
+            }
+          } catch {}
+        }
+      } catch {}
+      if (type.isStrNum($val)) {
+        this.schema[key].value = $val
+      } else {
+        this.schema[key].value = undefined
+        this.schema[key].valid = false
+        Error('valueType', key, this.attrs, this.schema[key].element)
+      }
+    } else {
+      this.schema[key].element = undefined
+      this.schema[key].value = undefined
+      this.schema[key].valid = false
+      Error('elementType', key, this.#object)
+    }
+  }
+  #resetItemErrors(key) {
+    this.#findElement(key)
+    if (this.#minTimeout) {
+      this.schema[key].valid = true
+      this.schema[key].error = ''
+    }
+  }
+  #resetSchemaErrors() {
+    if (type.isStrNum(this.#watcherId)) clearInterval(this.#watcherId)
+    this.#watcherId = undefined
+    if (this.#minTimeout) {
+      this.valid = true
+      this.error = ''
+    }
+  }
+  #newSchemaErrors(valid) {
+    setTimeout(_ => {
+      this.valid = valid
+      if (this.#errorsAccuracy) {
+        this.error = valid ? '' : this.schemaError
+      }
+      if (this.watchedItems.length) {
+        this.#startWatching()
+      }
+    }, this.#minTimeout)
+  }
+  #setMethodErrors(valid, method) {
+    if (valid) {
+      method.valid = true
+    } else {
+      method.valid = false
+    }
+    return method
   }
 }
 
