@@ -1,0 +1,19 @@
+query {
+  slides {
+    data {
+      id
+      attributes {
+        title
+        description
+        type
+        image {
+          data {
+            attributes {
+              url
+            }
+          }
+        }
+      }
+    }
+  }
+}

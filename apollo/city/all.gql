@@ -1,0 +1,18 @@
+query {
+  cities {
+    data {
+      id
+      attributes {
+        title
+        description
+        image {
+          data {
+            attributes {
+              url
+            }
+          }
+        }
+      }
+    }
+  }
+}
