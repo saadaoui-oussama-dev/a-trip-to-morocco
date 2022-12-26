@@ -23,13 +23,19 @@
         .email
           iconsEmail.icon
           p contact@atriptomorocco.com
-      .ant-btn.text-colored Book a trip now
+      .ant-btn.text-colored(@click='change') Book a trip now
 </template>
 
 <script>
 export default {
   name: 'BannerComponent',
   props: ['trip'],
+  methods:{
+    change()
+    {
+      this.$emit('booking',true)
+    }
+  }
 }
 </script>
 

@@ -12,6 +12,7 @@ module.exports = {
         kashmir: '#4D5A8E',
         teal: '#025B63',
         stone: '#464646',
+        'stone-50': '#565656',
         city: '#00000080',
       },
       minHeight: {

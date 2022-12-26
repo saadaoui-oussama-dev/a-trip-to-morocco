@@ -218,3 +218,24 @@ textarea:active {
 .ant-spin .ant-spin-dot .ant-spin-dot-item {
   @apply bg-heath;
 }
+.booking.ant-radio-button-wrapper{
+  @apply py-4 h-auto 
+}
+.booking.ant-radio-button-wrapper,
+.booking.ant-radio-button-wrapper:first-child,
+.booking.ant-radio-button-wrapper:last-child{
+  @apply border border-solid border-transparent rounded-none
+}
+.booking.ant-radio-button-wrapper-checked,
+.booking.ant-radio-button-wrapper-checked:first-child,
+.booking.ant-radio-button-wrapper-checked:last-child{
+  @apply border-heath hover:border-heath
+}
+.booking.ant-calendar-picker{
+  @apply w-full
+}
+.booking .ant-calendar-picker-input,
+.booking .ant-calendar-picker-input::placeholder
+{
+  @apply py-6 text-base rounded-none
+}

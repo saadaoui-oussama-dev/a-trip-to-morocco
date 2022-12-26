@@ -319,8 +319,11 @@ export class Validator {
 }
 
 export const methods = {
+  numberBetween: (value, min = -Infinity, max = Infinity) => Number(value) <= Number(max) && Number(value) >= Number(min),
   email: (value) => /^\s*(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))\s*$/.test(value),
   required: (value) => /([^\s])/.test(value),
+  number: (value) => typeof value == "number" || /^([0-9]+(.{0,1}[0-9]+){0,1}){0,1}$/.test(value),
+  integer: (value) => (typeof value == "number" && value % 1 === 0) || /^[0-9]*$/.test(value),
   phone: (value) => /^\s*(\+{0,1}\s{0,2}\d{1,4}\s{0,2})?([(\[{]\s{0,2}\+{0,1}\s{0,2}\d{1,4}\s{0,2}[)\]}])?\s{0,2}(\d+\s{0,2}[.\-]{0,1}\s{0,2})+\d+\s*$/.test(value),
   text: (value) => /^[A-Za-z0-9\u0660-\u0669\sÀ-ÖÙ-ÝĀĒĪŌŪŨŶŸŒà-öù-ýÿāēīōũūŷœ\u0621-\u063B\u0640-\u065Fچڅڢڤکڪگںڡھہۃۇۈیۍۑە\u066E-\u0678\uFDF2-\uFDFD,.٫٬،:\-/()[\]{}&"‘'`!?@#%\\|_*+±×÷=<^>~$¢£¥¤°º«»;؟٪؛¿؉\uFD3E\uFD3F]*$/.test(value),
   FR_textAlpha: (value) => /^[A-Za-z\sÀ-ÖÙ-ÝĀĒĪŌŪŨŶŸŒà-öù-ýÿāēīōũūŷœ']*$/.test(value),
