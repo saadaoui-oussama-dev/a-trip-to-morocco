@@ -1,8 +1,8 @@
 <template lang="pug">
 div(:class='{ heath: type == "p", teal: type == "d", kashmir: type == "a", "max-h-screen overflow-hidden": show  }')
   navbar.fix(:class="{ 'bg-albescent': navbarVisibile, 'hover:bg-opacity-80 hover:bg-albescent': ! navbarVisibile }")
-  tripsBooking(@booking="Booking($event)" :id ='1' :show='show' :type='type')
-  tripsBanner(@booking="Booking($event)" :trip='trip')
+  tripsBooking(@booking="booking($event)" :id ='trip.id' :show='show' :type='type')
+  tripsBanner(@booking="booking($event)" :trip='trip')
   tripsOverview(:type='type' :trip="trip")
   tripsDays(:days="trip.days" :type='type')
   tripsImagesSection(:list='trip.images')
@@ -69,9 +69,8 @@ export default {
         top = document.querySelector('.parnet-content').getBoundingClientRect().top
       this.navbarVisibile = top - nav <= 0
     },
-    Booking(show)
-    {
-      this.show=show;
+    booking(show) {
+      this.show = show;
     },
   },
   async mounted() {

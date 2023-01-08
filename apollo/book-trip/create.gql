@@ -1,0 +1,7 @@
+mutation ($book: BookTripInput!) {
+  createBookTrip(data: $book) {
+    data {
+      id
+    }
+  }
+}

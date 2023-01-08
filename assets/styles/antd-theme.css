@@ -227,9 +227,17 @@ textarea:active {
   @apply border border-solid border-transparent rounded-none
 }
 .booking.ant-radio-button-wrapper-checked,
+.ant-slider-handle,
+.ant-slider-handle-click-focused,
+.ant-slider-handle:focus,
+.ant-slider:hover .ant-slider-handle:not(.ant-tooltip-open),
 .booking.ant-radio-button-wrapper-checked:first-child,
 .booking.ant-radio-button-wrapper-checked:last-child{
   @apply border-heath hover:border-heath
+}
+.ant-slider-track,
+.ant-slider:hover .ant-slider-track {
+  @apply bg-heath hover:bg-heath
 }
 .booking.ant-calendar-picker{
   @apply w-full
@@ -239,3 +247,4 @@ textarea:active {
 {
   @apply py-6 text-base rounded-none
 }
+

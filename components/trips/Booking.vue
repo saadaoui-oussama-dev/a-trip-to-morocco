@@ -9,9 +9,7 @@
       .inputs
         span.lable ENTER YOUR NAME
         input.input(v-model='fullName')
-        p.error-message(
-          v-show='this.validator.schema.fullName && !this.validator.schema.fullName.valid'
-        ) {{ this.validator.error }}
+        p.error-message(v-show="!this.validator.test('fullName')") {{ this.validator.schema.fullName.error }}
       .ant-btn.next(@click='next("fullName")') Get Started
 
     .slide(v-show='current == 1')
@@ -20,26 +18,16 @@
         span.description Please select the option that best describes your trip.
       .inputs
         a-radio-group.radio-group(v-model:value='travelWith')
-          a-radio-button.booking(value='Travel with Friends') 
-            .radio-content 
-              .checked 
-              span.text Travel with Friends
-          a-radio-button.booking(value='Family Travel') 
+          a-radio-button.booking(
+            v-for="option in ['Travel with Friends', 'Family Travel', `Honeymoon or Couple's Trip`, 'Solo Adventure']",
+            :key="option",
+            :value="option"
+          )
             .radio-content
-              .checked 
-              span.text Family Travel
-          a-radio-button.booking(value='Honeymoon or Couple\'s Trip')
-            .radio-content
-              .checked 
-              span.text Honeymoon or Couple's Trip
-          a-radio-button.booking(value='Solo Adventure')
-            .radio-content
-              .checked 
-              span.text Solo Adventure
-        p.error-message(
-          v-show='this.validator.schema.travelWith && !this.validator.schema.travelWith.valid'
-        ) {{ this.validator.error }}
-      .btns 
+              .checked
+              span.text {{ option }}
+        p.error-message(v-show="!this.validator.test('travelWith')") {{ this.validator.schema.travelWith.error }}
+      .btns
         .ant-btn.prev(@click='prev') Back
         .ant-btn.next(@click='next("travelWith")') Next
 
@@ -52,11 +40,10 @@
         a-row
           .a-row
             a-col(:span='12')
-              a-slider(v-model:value='peopleNumber', :min='2', :max='20')
+              a-slider(v-model:value='peopleNumber', :min='2', :max='20', :trackStyle="{ backgroundColor: '#1890ff'}")
             a-col(:span='4')
               a-input-number(v-model:value='peopleNumber', :min='2', :max='20')
-
-      .btns 
+      .btns
         .ant-btn.prev(@click='prev') Back
         .ant-btn.next(@click='next("peopleNumber")') Next
 
@@ -72,12 +59,11 @@
           a-date-picker.booking(
             :disabled-date='disabledDate',
             format='DD-MM-YYYY',
-            v-model:value='date'
-          ) 
-        p.error-message(
-          v-show='this.validator.schema.date && !this.validator.schema.date.valid'
-        ) {{ this.validator.error }}
-      .btns 
+            v-model='date.object'
+          )
+        p.error-message(v-show="!this.validator.test('date')") {{ this.validator.schema.date.error }}
+        p.error-message(v-show="'date' in this.validator.schema && !this.validator.schema.date.valid") {{ this.validator.schema.date.error }}
+      .btns
         .ant-btn.prev(@click='prev') Back
         .ant-btn.next(@click='next("date")') Next
 
@@ -89,18 +75,16 @@
         span.description Please select the option that best describes your trip.
       .inputs
         a-radio-group.radio-group(v-model:value='travelType')
-          a-radio-button.booking(value='traveling') 
-            .radio-content 
-              .checked 
-              span.text Traveling
-          a-radio-button.booking(value='work') 
+          a-radio-button.booking(value='traveling')
             .radio-content
-              .checked 
+              .checked
+              span.text Traveling
+          a-radio-button.booking(value='work')
+            .radio-content
+              .checked
               span.text Work
-        p.error-message(
-          v-show='this.validator.schema.travelType && !this.validator.schema.travelType.valid'
-        ) {{ this.validator.error }}
-      .btns 
+        p.error-message(v-show="!this.validator.test('travelType')") {{ this.validator.schema.travelType.error }}
+      .btns
         .ant-btn.prev(@click='prev') Back
         .ant-btn.next(@click='next("travelType")') Next
 
@@ -116,10 +100,8 @@
         .input-space
         span.lable PHONE NUMBER
         input.input(v-model='phone')
-        p.error-message(
-          v-show=' this.validator.schema.phone && !this.validator.schema.phone.valid || this.validator.schema.email && !this.validator.schema.email.valid'
-        ) {{ this.validator.error }}
-      .btns 
+        p.error-message(v-show="!this.validator.valid") {{ this.validator.error }}
+      .btns
         .ant-btn.prev(@click='prev') Back
         .ant-btn.next(@click='validateForm') Submit
 
@@ -135,6 +117,8 @@
 <script>
 import dayjs from 'dayjs'
 import { Validator } from '~/plugins/Validator'
+import bookTripMutation from '~/apollo/book-trip/create.gql'
+
 export default {
   name: 'BookingTrip',
   props: ['type', 'show', 'id'],
@@ -144,89 +128,91 @@ export default {
       fullName: '',
       travelWith: '',
       peopleNumber: 2,
-      date: '',
+      date: {
+        string: "",
+        object: null
+      },
       travelType: '',
       email: '',
       phone: '',
-      schema: {
-        fullName: ['ONE_textAlpha', 'required'],
-        travelWith: ['ONE_textAlpha', 'required'],
-        peopleNumber: ['integer', 'required'],
-        travelType: ['text', 'required'],
-        date: ['text', 'required'],
-        email: ['email', 'required'],
-        phone: ['phone', 'required'],
-      },
-      validator: new Validator('There is an error in some fields'),
+      validator: new Validator('There is an error in some fields', 2, ['string'])
+        .setSchema([{
+          _: { methods: 'required', error: 'There is an error in this field' },
+          fullName: 'textAlpha(one)',
+          peopleNumber: 'integer',
+          date: 'text',
+          email: 'email',
+          phone: 'phone',
+        }, {
+          _: { methods: 'required', error: 'Please select an option' },
+          travelWith: 'textAlpha(one)',
+          travelType: 'text',
+        }]).setMinTimeout(1),
     }
   },
   watch: {
-    travelWith() {
-      this.peopleNumber = this.travelWith == 'Solo Adventure' ? 1 : 2
+    travelWith(newValue) {
+      this.peopleNumber = newValue == 'Solo Adventure' ? 1 : 2
     },
+    'date.object' (newValue) {
+      this.date.string = newValue._d
+        .toLocaleDateString('en-GB', {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric'
+        }).replaceAll('/', '-')
+    }
   },
   mounted() {
     this.validator.finalize(this)
   },
   methods: {
-    disabledDate(current) {
-      return current && current < dayjs().endOf('day')
+    disabledDate(now) {
+      return now && now < dayjs().endOf('day')
+    },
+    next(currentSlide) {
+      if (this.validator.execute(currentSlide)) {
+        this.current ++
+      }
+    },
+    prev() {
+      this.current --
+    },
+    change() {
+      this.$emit('booking', false)
     },
     validateForm() {
       // this.spinActive = true
       // this.state = 0
-      this.validator.setSchema(this.schema, false)
-      this.validator.execute()
+      let validForm = this.validator.execute()
       setTimeout(async () => {
-        if (this.validator.valid) {
+        if (validForm) {
           try {
             let res = await this.$apollo.provider.defaultClient.mutate({
-              mutation: bookingTrip,
+              mutation: bookTripMutation,
               variables: {
-                bookingTrip: {
-                  fullName: this.fullName,
-                  travelWith: this.travelWith,
-                  peopleNumber: this.peopleNumber,
-                  date: this.date,
-                  travelType: this.travelType,
-                  email: this.email,
-                  phone: this.phone,
-                  trip: this.id,
-                },
+                fullName: this.fullName,
+                travelWith: this.travelWith,
+                peopleNumber: Number(this.peopleNumber),
+                date: this.date.string,
+                travelType: this.travelType,
+                email: this.email,
+                phone: this.phone,
+                trip: this.type + "-" + this.id,
               },
               fetchPolicy: 'no-cache',
             })
             // this.state = 1
-            setTimeout(() => {
-              this.$refs.message.value = ''
+            // setTimeout(() => {
               // this.state = 0
-            }, 15000)
+            // }, 15000)
           } catch {
             this.validator.valid = false
-            this.validator.error =
-              'There is a problem connecting to the internet'
+            this.validator.error = 'There is a problem connecting to the internet'
           }
         }
         // this.spinActive = false
       }, 700)
-    },
-    next(e) {
-      let obj = {}
-      obj[e] = this.schema[e]
-      this.validator.setSchema(obj, false)
-      this.validator.execute()
-      setTimeout(() => {
-        console.log(this[e], this.validator.schema[e].valid)
-        if (this.validator.schema[e].valid) {
-          this.current++
-        }
-      }, 1)
-    },
-    prev() {
-      this.current--
-    },
-    change() {
-      this.$emit('booking', false)
     },
   },
 }
@@ -284,7 +270,6 @@ export default {
   @apply w-full sm:w-120 absolute min-h-min min-w-min  bottom-5 left-1/2;
   transform: translate(-50%, -50%);
 }
-
 .ant-radio-button-wrapper.booking {
   box-shadow: 0px 0px 10px -1px #00000040;
 }
@@ -316,14 +301,13 @@ export default {
   @apply w-full rounded-none;
 }
 .error-message {
-  @apply w-3/5 absolute text-sm text-red-600 left-0 -bottom-6 m-0;
+  @apply w-full absolute text-sm text-red-600 left-0 -bottom-6 m-0;
   animation: error 0.5s;
 }
 @keyframes error {
   59% {
     margin-left: 0;
   }
-
   60%,
   80% {
     margin-left: 3px;
