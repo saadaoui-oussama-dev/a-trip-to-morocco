@@ -97,7 +97,6 @@
       .inputs
         span.lable EMAIL
         input.input(v-model='email')
-        .input-space
         span.lable PHONE NUMBER
         input.input(v-model='phone')
         p.error-message(v-show="!this.validator.valid") {{ this.validator.error }}
@@ -234,7 +233,7 @@ export default {
   animation: 1s ease-in-out show;
 }
 .parent-title {
-  @apply flex flex-col gap-3 mb-20;
+  @apply flex flex-col gap-1 mb-4;
 }
 .title {
   @apply text-2xl sm:text-3xl font-semibold;
@@ -243,16 +242,13 @@ export default {
   @apply text-xs sm:text-sm text-stone-50;
 }
 .inputs {
-  @apply relative flex flex-col gap-2 mb-10;
+  @apply relative flex flex-col gap-1 mb-6;
 }
 .lable {
   @apply text-stone-50 font-medium text-xs sm:text-sm;
 }
 .input {
   @apply py-3 border border-solid border-heath text-base;
-}
-.input-space {
-  @apply mb-3;
 }
 .btns {
   @apply flex gap-1;
