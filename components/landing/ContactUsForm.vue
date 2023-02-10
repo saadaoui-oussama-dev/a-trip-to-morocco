@@ -73,9 +73,9 @@ export default {
       this.$refs.fname.value = corrector.upWord(this.$refs.fname.value)
       this.$refs.email.value = corrector.lower(this.$refs.email.value)
       this.state = 0
-      this.validator.execute()
+      let validForm = this.validator.execute()
       setTimeout(async () => {
-        if (this.validator.valid) {
+        if (validForm) {
           try {
             let res = await this.$apollo.provider.defaultClient.mutate({
               mutation: contactMutation,
