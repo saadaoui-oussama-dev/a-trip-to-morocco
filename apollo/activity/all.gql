@@ -1,5 +1,5 @@
 query {
-  activities {
+  activities(pagination: { limit: 500 }) {
     data {
       id
       attributes {

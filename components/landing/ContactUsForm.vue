@@ -53,7 +53,6 @@ export default {
         .setMinTimeout(550)
         .setSchema({
           _: 'required',
-          'fname.value': 'textAlpha(one)',
           fname: 'textAlpha(one)',
           lname: 'textAlpha(one)',
           email: 'email',

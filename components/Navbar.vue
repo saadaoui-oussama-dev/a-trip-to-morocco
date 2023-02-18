@@ -2,7 +2,7 @@
 .navbar.limited
   .content(ref="navTop")
     .icons
-      iconsLogo.logo(@click.native="goTo('')")
+      Logo.logo(@click.native="goTo('')")
       .contact
         iconsTripAdvisor
         iconsTwitter

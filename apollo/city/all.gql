@@ -1,5 +1,5 @@
 query {
-  cities {
+  cities(pagination: { limit: 20 }) {
     data {
       id
       attributes {

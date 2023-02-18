@@ -363,7 +363,6 @@ export default class Validator {
         if (item == '_') {
           forAll = clone($schema[item])
           delete $schema[item]
-          Object.keys($schema).map((item) => ($schema[item] = this.#mergeItems(forAll, $schema[item])))
         }
       })
       if (forAll) {
@@ -494,7 +493,7 @@ export default class Validator {
         }
         if (type.isStrNum(eval(originVal))) {
           let newVal = eval(originVal)
-          if (correct) {
+          if (correct && Array.isArray(this.schema[key].corrector)) {
             for (let method of this.schema[key].corrector.filter(mth => mth in corrector)) {
               if (method != 'trim' && method != 'upSentence') {
                 newVal = corrector[method](newVal)
