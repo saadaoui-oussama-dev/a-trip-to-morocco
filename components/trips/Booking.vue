@@ -116,7 +116,7 @@
 
 <script>
 import dayjs from 'dayjs'
-import { Validator } from '~/plugins/Validator'
+import Validator from '~/plugins/Validator'
 import bookTripMutation from '~/apollo/book-trip/create.gql'
 
 export default {
@@ -139,17 +139,22 @@ export default {
       validator: new Validator('There is an error in some fields', 2, ['string'])
         .setMinTimeout(1)
         .setSchema([{
-          _: { methods: 'required', error: 'There is an error in this field' },
+          _: { methods: 'required', priority: 1, error: 'There is an error in this field' },
           fullName: 'textAlpha(one)',
           peopleNumber: 'integer',
           date: 'text',
           email: 'email',
           phone: 'phone',
         }, {
-          _: { methods: 'required', error: 'Please select an option' },
+          _: { methods: 'required', priority: 1, error: 'Please select an option' },
           travelWith: 'textAlpha(one)',
           travelType: 'text',
-        }]),
+        }])
+        .useCorrector({
+          trim: '_',
+          lower: 'email',
+          upWord: 'fullName',
+        }),
     }
   },
   watch: {

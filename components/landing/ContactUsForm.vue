@@ -40,8 +40,7 @@
 </template>
 
 <script>
-import { Validator } from '~/plugins/Validator'
-import corrector from '~/plugins/corrector'
+import Validator from '~/plugins/Validator'
 import contactMutation from '~/apollo/contact/create.gql'
 
 export default {
@@ -54,11 +53,17 @@ export default {
         .setMinTimeout(550)
         .setSchema({
           _: 'required',
+          'fname.value': 'textAlpha(one)',
           fname: 'textAlpha(one)',
           lname: 'textAlpha(one)',
           email: 'email',
           phone: 'phone',
           message: 'text',
+        })
+        .useCorrector({
+          trim: '_',
+          lower: 'email',
+          upWord: ['lname', 'fname'],
         }),
     }
   },
@@ -68,10 +73,6 @@ export default {
   methods: {
     validateForm() {
       this.spinActive = true
-      this.$refs = corrector.trim(this.$refs, 'value')
-      this.$refs.lname.value = corrector.upWord(this.$refs.lname.value)
-      this.$refs.fname.value = corrector.upWord(this.$refs.fname.value)
-      this.$refs.email.value = corrector.lower(this.$refs.email.value)
       this.state = 0
       let validForm = this.validator.execute()
       setTimeout(async () => {
