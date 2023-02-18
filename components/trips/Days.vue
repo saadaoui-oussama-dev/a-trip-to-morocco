@@ -17,9 +17,6 @@
 export default {
   name: 'DaysComponent',
   props: ['days', 'type'],
-  mounted() {
-    console.log(this.days)
-  }
 }
 </script>
 
