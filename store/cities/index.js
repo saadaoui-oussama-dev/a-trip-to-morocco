@@ -12,6 +12,7 @@ export const getters = {
 
 export const actions = {
   async SET_CITIES({ commit, rootState }) {
+    let endpoint = rootState.strapi.httpEndpoint
     let { data } = await this.app.apolloProvider.defaultClient.query({
       query: citiesQuery,
       fetchPolicy: 'no-cache'
@@ -20,7 +21,9 @@ export const actions = {
       id,
       title: attributes.title,
       description: attributes.description,
+      extraInfos: attributes.extraInfos,
       img: rootState.strapi.httpEndpoint + attributes.image.data.attributes.url,
+      images: attributes.images.data.map(({ attributes: { url } }) => endpoint + url),
     }))
     commit('SET_CITIES', cities)
   },

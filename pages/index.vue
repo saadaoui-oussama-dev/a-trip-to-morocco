@@ -13,6 +13,7 @@ div
       landingFeedback
       landingCity(v-for="(city, index) in $store.getters['cities/GET_CITIES']" :key="index" :city="city")
       landingContactUsForm
+  landingCityDescription
   Footer
 </template>
 

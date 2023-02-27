@@ -5,7 +5,15 @@ query {
       attributes {
         title
         description
+        extraInfos
         image {
+          data {
+            attributes {
+              url
+            }
+          }
+        }
+        images(pagination: { limit: 6 }) {
           data {
             attributes {
               url

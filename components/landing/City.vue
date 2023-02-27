@@ -6,7 +6,7 @@
     h3 {{ city.name }}
     h1 {{ city.title }}
     p {{ city.description }}
-    .ant-btn Learn More
+    .ant-btn(@click="$nuxt.$emit('showCityDescription', city)") Learn More
 </template>
 
 <script>
