@@ -41,7 +41,7 @@ h1 {
 }
 .text {
   @apply mb-2 px-3 text-sm text-center text-stone;
-  @apply sm:mb-1.5 md:mb-2 sm:px-0 sm:text-left;
+  @apply sm:mb-1.5 md:mb-4 sm:px-0 sm:text-left;
 }
 .ant-btn {
   @apply w-max mb-14 py-2 text-albescent;
