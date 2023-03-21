@@ -3,9 +3,12 @@ div
   Navbar.bg-albescent
   landingBanner
   landingPostsList(title='Our Private Trips' list='PRIVATE_TRIPS')
-  landingSlider
+  landingSlider(:type="1")
   landingPostsList(title='Our Day Trips' list='DAY_TRIPS')
+  landingSlider(:type="2")
+  landingSlider(:type="3")
   landingPostsList(title='Our Activities' list='ACTIVITIES')
+  landingSlider(:type="4")
   landingGallery
   landingGallerySlider
   .section-7.limited
@@ -13,7 +16,6 @@ div
       landingFeedback
       landingCity(v-for="(city, index) in $store.getters['cities/GET_CITIES']" :key="index" :city="city")
       landingContactUsForm
-  landingCityDescription
   Footer
 </template>
 
