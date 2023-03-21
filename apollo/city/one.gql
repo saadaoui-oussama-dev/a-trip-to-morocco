@@ -1,11 +1,19 @@
-query {
-  cities(pagination: { limit: 20 }) {
+query ($id: ID!) {
+  city(id: $id) {
     data {
       id
       attributes {
         title
         description
+        extraInfos
         image {
+          data {
+            attributes {
+              url
+            }
+          }
+        }
+        images(pagination: { limit: 6 }) {
           data {
             attributes {
               url
