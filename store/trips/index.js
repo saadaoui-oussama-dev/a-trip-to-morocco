@@ -43,7 +43,6 @@ export const actions = {
           const formats = attributes.banner.data.attributes.formats
           url = formats.small?.url || formats.medium?.url || url
         }
-        console.log(url)
         return {
           id,
           title: attributes.title,

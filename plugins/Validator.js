@@ -627,13 +627,15 @@ const corrector = {
   trim(items, attr = 'value') {
     return corrector.byFunction(items, attr, (str) => str.trim())
   },
-  // to change characters depending on method
+  // to make the whole text lowercase
   lower(item, attr = 'value') {
     return corrector.byFunction(item, attr, (str) => str.toLowerCase())
   },
+  // to make the whole text uppercase
   upper(item, attr = 'value') {
     return corrector.byFunction(item, attr, (str) => str.toUpperCase())
   },
+  // to make the first letter uppercase
   upFirst(item, attr = 'value') {
     return corrector.byFunction(item, attr, (str) => {
       const firstLetter = Array.from(str).findIndex((char) => char !== ' ')
@@ -643,6 +645,7 @@ const corrector = {
       return str
     })
   },
+  // to make the first letter of each word uppercase
   upWord(item, attr = 'value', separators = ' ,.!?:;') {
     const capitalize = (str, separator) => str.split(separator).map(word => word.charAt(0).toUpperCase() + word.substring(1)).join(separator)
     return corrector.byFunction(item, attr, (str) => {
@@ -653,8 +656,9 @@ const corrector = {
       return str
     })
   },
+  // to make the first letter of each sentence uppercase
   upSentence(item, attr = 'value') {
-    return corrector.upWord(item, attr, ',.!?:;')
+    return corrector.upWord(item, attr, '.!?:;')
   },
   // to execute those methods
   byFunction(item, attr, func) {
@@ -673,10 +677,6 @@ const corrector = {
           if (type.isStr($val)) {
             eval(`item.${attr} = func($val)`)
           }
-        } else if (attr === true) {
-          Object.keys(item).map(field => {
-            byFunction((item[field]), 'value', func)
-          })
         }
       } catch {}
     }

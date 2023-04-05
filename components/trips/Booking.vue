@@ -1,6 +1,6 @@
 <template lang="pug">
 .parent(v-if='show')
-  .ant-btn.close(@click='change') CLOSE
+  .ant-btn.close(@click='close') CLOSE
   .slider
     .slide(v-show='current == 0')
       .parent-title
@@ -98,12 +98,10 @@
         input.input.border-colored(v-model='email')
         span.lable PHONE NUMBER
         input.input.border-colored(v-model='phone')
-        p.error-message(v-if="!validator.valid") {{ validator.error }}
-        p.success-message(v-else-if="state == 2") Message sent successfully
+        p.error-message {{ validator.error }}
       .btns
         .ant-btn.prev(@click='prev') Back
-        .ant-btn.next(v-if="state == 0" @click="validateForm") Submit
-        .ant-btn.next(v-else) Wait
+        .ant-btn.next(@click="() => state == 0 ? validateForm() : true") Submit
 
   a-steps.progress(progress-dot, :current='current')
     a-step
@@ -136,6 +134,11 @@ export default {
       travelType: '',
       email: '',
       phone: '',
+      v: new Validator().setSchema({
+        fullName: ['required', 'text'],
+        phone: 'phone(MA)',
+        email: 'email',
+      }).watch(true, true),
       validator: new Validator('There is an error in some fields', 2, ['string'])
         .setMinTimeout(1)
         .setSchema([{
@@ -187,7 +190,7 @@ export default {
     prev() {
       this.current --
     },
-    change() {
+    close() {
       this.$emit('booking', false)
     },
     validateForm() {
@@ -212,11 +215,13 @@ export default {
               },
               fetchPolicy: 'no-cache',
             })
-            this.state = 2
-            setTimeout(this.change, 1000)
+            this.$notify.success({
+              title: '',
+              message: 'Message sent successfully'
+            })
+            setTimeout(this.close, 1000)
             setTimeout(() => {
               this.state = 0
-              this.current = 0
               this.current = 0
               this.fullName = ''
               this.travelWith = ''
@@ -322,9 +327,6 @@ export default {
 .error-message {
   @apply w-full absolute text-sm text-red-600 left-0 -bottom-6 m-0;
   animation: error 0.5s;
-}
-.success-message {
-  @apply w-full absolute text-sm text-green-600 left-0 -bottom-6 m-0;
 }
 @keyframes error {
   59% {

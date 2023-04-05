@@ -35,8 +35,7 @@
       a-spin
     .ant-btn(v-else-if="state != 1" @click="validateForm") Send
     .ant-btn(v-else) Wait
-    .error-message(v-if="!validator.valid") {{ validator.error }}
-    .success-message(v-else-if="state == 1") Message sent successfully
+    .error-message {{ validator.error }}
 </template>
 
 <script>
@@ -91,6 +90,10 @@ export default {
               fetchPolicy: 'no-cache',
             })
             this.state = 1
+            this.$notify.success({
+              title: '',
+              message: 'Message sent successfully'
+            })
             setTimeout(() => {
               this.$refs.message.value = ''
               this.state = 0
