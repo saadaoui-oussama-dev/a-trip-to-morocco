@@ -24,7 +24,7 @@
         @click="goTo('#activities')"
         :class="{ current: currentSection == '#activities' }"
       ) Activities
-      .ant-btn.under About Us
+      .ant-btn.under(@click="$router.push('/about_us')") About Us
       .ant-btn.heath.contact-us(@click="goTo('#contact-us')") Contact Us
       .flex-grow(class="lg:hidden" @click="toggleOptions")
 </template>
