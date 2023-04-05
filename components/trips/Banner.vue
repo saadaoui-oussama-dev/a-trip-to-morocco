@@ -1,6 +1,6 @@
 <template lang="pug">
 .banner(:style='`background-image:url("${trip.banner}")`')
-  .parnet-content.bg-colored
+  .parnet-content
     .title-info
       h1.title {{ trip.title }}
       .info 
@@ -23,7 +23,7 @@
         .email
           iconsEmail.icon
           p contact@atriptomorocco.com
-      .ant-btn.text-colored(@click='change') Book a trip now
+      .ant-btn(@click='change') Book a trip now
 </template>
 
 <script>
@@ -58,8 +58,9 @@ p {
   @apply w-3 sm:w-4 lg:w-4 h-auto;
 }
 .parnet-content {
-  @apply w-full absolute bottom-0 flex flex-col gap-4 sm:gap-8 sm:flex-row justify-between items-center  bg-opacity-50 px-8 py-8;
+  @apply w-full absolute bottom-0 flex flex-col gap-4 sm:gap-8 sm:flex-row justify-between items-center px-8 py-8;
   @apply px-0 sm:px-8 sm:py-8 lg:px-16 lg:py-12;
+  background-color: rgba(var(--colored-list), 0.5);
   mix-blend-mode: normal;
   backdrop-filter: blur(5px);
 }
@@ -90,7 +91,7 @@ p {
   @apply text-xs lg:text-base font-semibold sm:font-medium;
 }
 .contact-book > .ant-btn {
-  @apply font-semibold text-xs px-16 py-2.5;
+  @apply text-colored font-semibold text-xs px-16 py-2.5 hover:text-albescent;
   @apply lg:text-sm sm:px-16 sm:py-2.5 lg:px-16 lg:py-2.5;
 }
 </style>

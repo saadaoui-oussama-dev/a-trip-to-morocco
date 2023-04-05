@@ -6,6 +6,7 @@ module.exports = {
     },
     extend: {
       colors: {
+        colored: 'var(--colored)',
         heath: '#3D0E1B',
         albescent: '#F7EBDB',
         cotton: '#FFFBF6',

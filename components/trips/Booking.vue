@@ -8,7 +8,7 @@
         span.description Please fill in the details below so that we can get in contact with you about your trip.
       .inputs
         span.label ENTER YOUR NAME
-        input.input(v-model='fullName')
+        input.input.border-colored(v-model='fullName')
         p.error-message {{ validator.schema.fullName.error }}
       .ant-btn.next(@click='next("fullName")') Get Started
 
@@ -95,9 +95,9 @@
         span.description Thanks for taking the time to complete this form. Please enter your contact details below and we will be in touch within 48 hours.
       .inputs
         span.label EMAIL
-        input.input(v-model='email')
+        input.input.border-colored(v-model='email')
         span.lable PHONE NUMBER
-        input.input(v-model='phone')
+        input.input.border-colored(v-model='phone')
         p.error-message(v-if="!validator.valid") {{ validator.error }}
         p.success-message(v-else-if="state == 2") Message sent successfully
       .btns
@@ -246,7 +246,7 @@ export default {
   background-image: url('~/assets/images/zellige.svg');
 }
 .parent .close {
-  @apply absolute right-4 top-4 sm:right-8 sm:top-8 bg-transparent text-heath text-xs sm:text-base font-semibold;
+  @apply absolute right-4 top-4 sm:right-8 sm:top-8 bg-transparent text-colored text-xs sm:text-base font-semibold;
 }
 .slider {
   @apply absolute top-1/2 left-1/2 w-full sm:w-96 lg:w-120 p-8 sm:p-0;
@@ -259,7 +259,7 @@ export default {
   @apply flex flex-col gap-1 mb-4;
 }
 .title {
-  @apply text-2xl sm:text-3xl font-semibold;
+  @apply text-2xl sm:text-3xl text-colored font-semibold;
 }
 .description {
   @apply text-xs sm:text-sm text-stone-50;
@@ -271,7 +271,7 @@ export default {
   @apply text-stone-50 font-medium text-xs sm:text-sm;
 }
 .input {
-  @apply py-3 border border-solid border-heath text-base;
+  @apply py-3 border border-solid border-colored text-base;
 }
 .btns {
   @apply flex gap-1;
@@ -302,7 +302,7 @@ export default {
   @apply w-5 h-5 bg-stone-50 rounded-full;
 }
 .ant-radio-button-wrapper.ant-radio-button-wrapper-checked.booking .checked {
-  @apply bg-heath;
+  @apply bg-colored;
 }
 .a-row {
   @apply flex w-full;
