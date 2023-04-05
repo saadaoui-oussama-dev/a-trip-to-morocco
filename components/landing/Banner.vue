@@ -4,7 +4,7 @@
     .info
       h1 Explore&nbsp;a colorful Morocco
       p.text We are experts at creating a Moroccan experience perfectly tailored to our guests needs. These are some of our most popular itineraries, and they may be customized to the utmost extent of your imaginations.
-      .ant-btn.heath Book a trip now
+      .ant-btn.heath(@click="scrollDown") Book a trip now
       .contacts
         div
           iconsPhone
@@ -20,6 +20,11 @@
 <script>
 export default {
   name: 'BannerComponent',
+  methods: {
+    scrollDown() {
+      document.querySelector('#private-trips').scrollIntoView()
+    }
+  }
 }
 </script>
 
