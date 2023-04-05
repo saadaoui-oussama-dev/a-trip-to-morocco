@@ -163,9 +163,6 @@ svg {
   @apply w-3/5 absolute text-sm text-red-600 left-0 bottom-0;
   animation: error 0.5s;
 }
-.form .success-message {
-  @apply w-3/5 absolute text-sm text-green-600 left-0 bottom-0;
-}
 .input.error input,
 .input.error textarea {
   @apply border-red-600 border-solid border;

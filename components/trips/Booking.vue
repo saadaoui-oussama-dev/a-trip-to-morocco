@@ -134,11 +134,6 @@ export default {
       travelType: '',
       email: '',
       phone: '',
-      v: new Validator().setSchema({
-        fullName: ['required', 'text'],
-        phone: 'phone(MA)',
-        email: 'email',
-      }).watch(true, true),
       validator: new Validator('There is an error in some fields', 2, ['string'])
         .setMinTimeout(1)
         .setSchema([{
