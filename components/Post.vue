@@ -11,7 +11,7 @@
     .info
       .price-parent
         span.text-colored.p-1 STARTING FROM
-        span.text-colored.price ${{ post.price }}
+        span.text-colored.price {{ post.price }}
       .ant-btn(@click="goTo") Learn More
         iconsArrowRight
 </template>
