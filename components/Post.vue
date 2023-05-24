@@ -30,21 +30,25 @@ export default {
     goTo() {
       let target = this.path ? this.path : ''
       this.$router.push(`${target}trips/${this.type}-${this.post.id}`)
-    }
+    },
   },
   created() {
-    this.title[0] = this.post.title.length > 40
-      ? this.post.title.substring(0, 40).trim() + '...'
-      : this.post.title
-    this.title[1] = this.post.title.length > 60
-      ? this.post.title.substring(0, 60).trim() + '...'
-      : this.post.title
-    this.description[0] = this.post.description.length > 100
-      ? this.post.description.substring(0, 100).trim() + '...'
-      : this.post.description
-    this.description[1] = this.post.description.length > 180
-      ? this.post.description.substring(0, 180).trim() + '...'
-      : this.post.description
+    this.title[0] =
+      this.post.title.length > 40
+        ? this.post.title.substring(0, 40).trim() + '...'
+        : this.post.title
+    this.title[1] =
+      this.post.title.length > 60
+        ? this.post.title.substring(0, 60).trim() + '...'
+        : this.post.title
+    this.description[0] =
+      this.post.description.length > 100
+        ? this.post.description.substring(0, 100).trim() + '...'
+        : this.post.description
+    this.description[1] =
+      this.post.description.length > 180
+        ? this.post.description.substring(0, 180).trim() + '...'
+        : this.post.description
   },
 }
 </script>
@@ -83,7 +87,7 @@ export default {
   @apply sm:text-2xl;
 }
 .ant-btn {
-  @apply  text-xs py-2 px-4 flex items-center justify-center text-albescent;
+  @apply text-xs py-2 px-4 flex items-center justify-center text-albescent;
   @apply lg:justify-start lg:w-max lg:py-2 lg:px-6;
 }
 .w .content {

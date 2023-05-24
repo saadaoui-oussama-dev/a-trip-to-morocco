@@ -8,7 +8,7 @@
       .contacts
         div
           iconsPhone
-          p +212 674 271 222
+          p +212 650 961 499
         div
           iconsMessage
           p contact@atriptomoroco.com
@@ -22,9 +22,11 @@ export default {
   name: 'BannerComponent',
   methods: {
     scrollDown() {
-      document.querySelector('#private-trips').scrollIntoView()
-    }
-  }
+      document.querySelector('#private-trips').scrollIntoView({
+        behavior: 'smooth',
+      })
+    },
+  },
 }
 </script>
 

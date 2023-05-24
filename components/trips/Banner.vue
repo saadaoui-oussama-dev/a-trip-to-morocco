@@ -8,7 +8,7 @@
           iconsPrice.icon
           p.price
             span STARTING FROM
-            | &nbsp;${{ trip.price }}
+            | &nbsp;{{ trip.price }}
         .parnet-duration
           iconsDuration.icon
           p.duration {{ trip.duration }} DAYS
@@ -19,7 +19,7 @@
       .contact
         .phone
           iconsPhoneSolid.icon(color='#F7EBDB')
-          p +212 06xxxxxxxx
+          p +212 650 961 499
         .email
           iconsEmail.icon
           p contact@atriptomorocco.com
@@ -30,11 +30,11 @@
 export default {
   name: 'BannerComponent',
   props: ['trip'],
-  methods:{
+  methods: {
     openForm() {
       this.$emit('booking', true)
-    }
-  }
+    },
+  },
 }
 </script>
 
