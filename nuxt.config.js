@@ -1,6 +1,6 @@
 export default {
   server: {
-    port: process.env.NODE_ENV === 'production' ? 2023 : 3000,
+    port: process.env.NODE_ENV === 'production' ? 2338 : 3000,
   },
   head: {
     title: 'A Trip To Morocco',
@@ -32,7 +32,7 @@ export default {
       default: {
         httpEndpoint:
           process.env.NODE_ENV === 'production'
-            ? 'http://localhost:1337/graphql'
+            ? 'https://strapi.atriptomorocco.com/graphql'
             : 'http://localhost:1337/graphql',
       },
     },
