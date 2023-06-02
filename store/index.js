@@ -3,7 +3,9 @@ export const state = () => ({
     name: 'A Trip To Morocco',
   },
   strapi: {
-    httpEndpoint: 'http://localhost:1337',
+    httpEndpoint: process.env.NODE_ENV === 'production'
+      ? 'https://strapi.atriptomorocco.com/graphql'
+      : 'http://localhost:1337/graphql',
   },
 })
 
