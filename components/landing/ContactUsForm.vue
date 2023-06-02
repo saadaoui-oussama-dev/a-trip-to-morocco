@@ -13,32 +13,33 @@
         iconsMessage(color="#3D0E1B")
         span contact@atriptomoroco.com
     p.address Angle boulevard Emile Zola et Rue Rethel 7éme Étage N°20 Casablanca 20300 Morocco
-  div.form(:class="{ error: state == 1, netError: state == 2, send: state == 3 }")
+  div.form
     .info.mb-4
-      .input(:class="!valid.fname ? 'error' : ''")
+      .input(:class="validator.schema.fname.valid ? '' : 'error'")
         p FIRST NAME
         input(placeholder="FIRST NAME" ref='fname')
-      .input(:class="!valid.lname ? 'error' : ''")
+      .input(:class="validator.schema.lname.valid ? '' : 'error'")
         p LAST NAME
         input(placeholder="LAST NAME" ref='lname')
-      .input(:class="!valid.email ? 'error' : ''")
+      .input(:class="validator.schema.email.valid ? '' : 'error'")
         p EMAIL
         input(placeholder="EMAIL" ref='email')
-      .input(:class="!valid.phone ? 'error' : ''")
+      .input(:class="validator.schema.phone.valid ? '' : 'error'")
         p PHONE
         input(placeholder="PHONE" ref='phone')
     .message.mb-4
-      .input(:class="!valid.message ? 'error' : ''")
+      .input(:class="validator.schema.message.valid ? '' : 'error'")
         p MESSAGE
         textarea(placeholder="MESSAGE" rows="5" ref='message')
     .ant-btn(v-if="spinActive" style="background-color: #f8e1c3")
       a-spin
-    .ant-btn(v-else-if="state != 3" @click="validateForm") Send
+    .ant-btn(v-else-if="state != 1" @click="validateForm") Send
     .ant-btn(v-else) Wait
+    .error-message {{ validator.error }}
 </template>
 
 <script>
-import Validator from '../../plugins/Validator'
+import Validator from '~/plugins/Validator'
 import contactMutation from '~/apollo/contact/create.gql'
 
 export default {
@@ -47,40 +48,35 @@ export default {
     return {
       spinActive: false,
       state: 0,
-      valid: {
-        fname: true,
-        lname: true,
-        email: true,
-        phone: true,
-        message: true,
-      },
+      validator: new Validator('There is an error in some fields')
+        .setMinTimeout(550)
+        .setSchema({
+          _: 'required',
+          fname: 'textAlpha(one)',
+          lname: 'textAlpha(one)',
+          email: 'email',
+          phone: 'phone',
+          message: 'text',
+        })
+        .useCorrector({
+          trim: '_',
+          lower: 'email',
+          upWord: ['lname', 'fname'],
+        }),
     }
+  },
+  mounted() {
+    this.validator.finalize(this.$refs)
   },
   methods: {
     validateForm() {
       this.spinActive = true
-      this.$refs = Validator.forceChange.trim(this.$refs, 'value')
-      this.$refs.lname.value = Validator.forceChange.upWord(this.$refs.lname.value)
-      this.$refs.fname.value = Validator.forceChange.upWord(this.$refs.fname.value)
-      this.$refs.email.value = Validator.forceChange.lower(this.$refs.email.value)
       this.state = 0
-      Object.keys(this.valid).map(attr => {
-        this.valid[attr] = true
-      })
-      let res = Validator.schema({
-        latinText_alpha_extra: [this.$refs.fname],
-        latinText_alpha_extra_: [this.$refs.lname],
-        email: [this.$refs.email],
-        phone: [this.$refs.phone],
-        latinText_complexe_extra: [this.$refs.message],
-      })
+      let validForm = this.validator.execute()
       setTimeout(async () => {
-        Object.keys(this.valid).map((attr, index) => {
-          this.valid[attr] = res.details[index].valid
-        })
-        if (res.valid) {
+        if (validForm) {
           try {
-            res = await this.$apollo.provider.defaultClient.mutate({
+            let res = await this.$apollo.provider.defaultClient.mutate({
               mutation: contactMutation,
               variables: {
                 contact: {
@@ -93,15 +89,20 @@ export default {
               },
               fetchPolicy: 'no-cache',
             })
-            this.state = 3
+            this.state = 1
+            this.$notify.success({
+              title: '',
+              message: 'Message sent successfully'
+            })
             setTimeout(() => {
-              Object.keys(this.$refs).map(field => {
-                this.$refs[field].value = ''
-              })
+              this.$refs.message.value = ''
               this.state = 0
             }, 15000)
-          } catch(e) { this.state = 2 }
-        } else { this.state = 1 }
+          } catch {
+            this.validator.valid = false
+            this.validator.error = "There is a problem connecting to the internet"
+          }
+        }
         this.spinActive = false
       }, 700)
     }
@@ -158,19 +159,9 @@ svg {
 .form .ant-btn:focus {
   background-color: #f8e1c3;
 }
-.form::before {
+.form .error-message {
   @apply w-3/5 absolute text-sm text-red-600 left-0 bottom-0;
   animation: error 0.5s;
-}
-.form.error::before {
-  content: "There is an error in some fields";
-}
-.form.netError::before {
-  content: "There is a problem connecting to the internet";
-}
-.form.send::before {
-  @apply text-green-600;
-  content: "Message sent successfully";
 }
 .input.error input,
 .input.error textarea {

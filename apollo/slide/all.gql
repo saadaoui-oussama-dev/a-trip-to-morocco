@@ -1,16 +1,15 @@
 query {
-  activities(pagination: { limit: 500 }) {
+  slides(pagination: { limit: 100 }) {
     data {
       id
       attributes {
         title
         description
-        price
-        banner {
+        type
+        image {
           data {
             attributes {
               url
-              formats
             }
           }
         }

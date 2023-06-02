@@ -1,311 +1,687 @@
-const Validator = {
-  email(items, src = 0, attribute = 'value') {
-    let regEx = /^\s*(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))\s*$/
-    return Validator.regExp(items, src, attribute, regEx)
-  },
-  required(items, src = 0, attribute = 'value') {
-    // if string is empty or not
-    return Validator.regExp(items, src, attribute, /([^\s])/)
-  },
-  latinWord: {
-    // at least one character ( && numbers if alphaNum ) && no spaces && no symbols
-    normal(items, src = 0, attribute = 'value', extra = false) {
-      // lower || upperFisrt || upper
-      let regEx = extra
-        ? /^(([A-ZÀ-ÖÙ-ÝĀĒĪŌŪŨŶŸŒ]{1}[a-zà-öù-ýÿāēīōũūŷœ]*)|([a-zà-öù-ýÿāēīōũūŷœ]+)|([A-ZÀ-ÖÙ-ÝĀĒĪŌŪŨŶŸŒ]+)){1}$/
-        : /^(([A-Za-z]{1}[a-z]*)|([a-z]+)|([A-Z]+)){1}$/
-      return Validator.regExp(items, src, attribute, regEx)
-    },
-    lower(items, src = 0, attribute = 'value', extra = false) {
-      // soufiane : lowercase
-      let regEx = extra ? /^[a-zà-öù-ýÿāēīōũūŷœ]+$/ : /^[a-z]+$/
-      return Validator.regExp(items, src, attribute, regEx)
-    },
-    upperFisrt(items, src = 0, attribute = 'value', extra = false) {
-      // Soufiane : Only the first letter is capital and the rest are not
-      let regEx = extra ? /^([A-ZÀ-ÖÙ-ÝĀĒĪŌŪŨŶŸŒ]{1}[a-zà-öù-ýÿāēīōũūŷœ]*){1}$/ : /^([A-Z]{1}[a-z]*){1}$/
-      return Validator.regExp(items, src, attribute, regEx)
-    },
-    upper(items, src = 0, attribute = 'value', extra = false) {
-      // ALAOUI : uppercase
-      let regEx = extra ? /^[A-ZÀ-ÖÙ-ÝĀĒĪŌŪŨŶŸŒ]+$/ : /^[A-Z]+$/
-      return Validator.regExp(items, src, attribute, regEx)
-    },
-    ignoreCases(items, src = 0, attribute = 'value', extra = false) {
-      // iBrAhiM : Cases are ignored
-      let regEx = extra ? /^[A-Za-zÀ-ÖÙ-ÝĀĒĪŌŪŨŶŸŒà-öù-ýÿāēīōũūŷœ]+$/ : /^[A-Za-z]+$/
-      return Validator.regExp(items, src, attribute, regEx)
-    },
-    alphaNum(items, src = 0, attribute = 'value', extra = false) {
-      // Mix between letters lower and upper, and numbers
-      let regEx = extra ? /^[A-Za-z0-9À-ÖÙ-ÝĀĒĪŌŪŨŶŸŒà-öù-ýÿāēīōũūŷœ]+$/ : /^[A-Za-z0-9]+$/
-      return Validator.regExp(items, src, attribute, regEx)
-    },
-  },
-  arabicWord: {
-    // at least one character ( && numbers if alphaNum ) && no spaces && no symbols
-    normal(items, src = 0, attribute = 'value', extra = false) {
-      // Arabic letters
-      let regEx = extra
-        ? /^[\u0620-\u063F\u0641-\u065F\u066E-\u06EF\u06FA-\u08FF]+$/
-        : /^[\u0621-\u063A\u0641-\u065F]+$/
-      return Validator.regExp(items, src, attribute, regEx)
-    },
-    alphaNum(items, src = 0, attribute = 'value', extra = false) {
-      // Mix between Arabic letters and numbers 0-9 and indian numbers : ٩-٠
-      let regEx = extra
-        ? /^[0-9|\u0660-\u0669\u0620-\u063F\u0641-\u065F\u066E-\u06EF\u06FA-\u08FF]+$/
-        : /^[0-9|\u0660-\u0669\u0621-\u063A\u0641-\u065F]+$/
-      return Validator.regExp(items, src, attribute, regEx)
-    },
-  },
-  latinText: {
-    alpha(items, src = 0, attribute = 'value', extra = false) {
-      // letters lower and upper, spaces
-      let regEx = extra ? /^[A-Za-z\sÀ-ÖÙ-ÝĀĒĪŌŪŨŶŸŒà-öù-ýÿāēīōũūŷœ]+$/ : /^[A-Za-z\s]+$/
-      return Validator.regExp(items, src, attribute, regEx)
-    },
-    alphaNum(items, src = 0, attribute = 'value', extra = false) {
-      // letters lower and upper, numbers, spaces
-      let regEx = extra ? /^[A-Za-z\s0-9À-ÖÙ-ÝĀĒĪŌŪŨŶŸŒà-öù-ýÿāēīōũūŷœ]+$/ : /^[A-Za-z\s0-9]+$/
-      return Validator.regExp(items, src, attribute, regEx)
-    },
-    phrase(items, src = 0, attribute = 'value', extra = false) {
-      // letters lower and upper, numbers, spaces, comma, point
-      let regEx = extra ? /^[A-Za-z\s,.0-9À-ÖÙ-ÝĀĒĪŌŪŨŶŸŒà-öù-ýÿāēīōũūŷœ]+$/ : /^[A-Za-z\s,.0-9]+$/
-      return Validator.regExp(items, src, attribute, regEx)
-    },
-    normal(items, src = 0, attribute = 'value', extra = false) {
-      // letters lower and upper, numbers, spaces, normal symbols : ,.:-/()[]{}&"'`!?
-      let regEx = extra
-        ? /^[A-Za-z0-9\s,.:\-/()[\]{}&"'`!?À-ÖÙ-ÝĀĒĪŌŪŨŶŸŒà-öù-ýÿāēīōũūŷœ]+$/
-        : /^[A-Za-z0-9\s,.:\-/()[\]{}&"'`!?]+$/
-      return Validator.regExp(items, src, attribute, regEx)
-    },
-    complexe(items, src = 0, attribute = 'value', extra = false) {
-      // letters lower and upper, numbers, spaces, complexe symbols : ,.:-/()[]{}&"'`!?@#%\|_*+±×÷=<^>~$¢£¥¤°º«»;¿
-      let regEx = extra
-        ? /^[A-Za-z0-9\s,.:\-/()[\]{}&"'`!?@#%\\|_*+±×÷=<^>~$¢£¥¤°º«»;¿À-ÖÙ-ÝĀĒĪŌŪŨŶŸŒà-öù-ýÿāēīōũūŷœ]+$/
-        : /^[A-Za-z0-9\s,.:\-/()[\]{}&"'`!?@#%\\|_*+±×÷=<^>~$¢£¥¤°º«»;¿]+$/
-      return Validator.regExp(items, src, attribute, regEx)
-    },
-  },
-  phone: {
-    normal(items, src = 0, attribute = 'value') {
-      // it can start by : 321 || + 2654 || (32) || (+313) || ( + 321 ) || none   and    () == [] == {}
-      // the rest can be separeted by (space - .) : 654-62 || 654.5466 || 654621 31 || 654.54-3.664.54
-      let regEx = /^\s*(\+{0,1}\s*\d*\s*)?([(\[{]\s*\+{0,1}\s*\d+\s*[)\]}])?([\s\d]+[.\-]{0,1}[\s\d]*)+[\s\d]+$/
-      return Validator.regExp(items, src, attribute, regEx)
-    },
-    moroccan(items, src = 0, attribute = 'value') {
-      // it's included in phone.normal
-      // it can start by : (+ 212) || + 212 || + ( 212 ) || none
-      // the rest can be : 6... || 5... || 7... || 06... || 05... || 07... and separeted by (space - .)
-      let regEx = /^\s*(\+{0,1}\s*212\s*)?([(\[{]\s*\+{0,1}\s*212\s*[)\]}])?\s*0{0,1}[567]([\s\d]+[.\-]{0,1}[\s\d]*)+[\s\d]+$/
-      return Validator.regExp(items, src, attribute, regEx)
-    },
-  },
-  size: {
-    length(items, length, src = 0, attribute = 'value') {
-    },
-    min(items,  minLength, src = 0, attribute = 'value') {
-    },
-    max(items,  maxLength, src = 0, attribute = 'value') {
-    },
-    minMax(items, minLength, maxLength, src = 0, attribute = 'value') {
-    },
-  },
-  getElements(items, src) {
-    let $src, $elements, $items
-    try {
-      $elements =
-        (typeof items == 'number' || (typeof items == 'string')) ? [items] :
-        (typeof items == 'object') ? items : (! items) ? null : undefined
-      $src = (typeof src == 'object' && src) ? src : (!src) ? null : undefined
-      if (typeof $src == 'undefined' || typeof $elements == 'undefined')
-        return [{ element: undefined, value: undefined, valid: false, error: 'Invalid parameters' }]
-      $items = typeof $src == 'undefined'
-        ? [undefined]
-        : ! $src ? $elements
-        : ! $elements ? Object.values($src)
-        : Array.isArray($elements) ? $elements.map(item => $src[item])
-        : [undefined]
-      $items = Array.isArray($items) ? $items : [$items]
-      return $items.map(item =>
-        (item || typeof item == 'number' || typeof item == 'string') && typeof item != 'boolean'
-          ? { element: item, value: item, valid: true }
-          : { element: item, value: item, valid: false, error: 'Invalid element value || Element not found' }
-      )
-    } catch { return [{ element: undefined, valid: false, error: 'Unknown error in getting element' }] }
-  },
-  getValue(item, attr) {
-    attr = typeof attr  == 'boolean' ? null : attr
-    let element = item.element
-    try {
-      return (typeof element == 'number' || typeof element == 'string') && ! attr
-        ? { element, value: element, valid: true }
-        : typeof element == 'number' || typeof element == 'string'
-        ? { element, value: element, valid: true, alert: `Useless Attribute: ${attr}` }
-        : typeof attr == 'object' && attr
-        ? { element, value: undefined, valid: false, error: `Invaild Attribute: ${attr}` }
-        : ! item
-        ? { element, value: element, valid: false, error: 'Invalid element value' }
-        : typeof item == 'object'
-        ? attr in element && (typeof element[attr] == 'number' || typeof element[attr] == 'string')
-        ? { element, value: element[attr], valid: true }
-        : attr in element || typeof attr == 'number' || typeof attr == 'string'
-        ? { element, value: element[attr], valid: false, error: 'Invalid element value' }
-        : ! attr && typeof attr != 'number' && typeof attr != 'string'
-        ? { element, value: element, valid: false, error: 'Invalid element value' }
-        : { element, value: undefined, valid: false, error: `Unknown key ${attr} in object / array` }
-        : { element, value: undefined, valid: false, error: 'Unknown error in getting element value' }
-    } catch {
-      return { element, value: undefined, valid: false, error: 'Unknown error in getting element value' }
-    }
-  },
-  regExp(items, src = 0, attribute = 'value', regExp) {
-    attribute = typeof attribute  == 'boolean' ? null : attribute
-    let res = { valid: true, details: [] }
-    let $elements = Validator.getElements(items, src)
-    res.details = $elements.map($el => {
-      $el = $el.valid ? $el = Validator.getValue($el, attribute) : $el
-      $el.valid = $el.valid && typeof $el.value == 'string' ? RegExp(regExp).test($el.value) : false
-      if (! $el.valid) res.valid = false
-      return $el
-    })
-    if (res.details.length == 1)
-      res = res.details[0]
-    else if (res.details.length == 0)
-      res = { valid: false, error: 'Dont send empty object to validate'}
-    return res
-  },
-  groupByMethod(schema = {}, mode = 'AND') {
-    let res = {}, notNesting = ['regExp', 'schema', 'groupByMethod', 'groupByValue', 'email', 'required']
-    mode = mode == 'OR' || mode == 'or' ? 'OR' : 'AND'
-    res.valid = mode != 'OR'
-    res.details = Object.entries(schema).map(method => {
-      let extra, name = method[0].split('_').filter(notEmpty => notEmpty), params = method[1]
-      if (name[name.length - 1] == 'extra') {
-        name.pop()
-        extra = true
-      }
-      name[1] = ! name[1] ? 'normal' : name[1]
-      if (notNesting.indexOf(name[0]) != -1) name = [name[0]]
-      name = name.join('.')
-      params[2] = typeof params[2] != 'undefined' ? params[2] : 'value'
-      params[2] = typeof params[2]  == 'boolean' ? null : typeof params[2] == 'undefined'? 'value' : params[2]
-      params[3] = params[3] || typeof params[2] == 'number' ? params[3] : extra
-      try {
-        let result = eval(`Validator.${name}(params[0], params[1], params[2], params[3], params[4])`)
-        res.valid =
-          mode == 'AND' && ! result.valid ? false :
-          mode == 'OR' && result.valid ? true : res.valid
-        return result
-      } catch { return { valid: false, error: `Unknown method !, ${name}` } }
-    })
-    if (res.details.length == 1) {
-      res = res.details[0]
-      mode = 'AND'
-    } else if (res.details.length == 0)
-      res = { valid: false, error: 'Dont send empty object to validate'}
-    res.schema = `groupByMethod (${mode})`
-    return res
-  },
-  groupByValues(schema = [], mode = 'AND') {
-    mode = mode == 'OR' || mode == 'or' ? 'OR' : 'AND'
-    let res = { valid: false, error: 'script of Schema[ groupByValues ] does\'t exist yet' }
-    res.schema = `groupByValues (${mode})`
-    return res
-  },
-  schema(schema, mode = 'AND') {
-    mode = mode == 'OR' || mode == 'or' ? 'OR' : 'AND'
-    try {
-      let method = Array.isArray(schema)
-        ? 'groupByValue'
-        :  typeof schema == 'object' && schema
-        ? 'groupByMethod'
-        : 'none'
-      return (method != 'none')
-        ? Validator[method](schema, mode)
-        : { valid: false, error: 'Schema should be an object or an array'}
-    } catch {
-      return { valid: false, error: 'An unhandled error was detected while executing the scheme'}
-    }
-  },
+// Version 2.1.1
 
-  // Methods to use directly to change inputs values before validation
-  // Ex : force change 'last name' to upperCase
-  // It is recommended to use forceChange.trim() in any context, [ if it's used, there's no need to required() ]
-  // These methods should NOT be called in SCHEMA
-  forceChange: {
-    trim(items, attr = null) {
-      // to remove white spaces from the beginning and the end of text
-      return Validator.forceChange.byFunction(items, attr, (str) => str.trim())
-    },
-    // to change characters depending on method
-    lower(items, attr = null) {
-      return Validator.forceChange.byFunction(items, attr, (str) => str.toLowerCase())
-    },
-    upper(items, attr = null) {
-      return Validator.forceChange.byFunction(items, attr, (str) => str.toUpperCase())
-    },
-    upFirst(items, attr = null) {
-      return Validator.forceChange.byFunction(items, attr, (str) =>
-        str.trim().charAt(0).toUpperCase() + str.trim().substring(1).toLowerCase()
-      )
-    },
-    upWord(items, attr = null) {
-      return Validator.forceChange.byFunction(items, attr, (str) => {
-        let words = str.trim().toLowerCase().split(/[\s,.:\-/()[\]{}&"'`!?@#%\\|_*+±×÷=<^>~$¢£¥¤°º«»;¿]+/).map(word => {
-          return word.trim().charAt(0).toUpperCase() + word.trim().substring(1)
-        })
-        words = words.filter(notEmpty => notEmpty)
-        let newStr = ''
-        str = str.toLowerCase()
-        words.map(word => {
-          newStr += str.substring(0, str.indexOf(word.toLowerCase())).trim() + ' ' + word
-          str = str.substring(str.indexOf(word.toLowerCase()) + word.length)
-        })
-        return newStr.trim()
+function Error(error, param1, param2, param3) {
+  // all errors that help in building the validator instance are declared here
+  let errors = {
+    schemaType: (schema) => ['TypeError : invalid schema (', schema, ') it should be an object of keys (of the tested object) and methods (and errors)'],
+    accuracyItemType: (key) => ['TypeError invalid item ("', key, '") in schema : if you are specifying errors for some fields, put', 2, 'in the second param of the constructor'],
+    methodsMissing: (item, schema) => ['Methods are missing in (', item, '):', schema],
+    elementType: (element, object) => ['TypeError : invalid element', element, 'in', object, ': It should be a string, number, array or an object'],
+    valueType: (key, attrs, element) => ['Attributes (', attrs.join(', '), ') not found in item', key, ':', element],
+    getElementFailed: (element, object) => ['there is an error occurred getting element (', element, ') from object : ', object],
+    itemErrorType: (key, method) => ['TypeError : invalid item error in', key + '.', method, ': It schould be a string or number as a message or false to apply mainError'],
+    filteredSplitType: (variable) => ['TypeError : invalid variable (', variable, ') it should be a string or array of strings'],
+    missingObject: () => ['Verification cannot be completed without an object under test'],
+    unknownMethod: (name, allMethods) => ['Uknown method : ' + name + '. methods that are available : \n', allMethods],
+    missingAppoloProvider: () => ['Reading from database cannot be completed without an apolloProvider, send it in the second param of the method "finalize"'],
+    requiredTarget: value => ["notInDB : The target is required in this case, validating", value, 'could not be completed'],
+    asyncExecuteInstead: () => ["When using notInDB, use asyncExecute instead of execute"]
+  }
+  console.error(...errors[error](param1, param2, param3))
+  return false
+}
+function clone(variable) {
+  return JSON.parse(JSON.stringify(variable))
+}
+let type = {
+  // used in conditions to verify variables types in the correct way
+  isExist: (variable) => variable !== undefined && variable !== null,
+  isStr: (variable) => typeof variable == 'string',
+  isNum: (variable) => typeof variable == 'number' || (typeof variable == 'string' && !isNaN(variable)),
+  isStrNum: (variable) => typeof variable == 'string' || typeof variable == 'number',
+  isStrArr: (variable) => typeof variable == 'string' || Array.isArray(variable),
+  isObj: (variable) => typeof variable == 'object' && variable && !Array.isArray(variable),
+  isObjArr: (variable) => typeof variable == 'object' && variable ? true : false,
+  isNormal: (variable) => type.isStrNum(variable) || type.isObjArr(variable),
+  toArray: (variable) => Array.isArray(variable) ? variable : [variable],
+}
+function filteredSplit(stringArray, separator = ' ') {
+  // accept a string (and split it) OR an array > then it filter duplicated items
+  let array = []
+  if (type.isStr(stringArray)) array = stringArray.split(separator)
+  else if (type.isNum(stringArray)) array = [stringArray.toString()]
+  else if (Array.isArray(stringArray)) {
+    array = clone(stringArray)
+    for (let i in array) {
+      if (type.isNum(array[i])) array[i] = array[i].toString()
+      else if (!type.isStr(array[i])) Error('filteredSplitType', array[i])
+    }
+  } else {
+    Error('filteredSplitType', stringArray)
+  }
+  return array.filter((item, index) => array.indexOf(item) === index && item !== '')
+}
+
+export default class Validator {
+  #object
+  #provider
+  #errorsAccuracy
+  #variables = {}
+  #watcherId
+  #watchSchema = false
+  #minTimeout = 0
+  attrs = ['value', 'content', 'data']
+  schema = {}
+  valid = true
+  watchedItems = []
+  constructor(schemaError = '', errorsAccuracy = 0, attrs = []) {
+    this.#errorsAccuracy = type.isNum(errorsAccuracy) ? parseInt(errorsAccuracy) : 0
+    if (errorsAccuracy >= 1) {
+      this.schemaError = ''
+      this.error = ''
+    }
+    if (type.isStrNum(schemaError) && schemaError !== '') {
+      this.schemaError = schemaError
+      if (!this.#errorsAccuracy) this.#errorsAccuracy = 1
+      this.error = ''
+    }
+    this.attrs = filteredSplit(filteredSplit(attrs).concat(this.attrs)).map((attr) => (type.isNum(attr) ? Number(attr) : attr))
+    // Object.setPrototypeOf(instance, Validator.prototype)
+  }
+  setVariables(variables = false) {
+    this.#variables = variables === false ? {} : { ...this.#variables, ...variables }
+    return this
+  }
+  setSchema(schema, reset = true) {
+    if (reset) this.schema = {}
+    if (Array.isArray(schema)) {
+      schema.map((group) => this.setSchema(group, false))
+    } else {
+      this.schema = {
+        ...this.schema,
+        ...this.#splitSchema(schema),
+      }
+    }
+    if (this.#object) this.finalize(this.#object, this.#provider)
+    return this
+  }
+  removeFromSchema(keys = []) {
+    this.watch(keys, false)
+    filteredSplit(keys).map((key) => delete this.schema[key])
+    return this
+  }
+  finalize(objectUnderTest = {}, apolloProvider, watch = true) {
+    if (apolloProvider) this.#provider = apolloProvider
+    if (objectUnderTest) {
+      this.#object = objectUnderTest
+      Object.keys(this.schema).map((item) => this.#findElement(item))
+      if (this.watchedItems.length && !this.#watcherId && watch) this.#startWatching()
+    }
+    return this
+  }
+  watch(keys = true, state = true, schema = true) {
+    // NOTE : when using the watch anywhere
+    //   you should clear all watched items in beforeDestroy
+    //   this.validator.watch(true, false)
+    // keys : - string || array --> items to change state of watching
+    //        - true --> all items
+    // state : boolean --> the state of watching
+    // schema : - true --> to watch the whole schema
+    //          - false --> its state will change only when using execute or asyncExecute
+    this.watchedItems = state === true
+      ? keys === true ? Object.keys(this.schema) : filteredSplit(this.watchedItems.concat(filteredSplit(keys))).filter((key) => key in this.schema)
+      : keys === true ? [] : this.watchedItems.filter((key) => !filteredSplit(keys).includes(key))
+    if (this.#object && !this.#watcherId) this.#startWatching()
+    if (type.isStrNum(this.#watcherId) && this.watchedItems.length === 0) {
+      clearInterval(this.#watcherId)
+      this.#watcherId = undefined
+    }
+    this.#watchSchema = schema
+    return this
+  }
+  getWatcherId() {
+    return typeof this.#watcherId == 'number' ? this.#watcherId : -1
+  }
+  async asyncExecute() {
+    let validateSchema = async _ => {
+      let validateItems = async _ => {
+        let loopOnItems = async _ => {
+          let validSchema = true
+          for (let key of Object.keys(this.schema)) {
+            this.#findElement(key, true, true)
+            if (this.#minTimeout) {
+              this.schema[key].valid = true
+              this.schema[key].error = ''
+            }
+            let $item = await this.#asyncValidateOne(clone(this.schema[key]))
+            if (!$item.valid) validSchema = false
+            setTimeout(() => {
+              this.schema[key] = $item
+            }, this.#minTimeout)
+          }
+          return validSchema
+        }
+        return await loopOnItems()
+      }
+      if (type.isStrNum(this.#watcherId)) clearInterval(this.#watcherId)
+      this.#watcherId = undefined
+      if (this.#minTimeout) {
+        this.valid = true
+        this.error = ''
+      }
+      let $valid = await validateItems()
+      setTimeout(_ => {
+        this.valid = $valid
+        if (this.#errorsAccuracy) {
+          this.error = $valid ? '' : this.schemaError
+        }
+        if (this.watchedItems.length) {
+          this.#startWatching()
+        }
+      }, this.#minTimeout)
+      return $valid
+    }
+    if (type.isObj(this.schema)) {
+      return await validateSchema()
+    } else {
+      Error('missingObject')
+      this.valid = false
+      return false
+    }
+  }
+  execute(keys) {
+    if (type.isObj(this.schema)) {
+      let validSchema = true
+      if (keys) {
+        keys = filteredSplit(keys).filter((key) => key in this.schema)
+      } else {
+        keys = Object.keys(this.schema)
+      }
+      for (let key of keys) {
+        this.#findElement(key, true, true)
+        if (this.#minTimeout) {
+          this.schema[key].valid = true
+          if (this.#errorsAccuracy > 1)
+            this.schema[key].error = ''
+        }
+        let $item = this.#validateOne(clone(this.schema[key]))
+        if (!$item.valid) validSchema = false
+        setTimeout(_ => {
+          this.schema[key] = $item
+        }, this.#minTimeout)
+      }
+      if (type.isStrNum(this.#watcherId)) clearInterval(this.#watcherId)
+      this.#watcherId = undefined
+      if (this.#minTimeout && keys.length === Object.keys(this.schema).length) {
+        this.valid = true
+        this.error = ''
+      }
+      setTimeout(_ => {
+        if (keys.length === Object.keys(this.schema).length) {
+          this.valid = validSchema
+          if (this.#errorsAccuracy) {
+            this.error = validSchema ? '' : this.schemaError
+          }
+          if (this.watchedItems.length) {
+            this.#startWatching()
+          }
+        }
+      }, this.#minTimeout)
+      return validSchema
+    } else {
+      Error('missingObject')
+      this.valid = false
+      return false
+    }
+  }
+  test(keys, defaultVal = true) {
+    let valid = defaultVal
+    if (this.schema) {
+      if (keys) {
+        keys = filteredSplit(keys).filter((key) => key in this.schema)
+      } else {
+        keys = Object.keys(this.schema)
+      }
+      for(let key of keys) {
+        if (!this.schema[key].valid) {
+          valid = false
+          break
+        }
+      }
+    }
+    return valid
+  }
+  setMinTimeout(duration) {
+    this.#minTimeout = duration
+    return this
+  }
+  useCorrector(schema) {
+    Object.keys(schema).filter(method => method in corrector).map(method => {
+      let keys = filteredSplit(schema[method]).filter((key) => key in this.schema)
+      if (filteredSplit(schema[method]).includes('_')) {
+        keys = Object.keys(this.schema)
+      }
+      keys.map(key => {
+        if (!Array.isArray(this.schema[key].corrector)) {
+          this.schema[key].corrector = [method]
+        } else if (!this.schema[key].corrector.includes(method)) {
+          this.schema[key].corrector.push(method)
+        }
       })
-    },
-    upSentence(items, attr = null) {
-      return Validator.forceChange.byFunction(items, attr, (str) => {
-        let sentences = str.trim().toLowerCase().split(/[.:!?;¿]+/).map(sentence => {
-          return sentence.trim().charAt(0).toUpperCase() + sentence.trim().substring(1)
-        })
-        sentences = sentences.filter(notEmpty => notEmpty)
-        let newStr = ''
-        str = str.toLowerCase()
-        sentences.map(sentence => {
-          newStr += str.substring(0, str.indexOf(sentence.toLowerCase())).trim() + ' ' + sentence
-          str = str.substring(str.indexOf(sentence.toLowerCase()) + sentence.length)
-        })
-        return newStr.trim()
-      })
-    },
-    byFunction(items, attr, func) {
-      if (typeof items == 'string') {
-        items = func(items)
-      } else if (typeof items == 'object' && items) {
-        Object.keys(items).map(field => {
-          if (typeof items[field] == 'string') {
-            items[field] = func(items[field])
-          } else if (
-            (typeof attr == 'number' || typeof attr == 'string') &&
-            items[field] && typeof items[field] == 'object' && typeof items[field][attr] == 'string'
-          ) {
-            items[field][attr] = func(items[field][attr])
-          } else {
-            console.error('invalid attribute : "' , attr,'" or item ', items[field], ' in ', items)
+    })
+    return this
+  }
+  #startWatching() {
+    this.finalize(this.#object, this.#provider, false)
+    let asyncSchema = clone(this.schema)
+    if (this.#watcherId) {
+      clearInterval(this.#watcherId)
+      this.#watcherId = null
+    }
+    this.#watcherId = setInterval(() => {
+      let validSchema = true
+      if (this.#object) {
+        this.watchedItems.filter(key => key in this.schema).map(async (key) => {
+          this.#findElement(key)
+          if (!this.schema[key].valid) validSchema = false
+          if (this.schema[key].value !== asyncSchema[key].value) {
+            this.#findElement(key, true)
+            this.schema[key] = await this.#asyncValidateOne(clone(this.schema[key]))
           }
         })
+        if (this.#watchSchema) {
+          this.valid = validSchema
+          if (this.#errorsAccuracy) {
+            this.error = validSchema ? '' : this.schemaError
+          }
+        }
+        asyncSchema = clone(this.schema)
       } else {
-        console.error('invalid params: items: ', items, ', attribute : ', attr)
+        clearInterval(this.#watcherId)
+        this.#watcherId = null
       }
-      return items
-    },
+    }, 50)
+  }
+  async #asyncValidateOne(item) {
+    item.valid = true
+    if (this.#errorsAccuracy >= 2) {
+      item.error = ''
+    }
+    let error = false
+    let loopOnMethods = async (meths = clone(item.methods)) => {
+      for (let i in meths) {
+        let func
+        try {
+          eval(`func = methods.${meths[i].name}`)
+          if (typeof func == 'undefined') throw 'invalid'
+          let valid
+          if (error === false) {
+            let params = type.toArray(meths[i].params)
+            if (meths[i].name === 'notInDB') params = [this.#provider, ... params]
+            valid = await func(item.value, ... params)
+            meths[i].valid = valid
+            if (!valid) { error = meths[i].error; item.valid = false }
+          }
+        } catch {
+          item.valid = false
+          meths[i].valid = false
+          Error('unknownMethod', meths[i].name, methods)
+        }
+      }
+      return await meths
+    }
+    item.methods = await loopOnMethods()
+    if (this.#errorsAccuracy >= 2 && !item.valid) item.error = type.isStrNum(error) ? error : item.mainError ? item.mainError : ''
+    return item
+  }
+  #validateOne(item) {
+    item.valid = true
+    if (this.#errorsAccuracy >= 2) {
+      item.error = ''
+    }
+    let error = false
+    for (let i in item.methods) {
+      let func
+      try {
+        eval(`func = methods.${item.methods[i].name}`)
+        if (typeof func == 'undefined') throw 'invalid'
+        let valid
+        if (item.methods[i].name === 'notInDB') Error('asyncExecuteInstead')
+        if (error === false) {
+          let params = type.toArray(item.methods[i].params)
+          if (item.methods[i].name === 'notInDB') params = [this.#provider, ... params]
+          valid = func(item.value, ... params)
+          item.methods[i].valid = valid
+          if (!valid) { error = item.methods[i].error; item.valid = false }
+        }
+      } catch {
+        item.valid = false
+        item.methods[i].valid = false
+        Error('unknownMethod', item.methods[i].name, methods)
+      }
+    }
+    if (this.#errorsAccuracy >= 2 && !item.valid) item.error = type.isStrNum(error) ? error : item.mainError ? item.mainError : ''
+    return item
+  }
+  #splitSchema(schema) {
+    // transform scopes of schema that are declared in setSchema
+    let $schema = {}
+    if (type.isObj(schema)) {
+      let forAll
+      Object.keys(schema).map((item) => {
+        $schema[item] = this.#splitItem(item, schema)
+        if (item == '_') {
+          forAll = clone($schema[item])
+          delete $schema[item]
+        }
+      })
+      if (forAll) {
+        Object.keys($schema).map((item) => ($schema[item] = this.#mergeItems(forAll, $schema[item])))
+      }
+    } else {
+      Error('schemaType', schema)
+    }
+    return $schema
+  }
+  #splitItem(item, schema) {
+    // transform items of schema from the syntax declared in setSchema to the final result shown in the Vue console
+    let splitMethod = (m) => {
+      let $m = { valid: true },
+        open = m.indexOf('('),
+        close = m.indexOf(')')
+      $m.name = m
+      if (open !== -1 && close !== -1 && open < close) {
+        $m.params = m.slice(open + 1, close).split(',').filter((notEmpty) => notEmpty).map((p) => {
+          p = p.trim()
+          try {
+            return eval(p)
+          } catch {
+            if (p in this.#variables) return this.#variables[p]
+          }
+          return p
+        })
+        $m.name = m.slice(0, open)
+      }
+      return $m
+    }
+    let $el = { valid: true, methods: [] }
+    if (this.#errorsAccuracy >= 2) {
+      $el = { valid: true, methods: [], mainError: '', error: '' }
+    }
+    if (type.isStrArr(schema[item])) {
+      $el.methods = filteredSplit(schema[item]).map((m) => splitMethod(m))
+    } else if (this.#errorsAccuracy == 0 || this.#errorsAccuracy === 1) {
+      Error('accuracyItemType', item)
+    } else if (type.isObj(schema[item])) {
+      if (type.isStrNum(schema[item].error)) {
+        $el.mainError = schema[item].error.toString()
+      }
+      if (type.isStrArr(schema[item].methods)) {
+        $el.methods = filteredSplit(schema[item].methods).map((m) => splitMethod(m))
+      } else if (type.isObj(schema[item].methods)) {
+        $el.methods = Object.keys(schema[item].methods).map((m) => {
+          let $m = splitMethod(m)
+          if (type.isStrNum(schema[item].methods[m])) {
+            $m.error = schema[item].methods[m].toString()
+          } else if (schema[item].methods[m] !== false) {
+            Error('itemErrorType', item, m)
+          }
+          return $m
+        })
+      } else {
+        Error('accuracyItemType', item)
+      }
+      if (type.isNum(schema[item].priority)) {
+        $el.priority = Number(schema[item].priority)
+      }
+    } else {
+      Error('accuracyItemType', item)
+    }
+    return $el
+  }
+  #mergeItems(sourceObj, targetObj) {
+    // when we have the _ 'underscore' item, we need to merge it with all other items
+    let $src = clone(sourceObj),
+      $targ = clone(targetObj),
+      methodExist = (name) => $targ.methods.some((method) => method.name === name)
+    if (this.#errorsAccuracy < 2) {
+      $src.methods.filter((mt) => methodExist(mt.name)).map((mt) => {
+        let i = $targ.methods.findIndex((el) => el.name == mt.name)
+        if (mt.params && !$targ.methods[i].params) {
+          $targ.methods[i].params = mt.params
+        }
+      })
+      $targ.methods = $targ.methods.concat($src.methods.filter((mt) => !methodExist(mt.name)))
+    } else {
+      if (!$targ.mainError) $targ.mainError = $src.mainError
+      $src.methods.filter((mt) => methodExist(mt.name)).map((mt) => {
+        let i = $targ.methods.findIndex((m) => m.name === mt.name)
+        if (type.isStrNum(mt.error) && !type.isStrNum($targ.methods[i].error)) {
+          $targ.methods[i].error = mt.error.toString()
+        }
+        if (mt.params && !$targ.methods[i].params) {
+          $targ.methods[i].params = mt.params
+        }
+      })
+      let newMethods = $src.methods.filter((mt) => !methodExist(mt.name))
+      if (newMethods.length) {
+        if (!type.isNum($src.priority)) $src.priority = 0.26
+        if (!type.isNum($targ.priority)) $targ.priority = 0.51
+        if ($src.priority === $targ.priority) $targ.priority++
+        if ($src.priority > $targ.priority) {
+          $targ.methods = newMethods.concat($targ.methods)
+        } else {
+          $targ.methods = $targ.methods.concat(newMethods)
+        }
+      }
+    }
+    delete $targ.priority
+    return $targ
+  }
+  #findElement(key, correct = false, correctTrim = false) {
+    // search for the element from the original object
+    try {
+      let $obj = this.#object,
+        originVal = type.isNum(key) ? `$obj[${Number(key)}]` : `$obj.${key}`,
+        $el = eval(originVal)
+      if (!type.isNormal($el)) {
+        this.schema[key].element = undefined
+        this.schema[key].value = undefined
+        this.schema[key].valid = false
+        Error('elementType', key, this.#object)
+      } else {
+        if (type.isObjArr($el)) {
+          for (let attr of this.attrs) {
+            try {
+              let $origin = type.isNum(attr) ? `${originVal}[${Number(attr)}]` : `${originVal}.${attr}`
+              if (type.isStrNum(eval($origin))) {
+                originVal = $origin
+                break
+              }
+            } catch {}
+          }
+        }
+        if (type.isStrNum(eval(originVal))) {
+          let newVal = eval(originVal)
+          if (correct && Array.isArray(this.schema[key].corrector)) {
+            for (let method of this.schema[key].corrector.filter(mth => mth in corrector)) {
+              if (method != 'trim' && method != 'upSentence') {
+                newVal = corrector[method](newVal)
+              } else if (correctTrim) {
+                newVal = corrector[method](newVal)
+              }
+            }
+          }
+          eval(`${originVal} = newVal`)
+          this.schema[key].element = eval(type.isNum(key) ? `$obj[${Number(key)}]` : `$obj.${key}`)
+          this.schema[key].value = newVal
+        } else {
+          this.schema[key].value = undefined
+          this.schema[key].valid = false
+          Error('valueType', key, this.attrs, this.schema[key].element)
+        }
+      }
+    } catch {
+      Error('getElementFailed', key, this.#object)
+    }
+  }
+}
+
+const methods = {
+  email: (value) => /^\s*(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))\s*$/.test(value),
+  required: (value) => /([^\s])/.test(value),
+  phone: (value, morrocan) => morrocan
+    ? /^\s*(\+{0,1}\s{0,2}212\s{0,2})?([(\[{]\s{0,2}\+{0,1}\s{0,2}212\s{0,2}[)\]}])?\s{0,2}0{0,1}\s{0,2}[5678]\s{0,2}(\d+\s{0,2}[.\-]{0,1}\s{0,2})+\d+\s*$/.test(value)
+    : /^\s*(\+{0,1}\s{0,2}\d{1,4}\s{0,2})?([(\[{]\s{0,2}\+{0,1}\s{0,2}\d{1,4}\s{0,2}[)\]}])?\s{0,2}(\d+\s{0,2}[.\-]{0,1}\s{0,2})+\d+\s*$/.test(value),
+  noSpaces: (value) => !/\s/.test(value),
+  noNumbers: (value) => /^([^0-9\u0660-\u0669]*)$/.test(value),
+  noSymbols: (value) => /^[A-Za-z0-9\u0660-\u0669\sÀ-ÖÙ-ÝĀĒĪŌŪŨŶŸŒà-öù-ýÿāēīōũūŷœ\u0621-\u063B\u0640-\u065Fچڅڢڤکڪگںڡھہۃۇۈیۍۑە\u066E-\u0678]*$/.test(value),
+  number: (value) => typeof value == "number" || /^([0-9]+(.{0,1}[0-9]+){0,1}){0,1}$/.test(value),
+  integer: (value) => (typeof value == "number" && value % 1 === 0) || /^[0-9]*$/.test(value),
+  length: (value, length) => value.trim().length == length,
+  min: (value, min = 0) => value.trim().length >= min,
+  max: (value, max = Infinity) => value.trim().length <= max,
+  between: (value, min = 0, max = Infinity) => value.trim().length <= max && value.trim().length >= min,
+  numberMin: (value, min = -Infinity) => Number(value) >= Number(min),
+  numberMax: (value, max = Infinity) => Number(value) <= Number(max),
+  numberBetween: (value, min = -Infinity, max = Infinity) => Number(value) <= Number(max) && Number(value) >= Number(min),
+  text: (value, lang) => {
+    let fr = /^[A-Za-z0-9\s,.:\-/()[\]{}&"'`!?@#%\\|_*+±×÷=<^>~$¢£¥¤°º«»;¿؟À-ÖÙ-ÝĀĒĪŌŪŨŶŸŒà-öù-ýÿāēīōũūŷœ]*$/,
+      en = /^[A-Za-z0-9\s,.:\-/()[\]{}&"'`!?@#%\\|_*+±×÷=<^>~$¢£¥¤°º«»;¿؟]*$/,
+      ar = /^[\u0621-\u063B\u0640-\u065Fچڅڢڤکڪگںڡھہۃۇۈیۍۑە\u066E-\u0678\uFDF2-\uFDFD\s0-9\u0660-\u0669,.٫٬،:\-/()[\]{}&"'`‘!?@#%\\|_*+±×÷=<^>~$¢£¥¤°º«»;؟٪؛؉]*$/,
+      all = /^[A-Za-z0-9\u0660-\u0669\sÀ-ÖÙ-ÝĀĒĪŌŪŨŶŸŒà-öù-ýÿāēīōũūŷœ\u0621-\u063B\u0640-\u065Fچڅڢڤکڪگںڡھہۃۇۈیۍۑە\u066E-\u0678\uFDF2-\uFDFD,.٫٬،:\-/()[\]{}&"‘'`!?@#%\\|_*+±×÷=<^>~$¢£¥¤°º«»;؟٪؛¿؉\uFD3E\uFD3F]*$/
+    return lang == 'fr' ? fr.test(value) : lang == 'en' ? en.test(value) : lang == 'ar' ? ar.test(value) : lang == 'one' ? (ar.test(value) || fr.test(value)) : all.test(value)
+  },
+  textAlpha: (value, lang) => {
+    let fr = /^[A-Za-z\sÀ-ÖÙ-ÝĀĒĪŌŪŨŶŸŒà-öù-ýÿāēīōũūŷœ']*$/,
+      en = /^[A-Za-z\s']*$/,
+      ar = /^[\u0621-\u063B\u0640-\u065Fچڅڢڤکڪگںڡھہۃۇۈیۍۑە\u066E-\u0678\uFDF2-\uFDFD\s]*$/,
+      all = /^[A-Za-z\sÀ-ÖÙ-ÝĀĒĪŌŪŨŶŸŒà-öù-ýÿāēīōũūŷœ\u0621-\u063B\u0640-\u065Fچڅڢڤکڪگںڡھہۃۇۈیۍۑە\u066E-\u0678\uFDF2-\uFDFD']*$/
+    return lang == 'fr' ? fr.test(value) : lang == 'en' ? en.test(value) : lang == 'ar' ? ar.test(value) : lang == 'one' ? (ar.test(value) || fr.test(value)) : all.test(value)
+  },
+  textAlphaNum: (value, lang) => {
+    let fr = /^[A-Za-z0-9\sÀ-ÖÙ-ÝĀĒĪŌŪŨŶŸŒà-öù-ýÿāēīōũūŷœ']*$/,
+      en = /^[A-Za-z0-9\s']*$/,
+      ar = /^[\u0621-\u063B\u0640-\u065Fچڅڢڤکڪگںڡھہۃۇۈیۍۑە\u066E-\u0678\uFDF2-\uFDFD\s0-9\u0660-\u0669‘']*$/,
+      all = /^[A-Za-z0-9\u0660-\u0669\sÀ-ÖÙ-ÝĀĒĪŌŪŨŶŸŒà-öù-ýÿāēīōũūŷœ\u0621-\u063B\u0640-\u065Fچڅڢڤکڪگںڡھہۃۇۈیۍۑە\u066E-\u0678\uFDF2-\uFDFD‘']*$/
+    return lang == 'fr' ? fr.test(value) : lang == 'en' ? en.test(value) : lang == 'ar' ? ar.test(value) : lang == 'one' ? (ar.test(value) || fr.test(value)) : all.test(value)
+  },
+  textSimple: (value, lang) => {
+    let fr = /^[A-Za-z0-9\s,.À-ÖÙ-ÝĀĒĪŌŪŨŶŸŒà-öù-ýÿāēīōũūŷœ']*$/,
+      en = /^[A-Za-z0-9\s,.']*$/,
+      ar = /^[\u0621-\u063B\u0640-\u065Fچڅڢڤکڪگںڡھہۃۇۈیۍۑە\u066E-\u0678\uFDF2-\uFDFD\s0-9\u0660-\u0669,.٫٬،‘']*$/,
+      all = /^[A-Za-z0-9\u0660-\u0669\s,.٫٬،À-ÖÙ-ÝĀĒĪŌŪŨŶŸŒà-öù-ýÿāēīōũūŷœ\u0621-\u063B\u0640-\u065Fچڅڢڤکڪگںڡھہۃۇۈیۍۑە\u066E-\u0678\uFDF2-\uFDFD‘']*$/
+    return lang == 'fr' ? fr.test(value) : lang == 'en' ? en.test(value) : lang == 'ar' ? ar.test(value) : lang == 'one' ? (ar.test(value) || fr.test(value)) : all.test(value)
+  },
+  word: (value, lang) => {
+    let fr = /^[A-Za-zÀ-ÖÙ-ÝĀĒĪŌŪŨŶŸŒà-öù-ýÿāēīōũūŷœ']*$/,
+      en = /^[A-Za-z']*$/,
+      ar = /^[\u0621-\u063B\u0640-\u065Fچڅڢڤکڪگںڡھہۃۇۈیۍۑە\u066E-\u0678\uFDF2-\uFDFD‘'\uFD3E\uFD3F]*$/,
+      all = /^[A-Za-zÀ-ÖÙ-ÝĀĒĪŌŪŨŶŸŒà-öù-ýÿāēīōũūŷœ\u0621-\u063B\u0640-\u065Fچڅڢڤکڪگںڡھہۃۇۈیۍۑە\u066E-\u0678\uFDF2-\uFDFD‘']*$/
+    return lang == 'fr' ? fr.test(value) : lang == 'en' ? en.test(value) : lang == 'ar' ? ar.test(value) : lang == 'one' ? (ar.test(value) || fr.test(value)) : all.test(value)
+  },
+  wordNum: (value, lang) => {
+    let fr = /^[A-Za-z0-9À-ÖÙ-ÝĀĒĪŌŪŨŶŸŒà-öù-ýÿāēīōũūŷœ']*$/,
+      en = /^[A-Za-z0-9']*$/,
+      ar = /^[0-9\u0621-\u063B\u0640-\u065Fچڅڢڤکڪگںڡھہۃۇۈیۍۑە\u066E-\u0678\uFDF2-\uFDFD\u0660-\u0669‘']*$/,
+      all = /^[A-Za-z0-9\u0660-\u0669À-ÖÙ-ÝĀĒĪŌŪŨŶŸŒà-öù-ýÿāēīōũūŷœ\u0621-\u063B\u0640-\u065Fچڅڢڤکڪگںڡھہۃۇۈیۍۑە\u066E-\u0678\uFDF2-\uFDFD‘']*$/
+    return lang == 'fr' ? fr.test(value) : lang == 'en' ? en.test(value) : lang == 'ar' ? ar.test(value) : lang == 'one' ? (ar.test(value) || fr.test(value)) : all.test(value)
+  },
+  notInDB: async (value, apolloProvider, query, filter = '', target = '') => {
+    if (!apolloProvider) Error('missingAppoloProvider')
+    let searchForParam = (obj) => {
+      if (obj === 'PARAM') {
+        obj = value
+      } else if (Array.isArray(obj)) {
+        obj.map(k => {
+          if (obj[k] === 'PARAM') obj[k] = value
+          else if (type.isObjArr(obj[k])) obj[k] = searchForParam(obj[k])
+        })
+      } else if (type.isObj(obj)) {
+        Object.keys(obj).map(k => {
+          if (obj[k] === 'PARAM') obj[k] = value
+          else if (type.isObjArr(obj[k])) obj[k] = searchForParam(obj[k])
+        })
+      }
+      return obj
+    }
+    if (filter) {
+      filter = searchForParam(clone(filter))
+    } else {
+      try {
+        let attr = query.definitions[0].selectionSet.selections[0].selectionSet.selections[0].selectionSet.selections[0].selectionSet.selections[0].name.value
+        filter = { filters : {} }
+        filter.filters[attr] = { eq: value }
+      } catch {
+        filter = { filters: { id: { eq: value }}}
+      }
+    }
+    try {
+      target = target ? target : 'data.' + query.definitions[0].selectionSet.selections[0].name.value + '.data'
+    } catch {
+      Error('requiredTarget', value)
+    }
+    let notExist = 0, variables = filter
+    try {
+      let a = await apolloProvider.query({ query, variables, fetchPolicy: 'no-cache' })
+      eval(`notExist = a.${target}.length`)
+    } catch (e) {
+      console.error(e)
+    }
+    return notExist === 0
   },
 }
 
-export default Validator
+const corrector = {
+  // to remove white spaces from the beginning and the end of text
+  trim(items, attr = 'value') {
+    return corrector.byFunction(items, attr, (str) => str.trim())
+  },
+  // to make the whole text lowercase
+  lower(item, attr = 'value') {
+    return corrector.byFunction(item, attr, (str) => str.toLowerCase())
+  },
+  // to make the whole text uppercase
+  upper(item, attr = 'value') {
+    return corrector.byFunction(item, attr, (str) => str.toUpperCase())
+  },
+  // to make the first letter uppercase
+  upFirst(item, attr = 'value') {
+    return corrector.byFunction(item, attr, (str) => {
+      const firstLetter = Array.from(str).findIndex((char) => char !== ' ')
+      if (firstLetter !== -1) {
+        return str.substring(0, firstLetter) + str.charAt(firstLetter).toUpperCase() + str.substring(firstLetter + 1).toLowerCase()
+      }
+      return str
+    })
+  },
+  // to make the first letter of each word uppercase
+  upWord(item, attr = 'value', separators = ' ,.!?:;') {
+    const capitalize = (str, separator) => str.split(separator).map(word => word.charAt(0).toUpperCase() + word.substring(1)).join(separator)
+    return corrector.byFunction(item, attr, (str) => {
+      str = str.toLowerCase()
+      for (let separator of Array.from(separators)) {
+        str = capitalize(str, separator)
+      }
+      return str
+    })
+  },
+  // to make the first letter of each sentence uppercase
+  upSentence(item, attr = 'value') {
+    return corrector.upWord(item, attr, '.!?:;')
+  },
+  // to execute those methods
+  byFunction(item, attr, func) {
+    if (type.isStr(item)) {
+      return func(item)
+    } else if (type.isObjArr(item)) {
+      let $val = ''
+      try {
+        if (type.isNum(attr)) {
+          $val = item[attr]
+          if (type.isStr($val)) {
+            item[attr] = func($val)
+          }
+        } else if (type.isStr(attr)) {
+          eval(`$val = item.${attr}`)
+          if (type.isStr($val)) {
+            eval(`item.${attr} = func($val)`)
+          }
+        }
+      } catch {}
+    }
+    return item
+  },
+}
+
+export { Validator, methods, corrector }

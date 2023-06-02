@@ -188,33 +188,51 @@ input:active,
 textarea:active {
   background-color: #f8f0f0;
 }
-.kashmir .text-colored {
-  @apply text-kashmir;
+.kashmir {
+  --colored: #4d5a8e;
+  --colored-list: 77, 90, 142;
 }
-.kashmir .border-colored {
-  @apply border-kashmir;
+.teal {
+  --colored: #025b63;
+  --colored-list: 2, 91, 99;
 }
-.kashmir .bg-colored {
-  @apply bg-kashmir;
-}
-.teal .text-colored {
-  @apply text-teal;
-}
-.teal .border-colored {
-  @apply border-teal;
-}
-.teal .bg-colored {
-  @apply bg-teal;
-}
-.heath .text-colored {
-  @apply text-heath;
-}
-.heath .border-colored {
-  @apply border-heath;
-}
-.heath .bg-colored {
-  @apply bg-heath;
+.heath {
+  --colored: #3d0e1b;
+  --colored-list: 61, 14, 27;
 }
 .ant-spin .ant-spin-dot .ant-spin-dot-item {
-  @apply bg-heath;
+  @apply bg-heath bg-colored;
+}
+.booking.ant-radio-button-wrapper{
+  @apply py-4 h-auto;
+}
+.booking.ant-radio-button-wrapper,
+.booking.ant-radio-button-wrapper:first-child,
+.booking.ant-radio-button-wrapper:last-child{
+  @apply border border-solid border-transparent rounded-none;
+}
+.booking.ant-radio-button-wrapper-checked,
+.ant-slider-handle,
+.ant-slider-handle-click-focused,
+.ant-slider-handle:focus,
+.ant-slider:hover .ant-slider-handle:not(.ant-tooltip-open),
+.booking.ant-radio-button-wrapper-checked:first-child,
+.booking.ant-radio-button-wrapper-checked:last-child{
+  @apply border-colored hover:border-colored;
+}
+.ant-slider-track,
+.ant-slider:hover .ant-slider-track {
+  @apply bg-colored hover:bg-colored;
+}
+.booking.ant-calendar-picker{
+  @apply w-full;
+}
+.booking .ant-calendar-picker-input,
+.booking .ant-calendar-picker-input::placeholder {
+  @apply py-6 text-base rounded-none;
+}
+.ant-steps-item-finish > .ant-steps-item-container > .ant-steps-item-tail::after,
+.ant-steps-item-finish .ant-steps-item-icon > .ant-steps-icon .ant-steps-icon-dot,
+.ant-steps-item-process .ant-steps-item-icon > .ant-steps-icon .ant-steps-icon-dot {
+  @apply bg-colored;
 }

@@ -6,12 +6,14 @@ module.exports = {
     },
     extend: {
       colors: {
+        colored: 'var(--colored)',
         heath: '#3D0E1B',
         albescent: '#F7EBDB',
         cotton: '#FFFBF6',
         kashmir: '#4D5A8E',
         teal: '#025B63',
         stone: '#464646',
+        'stone-50': '#565656',
         city: '#00000080',
       },
       minHeight: {

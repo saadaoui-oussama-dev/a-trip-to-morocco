@@ -1,5 +1,5 @@
 query {
-  dayTrips {
+  dayTrips(pagination: { limit: 500 }) {
     data {
       id
       attributes {
@@ -10,6 +10,7 @@ query {
           data {
             attributes {
               url
+              formats
             }
           }
         }

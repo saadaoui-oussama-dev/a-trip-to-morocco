@@ -13,8 +13,12 @@ body {
 .page-leave-to {
   @apply opacity-0;
 }
-* {
+*:not(input):not(textarea) {
   caret-color: transparent;
+}
+input,
+textarea {
+  caret-color: #3D0E1B;
 }
 html {
   scroll-behavior: smooth;

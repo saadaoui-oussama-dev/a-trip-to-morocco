@@ -16,17 +16,17 @@ export const actions = {
   SET_GALLERY({ commit }) {
     let gallery = [
       [
-        { url: 'gallery/photo1.png', x1: 0, x2: 2, y1: 0, y2: 1 },
-        { url: 'gallery/photo4.png', x1: 0, x2: 1, y1: 1, y2: 2 },
-        { url: 'gallery/photo5.png', x1: 1, x2: 2, y1: 1, y2: 3 },
-        { url: 'gallery/photo7.png', x1: 0, x2: 1, y1: 2, y2: 3 },
+        { url: 'gallery/photo1.png', x1: 0, y1: 0, x2: 2, y2: 1 },
+        { url: 'gallery/photo4.png', x1: 0, y1: 1, x2: 1, y2: 2 },
+        { url: 'gallery/photo5.png', x1: 1, y1: 1, x2: 2, y2: 3 },
+        { url: 'gallery/photo7.png', x1: 0, y1: 2, x2: 1, y2: 3 },
       ],
       [
-        { url: 'gallery/photo2.png', x1: 0, x2: 1, y1: 0, y2: 1 },
-        { url: 'gallery/photo3.png', x1: 1, x2: 2, y1: 0, y2: 1 },
-        { url: 'gallery/photo6.png', x1: 0, x2: 2, y1: 1, y2: 2 },
-        { url: 'gallery/photo8.png', x1: 0, x2: 1, y1: 2, y2: 3 },
-        { url: 'gallery/photo9.png', x1: 1, x2: 2, y1: 2, y2: 3 },
+        { url: 'gallery/photo2.png', x1: 0, y1: 0, x2: 1, y2: 1 },
+        { url: 'gallery/photo3.png', x1: 1, y1: 0, x2: 2, y2: 1 },
+        { url: 'gallery/photo6.png', x1: 0, y1: 1, x2: 2, y2: 2 },
+        { url: 'gallery/photo8.png', x1: 0, y1: 2, x2: 1, y2: 3 },
+        { url: 'gallery/photo9.png', x1: 1, y1: 2, x2: 2, y2: 3 },
       ]
     ]
     let index = 0

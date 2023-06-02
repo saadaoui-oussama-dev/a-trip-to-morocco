@@ -6,7 +6,7 @@
     h3 {{ city.name }}
     h1 {{ city.title }}
     p {{ city.description }}
-    .ant-btn Learn More
+    .ant-btn(@click="$router.push(`/cities/${city.id}`)") Learn More
 </template>
 
 <script>
@@ -24,12 +24,12 @@ export default {
   @apply w-full h-full sm:absolute bg-cover bg-center;
 }
 .centered {
-  background-image: url("~/assets/images/zellige.svg");
+  background-image: url('~/assets/images/zellige.svg');
   @apply w-full h-3/5 py-8 sm:py-0 sm:h-full sm:bg-none bg-blend-overlay sm:absolute bg-heath sm:bg-city flex justify-center items-center flex-col sm:opacity-0 sm:hover:opacity-100;
   transition: opacity 0.5s, background-color 0.5s;
 }
 .centered > *:not(svg, .ant-btn) {
-  @apply  text-albescent text-center;
+  @apply text-albescent text-center;
 }
 svg {
   @apply mb-2 sm:mb-1;
@@ -43,7 +43,7 @@ h1 {
   @apply md:px-10;
 }
 p {
-  @apply  mb-4 px-8 sm:px-16;
+  @apply mb-4 px-8 sm:px-16;
   font-size: 11px;
 }
 .ant-btn {

@@ -12,7 +12,7 @@
       style='height: 700px'
     )
       slide.h-full(
-        v-for='(slideInfo, index) in $store.getters["slider/GET_SLIDES"]',
+        v-for='(slideInfo, index) in list',
         :key='index',
         style='height: 700px'
       )
@@ -27,7 +27,7 @@
       style='height: 600px'
     )
       slide.h-full(
-        v-for='(slideInfo, index) in $store.getters["slider/GET_SLIDES"]',
+        v-for='(slideInfo, index) in list',
         :key='index',
         style='height: 600px'
       )
@@ -42,7 +42,7 @@
       style='height: 550px'
     )
       slide.h-full(
-        v-for='(slideInfo, index) in $store.getters["slider/GET_SLIDES"]',
+        v-for='(slideInfo, index) in list',
         :key='index',
         style='height: 550px'
       )
@@ -56,7 +56,7 @@
       style='height: 600px'
     )
       slide.h-full(
-        v-for='(slideInfo, index) in $store.getters["slider/GET_SLIDES"]',
+        v-for='(slideInfo, index) in list',
         :key='index',
         style='height: 600px'
       )
@@ -75,18 +75,20 @@ export default {
     Slide,
     HooperPagination,
   },
+  props: ['type'],
   data() {
     return {
+      list: [],
       hooperSettings: {
         itemsToShow: 1,
         centerMode: true,
         transition: 750,
-        // vertical: true,
       },
       carouselData: 0,
-      // height: null,
-      // show:0
     }
+  },
+  beforeMount() {
+    this.list = this.$store.getters['slider/GET_SLIDES'].filter(item => item.type == this.$options.propsData.type)
   },
   watch: {
     carouselData() {

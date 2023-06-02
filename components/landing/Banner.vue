@@ -4,11 +4,11 @@
     .info
       h1 Explore&nbsp;a colorful Morocco
       p.text We are experts at creating a Moroccan experience perfectly tailored to our guests needs. These are some of our most popular itineraries, and they may be customized to the utmost extent of your imaginations.
-      .ant-btn.heath Book a trip now
+      .ant-btn.heath(@click="scrollDown") Book a trip now
       .contacts
         div
           iconsPhone
-          p +212 674 271 222
+          p +212 650 961 499
         div
           iconsMessage
           p contact@atriptomoroco.com
@@ -20,6 +20,13 @@
 <script>
 export default {
   name: 'BannerComponent',
+  methods: {
+    scrollDown() {
+      document.querySelector('#private-trips').scrollIntoView({
+        behavior: 'smooth',
+      })
+    },
+  },
 }
 </script>
 
@@ -41,7 +48,7 @@ h1 {
 }
 .text {
   @apply mb-2 px-3 text-sm text-center text-stone;
-  @apply sm:mb-1.5 md:mb-2 sm:px-0 sm:text-left;
+  @apply sm:mb-1.5 md:mb-4 sm:px-0 sm:text-left;
 }
 .ant-btn {
   @apply w-max mb-14 py-2 text-albescent;

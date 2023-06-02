@@ -2,15 +2,17 @@
 .post
   .bg-img(:style="`background-image:url('${post.banner}')`")
   .content
-    div
-      h3.title.text-colored {{ post.title }}
-      p.description(class="sm:hidden") {{ description[0] }}
-      p.description(class="hidden sm:block") {{ description[1] }}
+    div(class="sm:hidden")
+      h3.title.text-colored {{ title[0] }}
+      p.description {{ description[0] }}
+    div(class="hidden sm:block")
+      h3.title.text-colored {{ title[1] }}
+      p.description {{ description[1] }}
     .info
       .price-parent
-        span.text-colored STARTING FROM
-        span.text-colored.price ${{ post.price }}
-      .ant-btn(@click="goTo()") Learn More
+        span.text-colored.p-1 STARTING FROM
+        span.text-colored.price {{ post.price }}
+      .ant-btn(@click="goTo") Learn More
         iconsArrowRight
 </template>
 
@@ -21,21 +23,32 @@ export default {
   data() {
     return {
       description: [],
+      title: [],
     }
   },
   methods: {
     goTo() {
       let target = this.path ? this.path : ''
       this.$router.push(`${target}trips/${this.type}-${this.post.id}`)
-    }
+    },
   },
   created() {
-    this.description[0] = this.post.description.length > 100
-      ? this.post.description.substring(0, 100).trim() + '...'
-      : this.post.description
-    this.description[1] = this.post.description.length > 180
-      ? this.post.description.substring(0, 180).trim() + '...'
-      : this.post.description
+    this.title[0] =
+      this.post.title.length > 40
+        ? this.post.title.substring(0, 40).trim() + '...'
+        : this.post.title
+    this.title[1] =
+      this.post.title.length > 60
+        ? this.post.title.substring(0, 60).trim() + '...'
+        : this.post.title
+    this.description[0] =
+      this.post.description.length > 100
+        ? this.post.description.substring(0, 100).trim() + '...'
+        : this.post.description
+    this.description[1] =
+      this.post.description.length > 180
+        ? this.post.description.substring(0, 180).trim() + '...'
+        : this.post.description
   },
 }
 </script>
@@ -61,10 +74,10 @@ export default {
   @apply text-xs text-stone mb-1.5;
 }
 .info {
-  @apply flex flex-col gap-2 sm:flex-row sm:gap-0 justify-between;
+  @apply flex flex-col gap-2 lg:flex-row sm:gap-0 justify-between;
 }
 .price-parent {
-  @apply flex items-end justify-between sm:justify-start gap-1;
+  @apply flex items-end justify-between lg:justify-start gap-1;
 }
 .price-parent span:first-child {
   @apply text-xs;
@@ -74,8 +87,8 @@ export default {
   @apply sm:text-2xl;
 }
 .ant-btn {
-  @apply  text-xs py-2 px-4 flex items-center justify-center text-albescent;
-  @apply sm:justify-start sm:w-max sm:py-2 sm:px-6;
+  @apply text-xs py-2 px-4 flex items-center justify-center text-albescent;
+  @apply lg:justify-start lg:w-max lg:py-2 lg:px-6;
 }
 .w .content {
   @apply w-52 sm:w-72 lg:w-80;

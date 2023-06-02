@@ -39,7 +39,6 @@ export default {
   beforeMount() {
     this.getConfig()
     window.addEventListener('resize', this.getConfig)
-    console.log(this.config)
   },
   destroyed() {
     window.addEventListener('resize', this.getConfig)

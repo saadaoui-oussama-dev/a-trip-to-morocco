@@ -3,10 +3,13 @@ div
   Navbar.bg-albescent
   landingBanner
   landingPostsList(title='Our Private Trips' list='PRIVATE_TRIPS')
-  landingSlider
+  landingSlider(:type="1")
   landingPostsList(title='Our Day Trips' list='DAY_TRIPS')
+  landingSlider(:type="2")
   landingPostsList(title='Our Activities' list='ACTIVITIES')
+  landingSlider(:type="3")
   landingGallery
+  landingSlider(:type="4")
   landingGallerySlider
   .section-7.limited
     .content
@@ -36,6 +39,7 @@ export default {
   @apply mb-12 px-0;
 }
 .section-7 .content {
-  @apply max-w-page grid grid-cols-1 sm:grid-cols-2;
+  @apply max-w-page mt-10 grid grid-cols-1;
+  @apply sm:mt-12 md:mt-20 sm:grid-cols-2;
 }
 </style>

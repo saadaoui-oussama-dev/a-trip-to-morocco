@@ -1,3 +1,5 @@
+import citiesQuery from '~/apollo/city/all.gql'
+
 export const state = () => ({
   cities: [],
 })
@@ -9,13 +11,17 @@ export const getters = {
 }
 
 export const actions = {
-  SET_CITIES({ commit }) {
-    let cities = [
-      { id: 1, name: 'MARZOUGA', title: "Live the nomad life in the Sahara Desert.", description: "The minute you step foot on the soft golden dunes of the Sahara Desert, you’ll be transported to another world, another time - you’ve come to the perfect place for a peaceful retreat.", img: 'cities/city1.png' },
-      { id: 2, name: 'MARZOUGA', title: "Live the nomad life in the Sahara Desert.", description: "The minute you step foot on the soft golden dunes of the Sahara Desert, you’ll be transported to another world, another time - you’ve come to the perfect place for a peaceful retreat.", img: 'cities/city2.png' },
-      { id: 3, name: 'MARZOUGA', title: "Live the nomad life in the Sahara Desert.", description: "The minute you step foot on the soft golden dunes of the Sahara Desert, you’ll be transported to another world, another time - you’ve come to the perfect place for a peaceful retreat.", img: 'cities/city3.png' },
-      { id: 4, name: 'MARZOUGA', title: "Live the nomad life in the Sahara Desert.", description: "The minute you step foot on the soft golden dunes of the Sahara Desert, you’ll be transported to another world, another time - you’ve come to the perfect place for a peaceful retreat.", img: 'cities/city4.png' },
-    ]
+  async SET_CITIES({ commit, rootState }) {
+    let { data } = await this.app.apolloProvider.defaultClient.query({
+      query: citiesQuery,
+      fetchPolicy: 'no-cache'
+    })
+    let cities = data.cities.data.map(({ id, attributes }) => ({
+      id,
+      title: attributes.title,
+      description: attributes.description,
+      img: rootState.strapi.httpEndpoint + attributes.image.data.attributes.url,
+    }))
     commit('SET_CITIES', cities)
   },
 }

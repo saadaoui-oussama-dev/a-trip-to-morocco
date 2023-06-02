@@ -37,6 +37,11 @@ export default {
       },
     },
   },
+  izitoast: {
+    position: 'bottomLeft',
+    transitionIn: 'bounceInRight',
+    transitionOut: 'fadeOutLeft',
+  },
   googleFonts: {
     families: {
       Dosis: true,

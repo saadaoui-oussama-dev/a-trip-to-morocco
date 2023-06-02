@@ -2,13 +2,12 @@
 .navbar.limited
   .content(ref="navTop")
     .icons
-      iconsLogo.logo(@click.native="goTo('')")
+      Logo.logo(@click.native="goTo('')")
       .contact
-        iconsTripAdvisor
-        iconsTwitter
-        iconsFacebook
-        iconsInstagram
-        iconsWhatsapp
+        iconsTripAdvisor(@click.native="goTo('https://www.tripadvisor.com/Profile/a_triptomorocco')")
+        iconsTikTok(@click.native="goTo('https://www.tiktok.com/@a_triptomorocco?is_from_webapp=1&sender_device=pc')")
+        iconsInstagram(@click.native="goTo('https://www.instagram.com/a_triptomorocco/')")
+        iconsWhatsapp(@click.native="goTo('https://api.whatsapp.com/send/?phone=212650961499&text&type=phone_number&app_absent=0')")
     iconsMore.more(@click.native="toggleOptions")
     .back(@click="toggleOptions")
     .pages
@@ -24,14 +23,14 @@
         @click="goTo('#activities')"
         :class="{ current: currentSection == '#activities' }"
       ) Activities
-      .ant-btn.under About Us
+      .ant-btn.under(@click="$router.push('/about_us')") About Us
       .ant-btn.heath.contact-us(@click="goTo('#contact-us')") Contact Us
       .flex-grow(class="lg:hidden" @click="toggleOptions")
 </template>
 
 <script>
 export default {
-	name: 'NavbarComponent',
+  name: 'NavbarComponent',
   data() {
     return {
       currentSection: '',
@@ -45,9 +44,13 @@ export default {
       try {
         if (target == '') {
           this.$router.push('/')
+        } else if (target.includes('https')) {
+          window.open(target, '_blank')
         } else {
           this.toggleOptions()
-          document.querySelector(target).scrollIntoView()
+          document.querySelector(target).scrollIntoView({
+            behavior: 'smooth',
+          })
         }
       } catch {
         this.$router.push(`/${target}`)
@@ -56,23 +59,29 @@ export default {
     detectCurrantSection() {
       try {
         let sections = ['#activities', '#day-trips', '#private-trips'],
-        halfScreen = (window.innerHeight - document.querySelector('.navbar').getBoundingClientRect().bottom) / 2,
-        currentSection = ''
+          halfScreen =
+            (window.innerHeight -
+              document.querySelector('.navbar').getBoundingClientRect()
+                .bottom) /
+            2,
+          currentSection = ''
         for (let section of sections) {
           let top = document.querySelector(section).getBoundingClientRect().top,
-          bottom = document.querySelector(section).getBoundingClientRect().bottom
+            bottom = document
+              .querySelector(section)
+              .getBoundingClientRect().bottom
           if (top <= halfScreen) {
-            currentSection = (bottom <= halfScreen) ? '' : section
+            currentSection = bottom <= halfScreen ? '' : section
             break
           }
         }
-        this.currentSection = currentSection;
+        this.currentSection = currentSection
       } catch {}
     },
   },
   async mounted() {
     document.addEventListener('scroll', this.detectCurrantSection)
-  }
+  },
 }
 </script>
 
@@ -93,6 +102,11 @@ export default {
 .contact {
   @apply flex items-center gap-2 sm:gap-4;
 }
+
+.contact svg {
+  @apply cursor-pointer;
+}
+
 .more {
   @apply lg:hidden;
 }

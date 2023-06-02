@@ -37,13 +37,20 @@ export const actions = {
     let LIST = list == 'privateTrips' ? 'PRIVATE_TRIPS' : list == 'dayTrips' ? 'DAY_TRIPS' : 'ACTIVITIES',
       query = list == 'privateTrips' ? privateTripsQuery : list == 'dayTrips' ? dayTripsQuery : activitiesQuery,
       { data } = await this.app.apolloProvider.defaultClient.query({ query, fetchPolicy: 'no-cache' }),
-      trips = data[list].data.map(({ id, attributes }) => ({
-        id,
-        title: attributes.title,
-        description: attributes.description,
-        price: attributes.price,
-        banner: rootState.strapi.httpEndpoint + attributes.banner.data.attributes.url,
-      }))
+      trips = data[list].data.map(({ id, attributes }) => {
+        let url = attributes.banner.data.attributes.url
+        if (attributes.banner.data.attributes.formats) {
+          const formats = attributes.banner.data.attributes.formats
+          url = formats.small?.url || formats.medium?.url || url
+        }
+        return {
+          id,
+          title: attributes.title,
+          description: attributes.description,
+          price: attributes.price,
+          banner: rootState.strapi.httpEndpoint + url,
+        }
+      })
     commit(`SET_${LIST}`, trips)
     const trip = dispatch(`SET_VISIBLE_LIST`, list)
   },

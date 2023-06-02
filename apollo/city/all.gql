@@ -1,16 +1,14 @@
 query {
-  activities(pagination: { limit: 500 }) {
+  cities(pagination: { limit: 20 }) {
     data {
       id
       attributes {
         title
         description
-        price
-        banner {
+        image {
           data {
             attributes {
               url
-              formats
             }
           }
         }

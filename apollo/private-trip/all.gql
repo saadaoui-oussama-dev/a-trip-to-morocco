@@ -1,5 +1,5 @@
 query {
-  privateTrips {
+  privateTrips(pagination: { limit: 500 }) {
     data {
       id
       attributes {
@@ -10,6 +10,7 @@ query {
           data {
             attributes {
               url
+              formats
             }
           }
         }
