@@ -4,8 +4,8 @@ export const state = () => ({
   },
   strapi: {
     httpEndpoint: process.env.NODE_ENV === 'production'
-      ? 'https://strapi.atriptomorocco.com/graphql'
-      : 'http://localhost:1337/graphql',
+      ? 'https://strapi.atriptomorocco.com'
+      : 'http://localhost:1337',
   },
 })
 
