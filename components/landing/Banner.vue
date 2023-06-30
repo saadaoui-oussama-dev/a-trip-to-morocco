@@ -8,7 +8,7 @@
       .contacts
         div
           iconsPhone
-          p +212 650 961 499
+          p +212 656 419 841
         div
           iconsMessage
           p contact@atriptomoroco.com
