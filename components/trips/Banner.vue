@@ -19,7 +19,7 @@
       .contact
         .phone
           iconsPhoneSolid.icon(color='#F7EBDB')
-          p +212 650 961 499
+          p +212 656 419 841
         .email
           iconsEmail.icon
           p contact@atriptomorocco.com
