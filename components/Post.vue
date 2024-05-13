@@ -9,9 +9,9 @@
       h3.title.text-colored {{ title[1] }}
       p.description {{ description[1] }}
     .info
-      .price-parent
-        span.text-colored.p-1 STARTING FROM
-        span.text-colored.price {{ post.price }}
+      //- .price-parent
+      //-   span.text-colored.p-1 STARTING FROM
+      //-   span.text-colored.price {{ post.price }}
       .ant-btn(@click="goTo") Learn More
         iconsArrowRight
 </template>

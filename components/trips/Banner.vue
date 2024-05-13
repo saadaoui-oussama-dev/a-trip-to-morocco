@@ -4,11 +4,11 @@
     .title-info
       h1.title {{ trip.title }}
       .info 
-        .parnet-price
-          iconsPrice.icon
-          p.price
-            span STARTING FROM
-            | &nbsp;{{ trip.price }}
+        //- .parnet-price
+        //-   iconsPrice.icon
+        //-   p.price
+        //-     span STARTING FROM
+        //-     | &nbsp;{{ trip.price }}
         .parnet-duration
           iconsDuration.icon
           p.duration {{ trip.duration }} DAYS
@@ -20,6 +20,9 @@
         .phone
           iconsPhoneSolid.icon(color='#F7EBDB')
           p +212 656 419 841
+        .phone
+          iconsPhoneSolid.icon(color='#F7EBDB')
+          p +212 623 754 764
         .email
           iconsEmail.icon
           p contact@atriptomorocco.com
