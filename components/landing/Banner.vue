@@ -10,6 +10,9 @@
           iconsPhone
           p +212 656 419 841
         div
+          iconsPhone
+          p +212 623 754 764
+        div
           iconsMessage
           p contact@atriptomoroco.com
       iconsArrowDown.mb-4
