@@ -4,10 +4,10 @@
     .icons
       Logo.logo(@click.native="goTo('')")
       .contact
-        iconsTripAdvisor(@click.native="goTo('https://www.tripadvisor.com/Attraction_Review-g293734-d27705647-Reviews-A_Trip_To_Morocco-Marrakech_Marrakech_Safi.html')")
-        iconsTikTok(@click.native="goTo('https://www.tiktok.com/@a_triptomorocco?is_from_webapp=1&sender_device=pc')")
-        iconsInstagram(@click.native="goTo('https://www.instagram.com/a_triptomorocco/')")
-        iconsWhatsapp(@click.native="goTo('https://api.whatsapp.com/send/?phone=212650961499&text&type=phone_number&app_absent=0')")
+        iconsTripAdvisor(@click.native="goTo('https://example.com/')")
+        iconsTikTok(@click.native="goTo('https://example.com/')")
+        iconsInstagram(@click.native="goTo('https://example.com/')")
+        iconsWhatsapp(@click.native="goTo('https://example.com/')")
     iconsMore.more(@click.native="toggleOptions")
     .back(@click="toggleOptions")
     .pages

@@ -3,10 +3,10 @@
   .content(ref="navTop")
     p © COPYRIGHT {{ new Date().getFullYear() }}
     .contact
-        iconsTripAdvisor(color="#F7EBDB" @click.native="goTo('https://www.tripadvisor.com/Attraction_Review-g293734-d27705647-Reviews-A_Trip_To_Morocco-Marrakech_Marrakech_Safi.html')")
-        iconsTikTok(color="#F7EBDB" @click.native="goTo('https://www.tiktok.com/@a_triptomorocco?is_from_webapp=1&sender_device=pc')")
-        iconsInstagram(color="#F7EBDB" @click.native="goTo('https://www.instagram.com/a_triptomorocco/')")
-        iconsWhatsapp(color="#F7EBDB" @click.native="goTo('https://api.whatsapp.com/send/?phone=212650961499&text&type=phone_number&app_absent=0')")
+        iconsTripAdvisor(color="#F7EBDB" @click.native="goTo('https://example.com/')")
+        iconsTikTok(color="#F7EBDB" @click.native="goTo('https://example.com/')")
+        iconsInstagram(color="#F7EBDB" @click.native="goTo('https://example.com/')")
+        iconsWhatsapp(color="#F7EBDB" @click.native="goTo('https://example.com/')")
 </template>
 
 <script>

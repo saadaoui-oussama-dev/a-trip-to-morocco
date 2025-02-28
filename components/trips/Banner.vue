@@ -19,13 +19,10 @@
       .contact
         .phone
           iconsPhoneSolid.icon(color='#F7EBDB')
-          p +212 656 419 841
-        .phone
-          iconsPhoneSolid.icon(color='#F7EBDB')
-          p +212 623 754 764
+          p +212 600 111 222
         .email
           iconsEmail.icon
-          p contact@atriptomorocco.com
+          p oussama.saadaoui.dev@gmail.com
       .ant-btn(@click='openForm') Book a trip now
 </template>
 

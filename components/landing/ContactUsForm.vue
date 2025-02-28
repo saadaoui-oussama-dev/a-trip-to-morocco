@@ -5,13 +5,10 @@
     .contacts
       div
         iconsPhone(color="#3D0E1B")
-        span +212&nbsp;674&nbsp;271&nbsp;222
-      div
-        iconsWhatsapp.iconsWhatsapp(color="#3D0E1B")
-        span +212&nbsp;674&nbsp;271&nbsp;222
+        span +212&nbsp;600&nbsp;111&nbsp;222
       div
         iconsMessage(color="#3D0E1B")
-        span contact@atriptomoroco.com
+        span oussama.saadaoui.dev@gmail.com
     p.address Angle boulevard Emile Zola et Rue Rethel 7éme Étage N°20 Casablanca 20300 Morocco
   div.form
     .info.mb-4
@@ -85,14 +82,14 @@ export default {
                   email: this.$refs.email.value,
                   phone: this.$refs.phone.value,
                   message: this.$refs.message.value,
-                }
+                },
               },
               fetchPolicy: 'no-cache',
             })
             this.state = 1
             this.$notify.success({
               title: '',
-              message: 'Message sent successfully'
+              message: 'Message sent successfully',
             })
             setTimeout(() => {
               this.$refs.message.value = ''
@@ -100,13 +97,14 @@ export default {
             }, 15000)
           } catch {
             this.validator.valid = false
-            this.validator.error = "There is a problem connecting to the internet"
+            this.validator.error =
+              'There is a problem connecting to the internet'
           }
         }
         this.spinActive = false
       }, 700)
-    }
-  }
+    },
+  },
 }
 </script>
 
@@ -138,7 +136,7 @@ svg {
   @apply text-center text-xs mb-8 px-5;
   color: #333;
 }
-.iconsWhatsapp{
+.iconsWhatsapp {
   width: 14px;
 }
 .form {

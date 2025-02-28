@@ -8,13 +8,10 @@
       .contacts
         div
           iconsPhone
-          p +212 656 419 841
-        div
-          iconsPhone
-          p +212 623 754 764
+          p +212 600 111 222
         div
           iconsMessage
-          p contact@atriptomoroco.com
+          p oussama.saadaoui.dev@gmail.com
       iconsArrowDown.mb-4
     .img-container
       div

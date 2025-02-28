@@ -30,10 +30,7 @@ export default {
   apollo: {
     clientConfigs: {
       default: {
-        httpEndpoint:
-          process.env.NODE_ENV === 'production'
-            ? 'https://strapi.atriptomorocco.com/graphql'
-            : 'http://localhost:1337/graphql',
+        httpEndpoint: 'http://localhost:1337/graphql',
       },
     },
   },
