@@ -34,25 +34,27 @@ export const getters = {
 
 export const actions = {
   async SET_LIST({ commit, dispatch, rootState }, list) {
-    let LIST = list == 'privateTrips' ? 'PRIVATE_TRIPS' : list == 'dayTrips' ? 'DAY_TRIPS' : 'ACTIVITIES',
-      query = list == 'privateTrips' ? privateTripsQuery : list == 'dayTrips' ? dayTripsQuery : activitiesQuery,
-      { data } = await this.app.apolloProvider.defaultClient.query({ query, fetchPolicy: 'no-cache' }),
-      trips = data[list].data.map(({ id, attributes }) => {
-        let url = attributes.banner.data.attributes.url
-        if (attributes.banner.data.attributes.formats) {
-          const formats = attributes.banner.data.attributes.formats
-          url = formats.small?.url || formats.medium?.url || url
-        }
-        return {
-          id,
-          title: attributes.title,
-          description: attributes.description,
-          price: attributes.price,
-          banner: rootState.strapi.httpEndpoint + url,
-        }
-      })
-    commit(`SET_${LIST}`, trips)
-    const trip = dispatch(`SET_VISIBLE_LIST`, list)
+    try {
+      let LIST = list == 'privateTrips' ? 'PRIVATE_TRIPS' : list == 'dayTrips' ? 'DAY_TRIPS' : 'ACTIVITIES',
+        query = list == 'privateTrips' ? privateTripsQuery : list == 'dayTrips' ? dayTripsQuery : activitiesQuery,
+        { data } = await this.app.apolloProvider.defaultClient.query({ query, fetchPolicy: 'no-cache' }),
+        trips = data[list].data.map(({ id, attributes }) => {
+          let url = attributes.banner.data.attributes.url
+          if (attributes.banner.data.attributes.formats) {
+            const formats = attributes.banner.data.attributes.formats
+            url = formats.small?.url || formats.medium?.url || url
+          }
+          return {
+            id,
+            title: attributes.title,
+            description: attributes.description,
+            price: attributes.price,
+            banner: rootState.strapi.httpEndpoint + url,
+          }
+        })
+      commit(`SET_${LIST}`, trips)
+      const trip = dispatch(`SET_VISIBLE_LIST`, list)
+    } catch (error) {}
   },
   SET_VISIBLE_LIST({ commit, state }, list) {
     let LIST = list == 'privateTrips' ? 'PRIVATE_TRIPS' : list == 'dayTrips' ? 'DAY_TRIPS' : 'ACTIVITIES'

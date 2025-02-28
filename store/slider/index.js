@@ -12,18 +12,20 @@ export const getters = {
 
 export const actions = {
   async SET_SLIDES({ commit, rootState }) {
-    let { data } = await this.app.apolloProvider.defaultClient.query({
-      query: slidesQuery,
-      fetchPolicy: 'no-cache'
-    })
-    let slides = data.slides.data.map(({ id, attributes }) => ({
-      id,
-      title: attributes.title,
-      description: attributes.description,
-      type: attributes.type,
-      img: rootState.strapi.httpEndpoint + attributes.image.data.attributes.url,
-    }))
-    commit('SET_SLIDES', slides)
+    try {
+      let { data } = await this.app.apolloProvider.defaultClient.query({
+        query: slidesQuery,
+        fetchPolicy: 'no-cache'
+      })
+      let slides = data.slides.data.map(({ id, attributes }) => ({
+        id,
+        title: attributes.title,
+        description: attributes.description,
+        type: attributes.type,
+        img: rootState.strapi.httpEndpoint + attributes.image.data.attributes.url,
+      }))
+      commit('SET_SLIDES', slides)
+    } catch (error) {}
   },
 }
 

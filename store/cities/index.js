@@ -12,17 +12,19 @@ export const getters = {
 
 export const actions = {
   async SET_CITIES({ commit, rootState }) {
-    let { data } = await this.app.apolloProvider.defaultClient.query({
-      query: citiesQuery,
-      fetchPolicy: 'no-cache'
-    })
-    let cities = data.cities.data.map(({ id, attributes }) => ({
-      id,
-      title: attributes.title,
-      description: attributes.description,
-      img: rootState.strapi.httpEndpoint + attributes.image.data.attributes.url,
-    }))
-    commit('SET_CITIES', cities)
+    try {
+      let { data } = await this.app.apolloProvider.defaultClient.query({
+        query: citiesQuery,
+        fetchPolicy: 'no-cache'
+      })
+      let cities = data.cities.data.map(({ id, attributes }) => ({
+        id,
+        title: attributes.title,
+        description: attributes.description,
+        img: rootState.strapi.httpEndpoint + attributes.image.data.attributes.url,
+      }))
+      commit('SET_CITIES', cities)
+    } catch (error) {}
   },
 }
 
